@@ -65,6 +65,15 @@ el 78 % de los días, por eso la puntuación importa más que el acierto.
 python analisis/verificacion_lluvia.py
 ```
 
+**¿Consenso ponderado?** [`analisis/consenso_ponderado.py`](analisis/consenso_ponderado.py)
+prueba a dar más peso a los modelos que más aciertan (mediana ponderada por
+su índice de Heidke). Para que la prueba sea justa, los pesos se calculan con
+la mitad de los meses y se evalúan con la otra mitad (validación cruzada), y
+la diferencia se mide día a día con *bootstrap*. Resultado: no mejora
+(Heidke −0,008 a −0,011 con 1 día, intervalo del 90 % que incluye el 0). Los
+modelos aciertan de forma muy parecida y la mediana ya descarta al que se
+desvía, así que la web mantiene la mediana normal.
+
 Genera `resultados.csv` (todos los números) y `resultados.json`, que es lo que
 lee la pestaña "Acierto": si se repite el análisis, la web se actualiza sola.
 Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
@@ -101,7 +110,12 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
 - **Nada pesado hasta que hace falta.** Leaflet, las rejillas y Windy solo se
   descargan al abrir la pestaña de mapas. Leaflet se carga con SRI
   (`integrity`) para que el navegador lo rechace si el CDN lo alterase.
-- **Versiones en CSS y JS** (`style.css?v=8`). GitHub Pages deja que el
+- **Módulos ES.** `core.js` tiene la configuración, el estado y las funciones
+  puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
+  importan de él. Así no dependen del orden de carga y lo puro se puede
+  probar en Node sin navegador.
+- **Versiones en CSS y JS** (`style.css?v=9`, y para los módulos un
+  `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos.
 - **Sin compilación.** HTML, CSS y JavaScript a pelo, sin npm: se abre tal
@@ -113,15 +127,34 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
 ```
 index.html   Estructura de la página
 style.css    Estilos (modo claro/oscuro automático, adaptado a móvil)
-app.js       Datos, consenso, tabla y gráfico
+core.js      Configuración, estado y funciones puras (consenso, mediana…)
+app.js       Módulo principal: carga de datos, tabla, gráfico y pestañas
 map.js       Mapas de lluvia (mapa propio con Leaflet y Windy)
 acierto.js   Pestaña "Acierto" (lee analisis/resultados.json)
-analisis/    Script en Python del análisis de acierto y sus resultados
+analisis/    Análisis de acierto en Python, sus resultados y sus tests
+tests/       Tests de la web (node --test)
+.github/     GitHub Actions: ejecuta todos los tests en cada push
 ```
+
+## Tests
+
+Sin instalar nada (Node 20 o superior y Python 3.10 o superior):
+
+```bash
+node --test
+```
+
+```bash
+python -m unittest discover analisis
+```
+
+GitHub Actions los ejecuta en cada `git push`; el resultado aparece en la
+pestaña *Actions* del repositorio.
 
 ## Ejecutarlo en local
 
-Basta con servir la carpeta con cualquier servidor estático, por ejemplo:
+Hace falta un servidor estático (los módulos ES no funcionan abriendo el
+archivo con doble clic), por ejemplo:
 
 ```bash
 python -m http.server 8000
