@@ -5,6 +5,13 @@ mismos pocos **modelos meteorológicos**. Meteosainete compara directamente esos
 modelos, los pone uno al lado del otro y calcula un **consenso** con un
 indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 
+**Web:** <https://angelmou42.github.io/meteosainete/>
+
+<p>
+  <img src="img/capturas/escritorio.png" alt="Meteosainete en el ordenador: bloque Ahora, consenso de 7 días, tabla de modelos y gráfico" width="62%">
+  <img src="img/capturas/movil.png" alt="Meteosainete en el móvil" width="30%">
+</p>
+
 ## Qué muestra
 
 - **Bloque "Ahora"**: temperatura y cielo de la hora actual según el consenso,
@@ -193,7 +200,7 @@ icons.js     Iconos del tiempo en SVG
 places.js    Buscador con sugerencias, recientes y favoritas
 sw.js        Service worker: caché para abrir la web sin conexión
 manifest.webmanifest, img/   Datos e iconos de la app instalable
-herramientas/                Script que genera los iconos PNG
+herramientas/                Scripts para generar los iconos y las capturas del README
 analisis/    Análisis de acierto en Python, sus resultados y sus tests
 tests/       Tests de la web (node --test)
 .github/     GitHub Actions: ejecuta todos los tests en cada push
@@ -233,6 +240,19 @@ y abrir <http://localhost:8000>.
   con un pequeño proxy para no exponer la clave.
 - Probabilidad de lluvia por horas en el gráfico.
 - Radar de lluvia en tiempo real (AEMET o RainViewer) junto al mapa.
+
+## Capturas
+
+Las capturas del README se generan con
+[`herramientas/capturas.mjs`](herramientas/capturas.mjs): abre Edge o Chrome
+sin ventana y lo maneja con su protocolo de depuración (el WebSocket que trae
+Node), sin instalar nada. Con la web servida en local:
+
+```bash
+node herramientas/capturas.mjs
+```
+
+![Pestaña Acierto](img/capturas/acierto.png)
 
 ## Créditos
 
