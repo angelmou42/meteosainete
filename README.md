@@ -196,7 +196,8 @@ descarta al que se desvía, así que la web mantiene la mediana normal.
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al
-  subir la versión hay que subir también `CACHE` en `sw.js`.
+  subir la versión hay que subir también `CACHE` en `sw.js`; lo hace
+  `python herramientas/subir_version.py`.
 - **Iconos que no contradicen al texto.** El icono de cada día no sale del
   "código del tiempo" de un solo modelo, sino del mismo criterio que la frase:
   lluvia si más de la mitad de los modelos la dan en alguna hora; tormenta,
@@ -225,7 +226,7 @@ icons.js     Iconos del tiempo en SVG
 places.js    Buscador con sugerencias, recientes y favoritas
 sw.js        Service worker: caché para abrir la web sin conexión
 manifest.webmanifest, img/   Datos e iconos de la app instalable
-herramientas/                Scripts para generar los iconos y las capturas del README
+herramientas/                Scripts: iconos, capturas del README y subir la versión
 analisis/    Análisis de acierto en Python, sus resultados y sus tests
 tests/       Tests de la web (node --test)
 .github/     GitHub Actions: ejecuta todos los tests en cada push

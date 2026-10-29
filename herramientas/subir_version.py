@@ -32,7 +32,7 @@ def main() -> None:
         if before not in text:
             raise SystemExit(f"{name}: no encuentro {before}")
         path.write_text(text.replace(before, after), encoding="utf-8")
-    print(f"Versión {old} → {new}")
+    print(f"Versión {old} -> {new}")
 
 
 if __name__ == "__main__":
