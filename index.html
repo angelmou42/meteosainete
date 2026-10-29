@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=17">
   <!-- Tema elegido por el usuario (claro u oscuro), aplicado antes de pintar para que no haya destello -->
   <script>
     try { const t = localStorage.getItem("meteosainete:tema"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -28,15 +28,15 @@
   <script type="importmap">
     {
       "imports": {
-        "./core.js": "./core.js?v=15",
-        "./map.js": "./map.js?v=15",
-        "./acierto.js": "./acierto.js?v=15",
-        "./icons.js": "./icons.js?v=15",
-        "./places.js": "./places.js?v=15"
+        "./core.js": "./core.js?v=17",
+        "./map.js": "./map.js?v=17",
+        "./acierto.js": "./acierto.js?v=17",
+        "./icons.js": "./icons.js?v=17",
+        "./places.js": "./places.js?v=17"
       }
     }
   </script>
-  <script type="module" src="app.js?v=15"></script>
+  <script type="module" src="app.js?v=17"></script>
 </head>
 <body>
 <div class="wrap">
@@ -44,7 +44,13 @@
     <div>
       <h1>Meteosainete</h1>
       <div class="place"><span id="place">Arjona, Jaén, Andalucía, España</span>
-        <button type="button" class="fav" id="fav" aria-pressed="false" title="Añadir a favoritas">☆</button></div>
+        <button type="button" class="fav" id="fav" aria-pressed="false" title="Añadir a favoritas">☆</button>
+        <button type="button" class="fav share" id="share" title="Compartir el enlace de esta ciudad" aria-label="Compartir el enlace de esta ciudad">
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>
+          </svg>
+        </button>
+        <span class="toast" id="toast" role="status" hidden></span></div>
     </div>
     <form id="search" autocomplete="off" role="search">
       <div class="combo">
@@ -130,6 +136,7 @@
           <div class="tabs" role="tablist" id="chart-tabs" aria-label="Gráfico">
             <button class="tab" role="tab" aria-selected="true" data-c="temp">Temperatura</button>
             <button class="tab" role="tab" aria-selected="false" data-c="rain">Lluvia</button>
+            <button class="tab" role="tab" aria-selected="false" data-c="wind">Viento</button>
           </div>
         </div>
         <p class="note" id="chart-note">La banda gris es el rango entre modelos; la línea discontinua, la mediana.</p>
@@ -185,6 +192,9 @@
   <section id="page-accuracy" hidden>
     <div class="sec-head">
       <h2>¿Qué modelo acierta más con la lluvia?</h2>
+      <label class="acc-zone">Zona
+        <select id="acc-zone"><option value="auto">La más cercana</option></select>
+      </label>
       <div class="tabs" role="tablist" id="acc-leads" aria-label="Antelación">
         <button type="button" class="tab" role="tab" data-lead="1" aria-selected="true">Predicción de 1 día</button>
         <button type="button" class="tab" role="tab" data-lead="3" aria-selected="false">De 3 días</button>

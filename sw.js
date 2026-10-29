@@ -10,7 +10,7 @@
  *    app muestra la última predicción guardada con un aviso (ver app.js).
  * Al cambiar algo importante hay que subir CACHE para que se renueve la caché.
  */
-const CACHE = "meteosainete-v15";
+const CACHE = "meteosainete-v17";
 const SHELL = [
   "./",
   "./index.html",
@@ -35,6 +35,8 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== "GET" || url.origin !== location.origin) return; // APIs y CDN: directo a la red
+  // En local (desarrollo) no se usa la caché: así cada cambio se ve al recargar.
+  if (location.hostname === "localhost" || location.hostname === "127.0.0.1") return;
 
   // Datos propios (resultados del análisis): red primero, para no quedarse con resultados viejos.
   if (url.pathname.endsWith(".json")) {

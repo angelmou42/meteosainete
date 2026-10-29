@@ -81,7 +81,7 @@ async function fetchForecast(lat, lon) {
     timezone: "auto",
     forecast_days: 7,
     daily: "temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,weather_code,sunrise,sunset",
-    hourly: "temperature_2m,precipitation,weather_code,cloud_cover",
+    hourly: "temperature_2m,precipitation,weather_code,cloud_cover,wind_speed_10m",
     models: MODELS.map((m) => m.id).join(","),
   });
   const j = await fetchJson("https://api.open-meteo.com/v1/forecast?" + params);
@@ -108,6 +108,7 @@ async function fetchForecast(lat, lon) {
       hrain: pick("hourly", "precipitation", hours, id), // mm caídos en la hora anterior a cada marca
       hcode: pick("hourly", "weather_code", hours, id),   // código WMO del tiempo (para tormenta, nieve y niebla)
       hcloud: pick("hourly", "cloud_cover", hours, id),   // nubosidad en %
+      hwind: pick("hourly", "wind_speed_10m", hours, id), // viento medio en km/h
     };
   }
   return out;
@@ -142,7 +143,7 @@ function renderStrip() {
       <span class="dname">${dayName(iso, i)}</span>
       <span class="day-main">${iconSvg(icon, 40)}<span class="temps">${fmt(c.tmax)}°<small> / ${fmt(c.tmin)}°</small></span></span>
       ${rainHtml}
-      <span class="rel c-${c.level}" title="Fiabilidad ${c.level}: cuánto coinciden los modelos"><i></i>Fiabilidad ${c.level}</span>`;
+      <span class="rel c-${c.level}" title="Fiabilidad ${c.level}: cuánto coinciden los modelos"><i></i><span class="rel-word">Fiabilidad </span>${c.level}</span>`;
     b.addEventListener("click", () => { state.sel = i; render(); });
     el.appendChild(b);
   });
@@ -177,8 +178,36 @@ function renderNow() {
         <span>Hoy <b>${fmt(c.tmax)}°</b> / ${fmt(c.tmin)}°</span>
         <span>Viento hasta <b>${fmt(c.wind)}</b> km/h</span>
         <span class="rel c-${c.level}"><i></i>Fiabilidad ${c.level}</span>
+        ${sunTimes(d)}
       </p>
+    </div>
+    <div class="hours" aria-label="Próximas 12 horas">${nextHours(d, h)}</div>`;
+}
+
+// "Amanece 07:39 · Anochece 18:19" (hoy).
+function sunTimes(d) {
+  const t = (iso) => iso?.slice(11, 16);
+  const rise = t(d.sun?.rise?.[0]), set = t(d.sun?.set?.[0]);
+  return rise && set ? `<span>Amanece ${rise} · anochece ${set}</span>` : "";
+}
+
+/* Próximas 12 horas: hora, icono, temperatura y lluvia (si la hay) según el
+ * consenso. Pasada la medianoche sigue con los datos de mañana. */
+function nextHours(d, h) {
+  let html = "";
+  for (let k = 0; k < 12; k++) {
+    const i = Math.floor((h + k) / 24), hh = (h + k) % 24;
+    if (i >= d.dates.length) break;
+    const icon = skyIcon(d, i, { rainFrom: hh, rainTo: hh + 1, skyFrom: hh, skyTo: hh + 1, night: isNight(d, i, hh) });
+    const rain = rainSlots(hourlyRain(d, i))[hh].median;
+    html += `<div class="hour${k === 0 ? " is-now" : ""}">
+      <span class="h-time">${k === 0 ? "Ahora" : `${String(hh).padStart(2, "0")}h`}</span>
+      ${iconSvg(icon, 30)}
+      <b>${fmt(tempAt(d, i, hh))}°</b>
+      <span class="h-rain">${rain >= 0.1 ? `${fmt(rain, 1)} mm` : ""}</span>
     </div>`;
+  }
+  return html;
 }
 
 // Frase resumen del día elegido (para hoy ya está en el bloque "Ahora").
@@ -258,14 +287,19 @@ function linePath(points) {
 function renderChart() {
   hideChartTip();
   const name = dayName(state.data.dates[state.sel], state.sel).toLowerCase();
-  const rain = state.chart === "rain";
-  $("chart-title").textContent = `${rain ? "Lluvia" : "Temperatura"} hora a hora · ${name}`;
-  $("chart-note").textContent = rain
+  const kind = state.chart;
+  $("chart-title").textContent = `${{ temp: "Temperatura", rain: "Lluvia", wind: "Viento" }[kind]} hora a hora · ${name}`;
+  $("chart-note").textContent = kind === "rain"
     ? "Barras: mediana de los modelos (la raya va del que menos al que más da). Debajo, la lluvia de cada modelo hora a hora."
     : "La banda gris es el rango entre modelos; la línea discontinua, la mediana.";
-  if (rain) renderRainChart();
-  else renderTempChart();
+  if (kind === "rain") renderRainChart();
+  else if (kind === "wind") renderLineChart(WIND_CHART);
+  else renderLineChart(TEMP_CHART);
 }
+
+// Gráficos de líneas: qué dato usan y cómo se dibuja su escala.
+const TEMP_CHART = { key: "hourly", unit: "°", decimals: 1, step: 2, minSpan: 6, zero: false, label: "Temperatura por horas según cada modelo" };
+const WIND_CHART = { key: "hwind", unit: " km/h", decimals: 0, step: 10, minSpan: 20, zero: true, label: "Viento por horas según cada modelo" };
 
 /* ---------- Gráficos interactivos ----------
  * Los gráficos se dibujan al ancho real de su caja (no se escalan), así el
@@ -296,19 +330,19 @@ function tipRows(values, unit, decimals) {
     `<div class="tip-med"><i style="background:var(--ink)"></i>Mediana<b>${isNum(median(values)) ? fmt(median(values), decimals) + unit : "—"}</b></div>`;
 }
 
-function renderTempChart() {
+function renderLineChart(cfg) {
   const svg = $("chart");
   const d = state.data;
   const i = state.sel;
   const W = chartWidth(), compact = W < 480;
   const H = compact ? 220 : 260, L = 34, R = 10, T = 14, B = 26; // tamaño y márgenes
-  sizeSvg(svg, W, H, "Temperatura por horas según cada modelo");
+  sizeSvg(svg, W, H, cfg.label);
 
   $("legend").innerHTML = MODELS.map((m) => `<span><i style="background:var(${m.c})"></i>${m.name}</span>`).join("")
     + `<span><i style="background:var(--ink)"></i>Mediana</span>`;
 
   // 24 valores horarios del día seleccionado para cada modelo.
-  const series = MODELS.map((m) => ({ m, v: d.m[m.id].hourly.slice(i * 24, i * 24 + 24) }));
+  const series = MODELS.map((m) => ({ m, v: (d.m[m.id][cfg.key] || []).slice(i * 24, i * 24 + 24) }));
   const all = series.flatMap((s) => nums(s.v));
   if (!all.length) {
     chartHover = null;
@@ -316,22 +350,25 @@ function renderTempChart() {
     return;
   }
 
-  // Escala vertical redondeada a múltiplos de 2 °C, con un mínimo de 6 °C de alto.
-  let lo = Math.floor(Math.min(...all) / 2) * 2;
-  let hi = Math.ceil(Math.max(...all) / 2) * 2;
-  if (hi - lo < 6) { hi += 2; lo -= 2; }
+  // Escala vertical redondeada a múltiplos de `step` (2 °C, 10 km/h…), con un alto mínimo.
+  const st = cfg.step;
+  let lo = Math.floor(Math.min(...all) / st) * st;
+  let hi = Math.ceil(Math.max(...all) / st) * st;
+  if (hi - lo < cfg.minSpan) { hi += st; lo -= st; }
+  if (cfg.zero) lo = Math.max(0, lo); // el viento no baja de 0
   const step = (W - L - R) / 23;
   const x = (h) => L + h * step;
   const y = (t) => T + ((hi - t) * (H - T - B)) / (hi - lo);
 
   let g = "";
-  for (let t = lo; t <= hi; t += hi - lo > 12 && compact ? 4 : 2) {
+  for (let t = lo; t <= hi; t += (hi - lo) / st > 6 && compact ? 2 * st : st) {
     g += `<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"/>`;
-    g += `<text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${t}°</text>`;
+    g += `<text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${t}${cfg.unit === "°" ? "°" : ""}</text>`;
   }
   for (let h = 0; h < 24; h += compact ? 6 : 3) {
     g += `<text x="${x(h)}" y="${H - 8}" text-anchor="middle">${String(h).padStart(2, "0")}h</text>`;
   }
+  if (cfg.unit !== "°") g += `<text x="${L + 4}" y="${T + 10}">${cfg.unit.trim()}</text>`; // unidad del eje
 
   // Banda gris (mínimo-máximo entre modelos) y mediana, hora a hora.
   const up = [], down = [], med = [];
@@ -355,7 +392,7 @@ function renderTempChart() {
     top: T, bottom: H - B,
     hit: (px) => (px < L - step / 2 || px > W - R + step / 2 ? null : Math.max(0, Math.min(23, Math.round((px - L) / step)))),
     lineX: x,
-    info: (h) => `<div class="tip-head">${String(h).padStart(2, "0")}:00</div>` + tipRows(series.map((s) => s.v[h]), "°", 1),
+    info: (h) => `<div class="tip-head">${String(h).padStart(2, "0")}:00</div>` + tipRows(series.map((s) => s.v[h]), cfg.unit, cfg.decimals),
   };
 }
 
@@ -641,6 +678,28 @@ $("locate").addEventListener("click", () => {
     { timeout: 10000, maximumAge: 10 * 60 * 1000 },
   );
 });
+
+/* Compartir: en el móvil abre el menú de compartir del sistema; en el
+ * ordenador copia el enlace (que ya lleva la ciudad en la URL). */
+$("share").addEventListener("click", async () => {
+  const url = location.href;
+  const title = `El tiempo en ${state.place?.label.split(",")[0] || "tu ciudad"} · Meteosainete`;
+  try {
+    if (navigator.share) return await navigator.share({ title, url });
+    await navigator.clipboard.writeText(url);
+    showToast("Enlace copiado");
+  } catch (err) {
+    if (err.name !== "AbortError") showToast("No se ha podido compartir");
+  }
+});
+
+function showToast(text) {
+  const t = $("toast");
+  t.textContent = text;
+  t.hidden = false;
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => { t.hidden = true; }, 2500);
+}
 
 /* ---------- Tema claro / oscuro ----------
  * Por defecto sigue al sistema. El botón alterna y guarda la elección. */

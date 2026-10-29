@@ -9,7 +9,8 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 
 - **Bloque "Ahora"**: temperatura y cielo de la hora actual según el consenso,
   con icono propio (SVG), la frase de lo que queda de hoy, máxima, mínima,
-  viento y fiabilidad.
+  viento, fiabilidad, salida y puesta de sol, y una tira con las **próximas
+  12 horas** (icono, temperatura y lluvia).
 - **Frase resumen** del día elegido, por ejemplo *"Lluvia débil de 15 a 19 h.
   5 de 6 modelos dan algo de lluvia."* Para hoy solo cuenta la lluvia que
   queda por venir.
@@ -19,12 +20,14 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
   lista vertical.
 - **Tabla modelo × día** con pestañas Temperatura / Lluvia / Viento y una fila
   final de consenso.
-- **Gráfico hora a hora** del día elegido, con dos pestañas:
+- **Gráfico hora a hora** del día elegido, interactivo (ratón o dedo), con
+  tres pestañas:
   - *Temperatura*: una línea por modelo, una banda gris con el rango entre
     modelos y la mediana discontinua.
   - *Lluvia*: barras con la mediana de los modelos y una raya del mínimo al
     máximo; debajo, una fila por modelo con cada hora coloreada según los mm,
     para ver si coinciden en el "cuándo".
+  - *Viento*: como la temperatura, con el viento medio de cada modelo.
 - **Mapas de lluvia** en su propia pestaña (enlace directo: `#mapa`):
   - **Por día y hora**: mapa propio con los 6 modelos, botones de día y una
     barra de hora. Al pulsar un punto muestra los mm previstos.
@@ -43,6 +46,8 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
   se abre desde la caché y muestra la última predicción descargada con un
   aviso de cuándo se guardó.
 - **Usar mi ubicación** (GPS del navegador, redondeada a unos 1 km).
+- **Compartir**: en el móvil abre el menú de compartir del sistema; en el
+  ordenador copia el enlace de la ciudad.
 - **Ciudad en la URL** (`?lugar=…&lat=…&lon=…`) para compartir el enlace de
   un sitio concreto.
 - Recuerda la **última ciudad** buscada (localStorage). La primera vez se
@@ -135,7 +140,7 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=15`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=17`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al
