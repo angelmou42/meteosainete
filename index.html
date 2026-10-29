@@ -8,30 +8,36 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=13">
   <!-- Módulos ES. El mapa de importación añade la versión (?v=) a cada archivo
        para que, tras publicar cambios, el navegador no use copias antiguas en caché. -->
   <script type="importmap">
     {
       "imports": {
-        "./core.js": "./core.js?v=12",
-        "./map.js": "./map.js?v=12",
-        "./acierto.js": "./acierto.js?v=12",
-        "./icons.js": "./icons.js?v=12"
+        "./core.js": "./core.js?v=13",
+        "./map.js": "./map.js?v=13",
+        "./acierto.js": "./acierto.js?v=13",
+        "./icons.js": "./icons.js?v=13",
+        "./places.js": "./places.js?v=13"
       }
     }
   </script>
-  <script type="module" src="app.js?v=12"></script>
+  <script type="module" src="app.js?v=13"></script>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div>
       <h1>Meteosainete</h1>
-      <div class="place" id="place">Arjona, Jaén, Andalucía, España</div>
+      <div class="place"><span id="place">Arjona, Jaén, Andalucía, España</span>
+        <button type="button" class="fav" id="fav" aria-pressed="false" title="Añadir a favoritas">☆</button></div>
     </div>
-    <form id="search" autocomplete="off">
-      <input id="q" type="search" placeholder="Buscar ciudad…" aria-label="Buscar ciudad">
+    <form id="search" autocomplete="off" role="search">
+      <div class="combo">
+        <input id="q" type="search" placeholder="Buscar ciudad…" aria-label="Buscar ciudad"
+          role="combobox" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false">
+        <ul class="suggest" id="suggest" role="listbox" aria-label="Sugerencias" hidden></ul>
+      </div>
       <button type="submit">Buscar</button>
       <button type="button" class="locate" id="locate" title="Usar mi ubicación" aria-label="Usar mi ubicación">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -41,6 +47,8 @@
       </button>
     </form>
   </header>
+  <!-- Accesos rápidos: ciudades favoritas (★) y recientes -->
+  <div class="chips" id="chips" aria-label="Ciudades guardadas"></div>
   <div class="results" id="results" aria-live="polite"></div>
 
   <!-- Pestañas principales: comparativa, mapas de lluvia (#mapa) y acierto de los modelos (#acierto) -->

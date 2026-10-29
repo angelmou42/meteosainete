@@ -8,6 +8,7 @@
 import { $, MODELS, RAIN_SCALE, consensus, daySummary, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNight,
   isNum, median, nums, publishesProb, rainColor, rainLabel, rainPeriods, rainSlots, skyIcon, state, tempAt } from "./core.js";
 import { ICON_LABELS, iconSvg } from "./icons.js";
+import { initPlaces, notePlace } from "./places.js";
 import { initMaps, updateMaps } from "./map.js";
 import { initAccuracy, showAccuracy } from "./acierto.js";
 
@@ -526,6 +527,7 @@ async function load(place) {
   }
   state.sel = 0;
   savePlace(place);
+  notePlace(place); // recientes y estrella de favorita
   showStatus("content");
   render();
 }
@@ -576,39 +578,6 @@ $("views").addEventListener("click", (e) => {
 });
 window.addEventListener("hashchange", () => showPage(pageFromHash()));
 
-// Buscador: muestra hasta 5 coincidencias y carga la elegida.
-$("search").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const q = $("q").value.trim();
-  const box = $("results");
-  box.innerHTML = "";
-  if (!q) return;
-
-  let j;
-  try {
-    j = await fetchJson("https://geocoding-api.open-meteo.com/v1/search?" + new URLSearchParams({ name: q, count: 5, language: "es" }));
-  } catch (err) {
-    box.textContent = "No se ha podido buscar la ciudad: " + errorMessage(err);
-    return;
-  }
-  if (!j.results?.length) {
-    box.textContent = "No encuentro esa ciudad. Prueba con otro nombre.";
-    return;
-  }
-  for (const p of j.results) {
-    const label = [p.name, p.admin1, p.country].filter(Boolean).join(", ");
-    const b = document.createElement("button");
-    b.type = "button";
-    b.textContent = label; // textContent (no innerHTML) para no inyectar HTML de la API
-    b.addEventListener("click", () => {
-      box.innerHTML = "";
-      $("q").value = "";
-      load({ lat: p.latitude, lon: p.longitude, label });
-    });
-    box.appendChild(b);
-  }
-});
-
 /* "Usar mi ubicación": pide la posición al navegador (que pregunta al usuario).
  * Se redondea a 2 decimales (≈ 1 km): suficiente para el tiempo y no deja la
  * posición exacta en la URL si se comparte el enlace. */
@@ -641,6 +610,7 @@ $("locate").addEventListener("click", () => {
 // Arranque: ciudad de la URL (enlace compartido), si no la última guardada, si no Arjona.
 initMaps();
 initAccuracy();
+initPlaces({ onSelect: load });
 state.page = pageFromHash();
 load(placeFromUrl() || readSavedPlace() || DEFAULT_PLACE);
 showPage(state.page);

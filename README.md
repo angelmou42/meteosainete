@@ -32,6 +32,8 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
     (ECMWF, GFS e ICON-EU), con más detalle pero con su propia línea de tiempo.
 - **Acierto de cada modelo** con la lluvia (pestaña "Acierto", enlace
   directo: `#acierto`), calculado con un año de datos reales.
+- **Buscador con sugerencias** mientras se escribe (con teclado: ↑ ↓, Intro,
+  Esc) y accesos rápidos a las **ciudades recientes y favoritas** (★).
 - **Usar mi ubicación** (GPS del navegador, redondeada a unos 1 km).
 - **Ciudad en la URL** (`?lugar=…&lat=…&lon=…`) para compartir el enlace de
   un sitio concreto.
@@ -125,7 +127,7 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=11`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=13`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos.
@@ -148,6 +150,7 @@ app.js       Módulo principal: carga de datos, tabla, gráfico y pestañas
 map.js       Mapas de lluvia (mapa propio con Leaflet y Windy)
 acierto.js   Pestaña "Acierto" (lee analisis/resultados.json)
 icons.js     Iconos del tiempo en SVG
+places.js    Buscador con sugerencias, recientes y favoritas
 analisis/    Análisis de acierto en Python, sus resultados y sus tests
 tests/       Tests de la web (node --test)
 .github/     GitHub Actions: ejecuta todos los tests en cada push
