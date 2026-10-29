@@ -18,6 +18,8 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
   con icono propio (SVG), la frase de lo que queda de hoy, máxima, mínima,
   viento, fiabilidad, salida y puesta de sol, y una tira con las **próximas
   12 horas** (icono, temperatura y lluvia).
+- **Avisos propios** en cada día (heladas, calor, viento fuerte, lluvia
+  fuerte) calculados con el consenso y marcados como no oficiales.
 - **Frase resumen** del día elegido, por ejemplo *"Lluvia débil de 15 a 19 h.
   5 de 6 modelos dan algo de lluvia."* Para hoy solo cuenta la lluvia que
   queda por venir.
@@ -188,7 +190,7 @@ descarta al que se desvía, así que la web mantiene la mediana normal.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=20`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=21`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al

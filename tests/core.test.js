@@ -2,7 +2,7 @@
 // Ejecutar con:  npm test   (o  node --test)
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { MODELS, consensus, dayName, estimateProb, fmt, median, publishesProb, rainLabel } from "../core.js";
+import { MODELS, consensus, dayAlerts, dayName, estimateProb, fmt, median, publishesProb, rainLabel } from "../core.js";
 
 test("median: impar, par, con huecos y vacía", () => {
   assert.equal(median([3, 1, 2]), 2);
@@ -89,4 +89,13 @@ test("consensus: la probabilidad es la mediana de las publicadas", () => {
 test("publishesProb: distingue modelos sin probabilidad", () => {
   assert.equal(publishesProb({ prob: [null, null] }), false);
   assert.equal(publishesProb({ prob: [null, 0] }), true);
+});
+
+test("dayAlerts: heladas, calor, viento y lluvia fuerte según el consenso", () => {
+  const ids = (c) => dayAlerts({ tmax: 20, tmin: 8, wind: 15, rain: 0, ...c }).map((a) => a.id);
+  assert.deepEqual(ids({}), []);
+  assert.deepEqual(ids({ tmin: -1 }), ["helada"]);
+  assert.deepEqual(ids({ tmax: 38, wind: 55 }), ["calor", "viento"]);
+  assert.deepEqual(ids({ rain: 25 }), ["lluvia"]);
+  assert.deepEqual(ids({ tmin: null }), []); // sin dato, sin aviso
 });

@@ -6,7 +6,7 @@
  * core.js; los gráficos en charts.js; los mapas de lluvia en map.js; la
  * pestaña de acierto en acierto.js; el buscador en places.js.
  */
-import { $, MODELS, consensus, daySummary, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNight, isNum,
+import { $, MODELS, consensus, dayAlerts, daySummary, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNight, isNum,
   publishesProb, rainLabel, rainPeriods, rainSlots, skyIcon, state, tempAt } from "./core.js";
 import { ICON_LABELS, iconSvg } from "./icons.js";
 import { initCharts, renderChart } from "./charts.js";
@@ -145,6 +145,7 @@ function renderStrip() {
       <span class="dname">${dayName(iso, i)}</span>
       <span class="day-main">${iconSvg(icon, 40)}<span class="temps">${fmt(c.tmax)}°<small> / ${fmt(c.tmin)}°</small></span></span>
       ${rainHtml}
+      ${alertsHtml(c)}
       <span class="rel c-${c.level}" title="Fiabilidad ${c.level}: cuánto coinciden los modelos"><i></i><span class="rel-word">Fiabilidad </span>${c.level}</span>`;
     b.addEventListener("click", () => { state.sel = i; render(); });
     el.appendChild(b);
@@ -176,6 +177,7 @@ function renderNow() {
     </div>
     <div class="now-side">
       <p class="now-summary t-${tone}">${text} ${chanceText(c, 0)}</p>
+      ${alertsHtml(c)}
       <p class="now-facts">
         <span>Hoy <b>${fmt(c.tmax)}°</b> / ${fmt(c.tmin)}°</span>
         <span>Viento hasta <b>${fmt(c.wind)}</b> km/h</span>
@@ -184,6 +186,14 @@ function renderNow() {
       </p>
     </div>
     <div class="hours" aria-label="Próximas 12 horas">${nextHours(d, h)}</div>`;
+}
+
+// Etiquetas de aviso (heladas, calor, viento, lluvia fuerte) calculadas con el consenso.
+function alertsHtml(c) {
+  const alerts = dayAlerts(c);
+  return alerts.length
+    ? `<span class="alerts">${alerts.map((a) => `<span class="alert a-${a.id}" title="Según el consenso de los modelos (no es un aviso oficial): ${a.why}">${a.label}</span>`).join("")}</span>`
+    : "";
 }
 
 // "Amanece 07:39 · Anochece 18:19" (hoy).

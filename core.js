@@ -310,3 +310,19 @@ export function isNight(data, i, h) {
 export function tempAt(data, i, h) {
   return median(MODELS.map((m) => data.m[m.id]?.hourly?.[i * 24 + h]));
 }
+
+/* ---------- Avisos propios ----------
+ * Calculados con el consenso de los modelos, no son los avisos oficiales de
+ * AEMET (esos necesitan su API con clave). Umbrales sencillos y conocidos. */
+export const ALERT_RULES = [
+  { id: "helada", label: "Heladas", test: (c) => c.tmin <= 0, why: (c) => `mínima de ${fmt(c.tmin)} °C` },
+  { id: "calor", label: "Calor", test: (c) => c.tmax >= 35, why: (c) => `máxima de ${fmt(c.tmax)} °C` },
+  { id: "viento", label: "Viento fuerte", test: (c) => c.wind >= 50, why: (c) => `hasta ${fmt(c.wind)} km/h` },
+  { id: "lluvia", label: "Lluvia fuerte", test: (c) => c.rain >= 20, why: (c) => `${fmt(c.rain)} mm en el día` },
+];
+
+// Avisos que salen para un día a partir de su consenso (ver consensus()).
+export function dayAlerts(c) {
+  return ALERT_RULES.filter((r) => isNum(c[{ helada: "tmin", calor: "tmax", viento: "wind", lluvia: "rain" }[r.id]]) && r.test(c))
+    .map((r) => ({ id: r.id, label: r.label, why: r.why(c) }));
+}

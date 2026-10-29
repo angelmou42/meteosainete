@@ -136,6 +136,16 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .day .temps { white-space: nowrap; font-size: 1.12rem; }
 .day .rel { white-space: nowrap; font-size: .74rem; }
 .rain.dry { color: var(--muted); }
+/* Avisos propios (heladas, calor, viento, lluvia fuerte) */
+.alerts { display: flex; flex-wrap: wrap; gap: 4px; }
+.alert {
+  font-size: .72rem; font-weight: 700; letter-spacing: .02em; padding: 1px 8px; border-radius: 99px;
+  border: 1px solid currentColor; cursor: help;
+}
+.a-helada { color: #3d8fd6; }
+.a-calor { color: var(--bad); }
+.a-viento { color: var(--warn); }
+.a-lluvia { color: var(--accent); }
 /* En móvil los 7 días pasan de fila horizontal con scroll a una lista vertical */
 @media (max-width: 560px) {
   .strip { display: flex; flex-direction: column; gap: 6px; overflow: visible; }
