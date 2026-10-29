@@ -2,7 +2,7 @@
 // Ejecutar con:  npm test   (o  node --test)
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { MODELS, consensus, dayAlerts, dayName, estimateProb, fmt, median, publishesProb, rainLabel } from "../core.js";
+import { MODELS, consensus, dayAlerts, dayName, dropPastDays, estimateProb, fmt, median, publishesProb, rainLabel } from "../core.js";
 
 test("median: impar, par, con huecos y vacía", () => {
   assert.equal(median([3, 1, 2]), 2);
@@ -98,4 +98,19 @@ test("dayAlerts: heladas, calor, viento y lluvia fuerte según el consenso", () 
   assert.deepEqual(ids({ tmax: 38, wind: 55 }), ["calor", "viento"]);
   assert.deepEqual(ids({ rain: 25 }), ["lluvia"]);
   assert.deepEqual(ids({ tmin: null }), []); // sin dato, sin aviso
+});
+
+test("dropPastDays: quita días pasados de los datos diarios y horarios", () => {
+  const data = {
+    dates: ["2026-10-29", "2026-10-30", "2026-10-31"],
+    sun: { rise: ["a", "b", "c"], set: ["x", "y", "z"] },
+    m: { ecmwf_ifs025: { tmax: [1, 2, 3], hourly: Array.from({ length: 72 }, (_, h) => h) } },
+  };
+  const out = dropPastDays(data, 1);
+  assert.deepEqual(out.dates, ["2026-10-30", "2026-10-31"]);
+  assert.deepEqual(out.m.ecmwf_ifs025.tmax, [2, 3]);
+  assert.equal(out.m.ecmwf_ifs025.hourly[0], 24);
+  assert.deepEqual(out.sun.rise, ["b", "c"]);
+  assert.equal(dropPastDays(data, 0), data);
+  assert.equal(data.dates.length, 3); // no modifica el original
 });

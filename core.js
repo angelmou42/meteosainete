@@ -326,3 +326,26 @@ export function dayAlerts(c) {
   return ALERT_RULES.filter((r) => isNum(c[{ helada: "tmin", calor: "tmax", viento: "wind", lluvia: "rain" }[r.id]]) && r.test(c))
     .map((r) => ({ id: r.id, label: r.label, why: r.why(c) }));
 }
+
+/* ---------- Predicción guardada que se ha quedado vieja ----------
+ * Si se abre sin conexión al día siguiente, el primer día guardado ya es ayer.
+ * dropPastDays quita los `k` primeros días de todos los datos (diarios y
+ * horarios) para que "Hoy" vuelva a ser hoy. Devuelve un objeto nuevo. */
+export function dropPastDays(data, k) {
+  if (k <= 0) return data;
+  const daily = ["tmax", "tmin", "rain", "prob", "wind"];
+  const m = {};
+  for (const [id, o] of Object.entries(data.m)) {
+    m[id] = Object.fromEntries(Object.entries(o).map(([key, arr]) =>
+      [key, Array.isArray(arr) ? arr.slice(daily.includes(key) ? k : k * 24) : arr]));
+  }
+  return {
+    ...data,
+    dates: data.dates.slice(k),
+    sun: data.sun && { rise: (data.sun.rise || []).slice(k), set: (data.sun.set || []).slice(k) },
+    m,
+  };
+}
+
+// Fecha de hoy ("2026-10-30") en la zona horaria de la ciudad (offset en segundos).
+export const localDate = (offset = 0) => new Date(Date.now() + offset * 1000).toISOString().slice(0, 10);

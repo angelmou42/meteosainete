@@ -6,7 +6,7 @@
  * core.js; los gráficos en charts.js; los mapas de lluvia en map.js; la
  * pestaña de acierto en acierto.js; el buscador en places.js.
  */
-import { $, MODELS, consensus, dayAlerts, daySummary, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNight, isNum,
+import { $, MODELS, consensus, dayAlerts, daySummary, dropPastDays, localDate, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNight, isNum,
   publishesProb, rainLabel, rainPeriods, rainSlots, skyIcon, state, tempAt } from "./core.js";
 import { ICON_LABELS, iconSvg } from "./icons.js";
 import { initCharts, renderChart } from "./charts.js";
@@ -384,7 +384,13 @@ async function load(place) {
       showStatus("error", errorMessage(err));
       return;
     }
-    state.data = last.data;
+    // Si se guardó otro día, se quitan los días que ya han pasado para que "Hoy" sea hoy.
+    const today = last.data.dates.indexOf(localDate(last.data.offset));
+    if (today < 0 && last.data.dates[last.data.dates.length - 1] < localDate(last.data.offset)) {
+      showStatus("error", errorMessage(err) + " La última predicción guardada es demasiado antigua.");
+      return;
+    }
+    state.data = dropPastDays(last.data, Math.max(0, today));
     const when = new Date(last.savedAt).toLocaleString("es-ES", { weekday: "long", hour: "2-digit", minute: "2-digit" });
     $("stale-msg").textContent = `${errorMessage(err)} Mientras tanto ves la predicción guardada el ${when}.`;
     $("stale").hidden = false;
