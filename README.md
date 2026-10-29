@@ -188,7 +188,7 @@ descarta al que se desvía, así que la web mantiene la mediana normal.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=19`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=20`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al
@@ -213,7 +213,8 @@ descarta al que se desvía, así que la web mantiene la mediana normal.
 index.html   Estructura de la página
 style.css    Estilos (modo claro/oscuro automático, adaptado a móvil)
 core.js      Configuración, estado y funciones puras (consenso, mediana…)
-app.js       Módulo principal: carga de datos, tabla, gráfico y pestañas
+app.js       Módulo principal: carga de datos, bloque Ahora, tarjetas, tabla y pestañas
+charts.js    Gráficos horarios interactivos (temperatura, lluvia y viento)
 map.js       Mapas de lluvia (mapa propio con Leaflet y Windy)
 acierto.js   Pestaña "Acierto" (lee analisis/resultados.json)
 icons.js     Iconos del tiempo en SVG
