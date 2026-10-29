@@ -70,26 +70,51 @@ Comprobado con datos reales (octubre de 2026): todos publican
 ## ¿Qué modelo acierta más? (análisis)
 
 [`analisis/verificacion_lluvia.py`](analisis/verificacion_lluvia.py) compara la
-lluvia que cada modelo predijo 1 y 3 días antes con la medida por las
-estaciones de AEMET de Jaén, Córdoba y Granada durante un año (12/03/2025 –
-11/03/2026, 1070 días, 232 con lluvia).
+lluvia que cada modelo predijo 1 y 3 días antes con la medida por **48
+estaciones de AEMET** agrupadas en **13 zonas** de clima parecido, durante un
+año (12/03/2025 – 11/03/2026: 17 052 días-estación, 4118 con lluvia).
 
 - **Predicciones pasadas:** API *Previous Runs* de Open-Meteo
   (`precipitation_previous_dayN`).
 - **Lluvia medida:** datos diarios de [Meteostat](https://meteostat.net/).
 - **Día de lluvia:** 1 mm o más. Antes de comparar, el script comprueba con
-  los datos a qué hora cierran el día las estaciones (07–07 h en España).
+  los datos a qué hora cierran el día las estaciones (de 06 a 06 UTC).
 - **Métricas:** acierto, días de lluvia detectados, falsas alarmas, error en
   mm e **índice de Heidke** (acierto descontando el azar), con un margen de
   error del 90 % calculado por *bootstrap* remuestreando fechas.
 
-Resultado con 1 día de antelación: el **consenso** (mediana) obtiene la mejor
-puntuación (0,80), seguido de ECMWF (0,78). Decir siempre "seco" ya acierta
-el 78 % de los días, por eso la puntuación importa más que el acierto.
+Índice de Heidke con 1 día de antelación (más alto = mejor):
+
+| Zona | Consenso | Mejor modelo suelto |
+|------|---------:|---------------------|
+| Toda España | **0,73** | ECMWF / ICON 0,68 |
+| Galicia | **0,81** | ECMWF 0,78 |
+| Cantábrico | **0,69** | ICON 0,65 |
+| Castilla y León | **0,77** | ECMWF / UKMO 0,73 |
+| Valle del Ebro y Navarra | **0,71** | ECMWF 0,65 |
+| Cataluña | **0,64** | GEM 0,61 |
+| Madrid y alrededores | **0,70** | ICON / Météo-France 0,69 |
+| Castilla-La Mancha | **0,73** | ECMWF 0,72 |
+| Comunidad Valenciana y Murcia | **0,62** | ECMWF 0,60 |
+| Extremadura | **0,76** | ECMWF 0,76 |
+| Andalucía occidental | **0,76** | ECMWF 0,75 |
+| Andalucía oriental | **0,77** | ECMWF 0,75 |
+| Baleares | **0,63** | GFS 0,62 |
+| Canarias | **0,57** | GEM 0,47 |
+
+**El consenso es lo mejor en las 13 zonas**, y el mejor modelo suelto cambia
+de una zona a otra: por eso la web compara modelos en lugar de elegir uno.
+La pestaña "Acierto" muestra la zona más cercana a la ciudad que se está
+viendo (o la que se elija), y toda España si está a más de 150 km de las
+estaciones.
 
 ```bash
 python analisis/verificacion_lluvia.py
 ```
+
+Genera `resultados.csv` (todos los números) y `resultados.json`, que es lo que
+lee la pestaña "Acierto": si se repite el análisis, la web se actualiza sola.
+Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
 
 **¿Consenso ponderado?** [`analisis/consenso_ponderado.py`](analisis/consenso_ponderado.py)
 prueba a dar más peso a los modelos que más aciertan (mediana ponderada por
@@ -99,10 +124,6 @@ la diferencia se mide día a día con *bootstrap*. Resultado: no mejora
 (Heidke −0,008 a −0,011 con 1 día, intervalo del 90 % que incluye el 0). Los
 modelos aciertan de forma muy parecida y la mediana ya descarta al que se
 desvía, así que la web mantiene la mediana normal.
-
-Genera `resultados.csv` (todos los números) y `resultados.json`, que es lo que
-lee la pestaña "Acierto": si se repite el análisis, la web se actualiza sola.
-Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
 
 ## Decisiones de diseño
 
@@ -140,7 +161,7 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=17`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=18`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al

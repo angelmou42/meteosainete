@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="style.css?v=18">
   <!-- Tema elegido por el usuario (claro u oscuro), aplicado antes de pintar para que no haya destello -->
   <script>
     try { const t = localStorage.getItem("meteosainete:tema"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -28,15 +28,15 @@
   <script type="importmap">
     {
       "imports": {
-        "./core.js": "./core.js?v=17",
-        "./map.js": "./map.js?v=17",
-        "./acierto.js": "./acierto.js?v=17",
-        "./icons.js": "./icons.js?v=17",
-        "./places.js": "./places.js?v=17"
+        "./core.js": "./core.js?v=18",
+        "./map.js": "./map.js?v=18",
+        "./acierto.js": "./acierto.js?v=18",
+        "./icons.js": "./icons.js?v=18",
+        "./places.js": "./places.js?v=18"
       }
     }
   </script>
-  <script type="module" src="app.js?v=17"></script>
+  <script type="module" src="app.js?v=18"></script>
 </head>
 <body>
 <div class="wrap">
@@ -221,9 +221,9 @@
         <dd>Diferencia media entre los mm previstos y los medidos.</dd>
       </dl>
       <h3>Cómo se ha hecho</h3>
-      <p>Se compara lo que cada modelo predijo uno o tres días antes (archivo de predicciones pasadas de Open-Meteo) con la lluvia medida por las estaciones de AEMET (vía Meteostat). Un día cuenta como "de lluvia" con 1 mm o más. El consenso es la mediana de los modelos, como en la pestaña Comparativa.</p>
+      <p>Se compara lo que cada modelo predijo uno o tres días antes (archivo de predicciones pasadas de Open-Meteo) con la lluvia medida por 48 estaciones de AEMET (vía Meteostat), agrupadas en 13 zonas de clima parecido. Un día cuenta como "de lluvia" con 1 mm o más. El consenso es la mediana de los modelos, como en la pestaña Comparativa.</p>
       <p>¿Y si los modelos que más aciertan pesaran más en el consenso? Lo probamos calculando los pesos con la mitad de los datos y comprobándolo con la otra mitad: no mejora (la diferencia queda dentro del margen de error), así que el consenso sigue siendo la mediana normal.</p>
-      <p>Límites: son tres estaciones y un año; un año más seco o más lluvioso podría cambiar algo el orden. Se compara un pluviómetro con una celda del modelo de varios kilómetros, igual para todos. El código está en <a href="https://github.com/angelmou42/meteosainete/tree/main/analisis" target="_blank" rel="noopener">analisis/</a>.</p>
+      <p>Límites: es un solo año, y en cada zona hay de 2 a 4 estaciones; un año más seco o más lluvioso podría cambiar algo el orden, sobre todo en las zonas con pocos días de lluvia (Canarias, Levante, Baleares). Se compara un pluviómetro con una celda del modelo de varios kilómetros, igual para todos. El código está en <a href="https://github.com/angelmou42/meteosainete/tree/main/analisis" target="_blank" rel="noopener">analisis/</a>.</p>
     </div>
   </section>
 

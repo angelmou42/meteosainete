@@ -3,234 +3,3543 @@
   "2025-03-12",
   "2026-03-11"
  ],
- "estaciones": [
-  {
-   "nombre": "Jaén",
-   "lat": 37.7833,
-   "lon": -3.8
-  },
-  {
-   "nombre": "Córdoba",
-   "lat": 37.85,
-   "lon": -4.85
-  },
-  {
-   "nombre": "Granada",
-   "lat": 37.1833,
-   "lon": -3.7833
-  }
- ],
  "umbral_mm": 1.0,
- "dias": 1070,
- "dias_lluvia": 232,
- "resultados": [
+ "ventana_utc": [
+  6,
+  0
+ ],
+ "regiones": [
   {
-   "antelacion": 1,
-   "id": "ecmwf_ifs025",
-   "modelo": "ECMWF",
-   "dias": 1070,
-   "acierto": 92.243,
-   "deteccion": 88.793,
-   "falsas": 21.673,
-   "heidke": 0.782,
-   "error_mm": 1.531,
-   "heidke_min90": 0.738,
-   "heidke_max90": 0.827
+   "id": "espana",
+   "nombre": "Toda España",
+   "estaciones": [
+    {
+     "nombre": "A Coruña",
+     "lat": 43.367,
+     "lon": -8.417
+    },
+    {
+     "nombre": "Santiago",
+     "lat": 42.9,
+     "lon": -8.433
+    },
+    {
+     "nombre": "Vigo",
+     "lat": 42.217,
+     "lon": -8.633
+    },
+    {
+     "nombre": "Ourense",
+     "lat": 42.333,
+     "lon": -7.867
+    },
+    {
+     "nombre": "Avilés",
+     "lat": 43.55,
+     "lon": -6.033
+    },
+    {
+     "nombre": "Santander",
+     "lat": 43.433,
+     "lon": -3.817
+    },
+    {
+     "nombre": "Bilbao",
+     "lat": 43.3,
+     "lon": -2.933
+    },
+    {
+     "nombre": "San Sebastián",
+     "lat": 43.3,
+     "lon": -2.05
+    },
+    {
+     "nombre": "León",
+     "lat": 42.583,
+     "lon": -5.65
+    },
+    {
+     "nombre": "Burgos",
+     "lat": 42.367,
+     "lon": -3.633
+    },
+    {
+     "nombre": "Valladolid",
+     "lat": 41.65,
+     "lon": -4.767
+    },
+    {
+     "nombre": "Salamanca",
+     "lat": 40.95,
+     "lon": -5.5
+    },
+    {
+     "nombre": "Logroño",
+     "lat": 42.45,
+     "lon": -2.333
+    },
+    {
+     "nombre": "Pamplona",
+     "lat": 42.767,
+     "lon": -1.633
+    },
+    {
+     "nombre": "Zaragoza",
+     "lat": 41.667,
+     "lon": -1.017
+    },
+    {
+     "nombre": "Lleida",
+     "lat": 41.617,
+     "lon": 0.633
+    },
+    {
+     "nombre": "Barcelona",
+     "lat": 41.283,
+     "lon": 2.067
+    },
+    {
+     "nombre": "Girona",
+     "lat": 41.9,
+     "lon": 2.767
+    },
+    {
+     "nombre": "Reus",
+     "lat": 41.15,
+     "lon": 1.167
+    },
+    {
+     "nombre": "Madrid",
+     "lat": 40.417,
+     "lon": -3.683
+    },
+    {
+     "nombre": "Guadalajara",
+     "lat": 40.667,
+     "lon": -3.167
+    },
+    {
+     "nombre": "Segovia",
+     "lat": 40.95,
+     "lon": -4.117
+    },
+    {
+     "nombre": "Ávila",
+     "lat": 40.65,
+     "lon": -4.7
+    },
+    {
+     "nombre": "Toledo",
+     "lat": 39.883,
+     "lon": -4.05
+    },
+    {
+     "nombre": "Ciudad Real",
+     "lat": 38.983,
+     "lon": -3.917
+    },
+    {
+     "nombre": "Cuenca",
+     "lat": 40.067,
+     "lon": -2.133
+    },
+    {
+     "nombre": "Albacete",
+     "lat": 38.95,
+     "lon": -1.85
+    },
+    {
+     "nombre": "Castellón",
+     "lat": 39.95,
+     "lon": -0.067
+    },
+    {
+     "nombre": "Valencia",
+     "lat": 39.483,
+     "lon": -0.383
+    },
+    {
+     "nombre": "Alicante",
+     "lat": 38.367,
+     "lon": -0.5
+    },
+    {
+     "nombre": "Murcia",
+     "lat": 38.0,
+     "lon": -1.167
+    },
+    {
+     "nombre": "Cáceres",
+     "lat": 39.467,
+     "lon": -6.333
+    },
+    {
+     "nombre": "Badajoz",
+     "lat": 38.883,
+     "lon": -6.817
+    },
+    {
+     "nombre": "Sevilla",
+     "lat": 37.417,
+     "lon": -5.9
+    },
+    {
+     "nombre": "Huelva",
+     "lat": 37.283,
+     "lon": -6.917
+    },
+    {
+     "nombre": "Jerez",
+     "lat": 36.75,
+     "lon": -6.067
+    },
+    {
+     "nombre": "Málaga",
+     "lat": 36.667,
+     "lon": -4.483
+    },
+    {
+     "nombre": "Jaén",
+     "lat": 37.783,
+     "lon": -3.8
+    },
+    {
+     "nombre": "Córdoba",
+     "lat": 37.85,
+     "lon": -4.85
+    },
+    {
+     "nombre": "Granada",
+     "lat": 37.183,
+     "lon": -3.783
+    },
+    {
+     "nombre": "Almería",
+     "lat": 36.85,
+     "lon": -2.383
+    },
+    {
+     "nombre": "Palma",
+     "lat": 39.55,
+     "lon": 2.733
+    },
+    {
+     "nombre": "Menorca",
+     "lat": 39.867,
+     "lon": 4.233
+    },
+    {
+     "nombre": "Ibiza",
+     "lat": 38.867,
+     "lon": 1.383
+    },
+    {
+     "nombre": "Tenerife Norte",
+     "lat": 28.467,
+     "lon": -16.317
+    },
+    {
+     "nombre": "Tenerife Sur",
+     "lat": 28.05,
+     "lon": -16.567
+    },
+    {
+     "nombre": "Gran Canaria",
+     "lat": 27.933,
+     "lon": -15.383
+    },
+    {
+     "nombre": "Lanzarote",
+     "lat": 28.95,
+     "lon": -13.6
+    }
+   ],
+   "dias": 17052,
+   "dias_lluvia": 4118,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 17052,
+     "acierto": 87.867,
+     "deteccion": 82.297,
+     "falsas": 28.336,
+     "heidke": 0.685,
+     "error_mm": 1.546,
+     "heidke_min90": 0.668,
+     "heidke_max90": 0.7
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 17052,
+     "acierto": 87.738,
+     "deteccion": 76.639,
+     "falsas": 26.348,
+     "heidke": 0.67,
+     "error_mm": 1.529,
+     "heidke_min90": 0.65,
+     "heidke_max90": 0.686
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 17052,
+     "acierto": 88.312,
+     "deteccion": 74.429,
+     "falsas": 23.471,
+     "heidke": 0.678,
+     "error_mm": 1.486,
+     "heidke_min90": 0.66,
+     "heidke_max90": 0.693
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 17052,
+     "acierto": 87.855,
+     "deteccion": 70.034,
+     "falsas": 22.494,
+     "heidke": 0.657,
+     "error_mm": 1.62,
+     "heidke_min90": 0.64,
+     "heidke_max90": 0.674
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 14112,
+     "acierto": 86.77,
+     "deteccion": 79.445,
+     "falsas": 29.234,
+     "heidke": 0.659,
+     "error_mm": 1.647,
+     "heidke_min90": 0.641,
+     "heidke_max90": 0.677
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 17052,
+     "acierto": 86.729,
+     "deteccion": 77.805,
+     "falsas": 29.629,
+     "heidke": 0.65,
+     "error_mm": 1.644,
+     "heidke_min90": 0.63,
+     "heidke_max90": 0.669
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 17052,
+     "acierto": 90.066,
+     "deteccion": 79.99,
+     "falsas": 20.893,
+     "heidke": 0.73,
+     "error_mm": 1.285,
+     "heidke_min90": 0.713,
+     "heidke_max90": 0.744
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 17052,
+     "acierto": 75.85,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 2.089,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 17052,
+     "acierto": 86.312,
+     "deteccion": 79.31,
+     "falsas": 31.213,
+     "heidke": 0.645,
+     "error_mm": 1.713,
+     "heidke_min90": 0.627,
+     "heidke_max90": 0.662
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 17052,
+     "acierto": 85.345,
+     "deteccion": 74.162,
+     "falsas": 31.967,
+     "heidke": 0.612,
+     "error_mm": 1.761,
+     "heidke_min90": 0.591,
+     "heidke_max90": 0.631
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 17052,
+     "acierto": 86.295,
+     "deteccion": 70.738,
+     "falsas": 27.985,
+     "heidke": 0.624,
+     "error_mm": 1.688,
+     "heidke_min90": 0.602,
+     "heidke_max90": 0.645
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 17052,
+     "acierto": 85.679,
+     "deteccion": 72.487,
+     "falsas": 30.484,
+     "heidke": 0.615,
+     "error_mm": 1.782,
+     "heidke_min90": 0.593,
+     "heidke_max90": 0.636
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 13924,
+     "acierto": 84.861,
+     "deteccion": 75.976,
+     "falsas": 33.54,
+     "heidke": 0.607,
+     "error_mm": 1.889,
+     "heidke_min90": 0.583,
+     "heidke_max90": 0.63
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 17052,
+     "acierto": 84.213,
+     "deteccion": 73.482,
+     "falsas": 34.587,
+     "heidke": 0.586,
+     "error_mm": 1.867,
+     "heidke_min90": 0.565,
+     "heidke_max90": 0.607
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 17052,
+     "acierto": 88.148,
+     "deteccion": 77.416,
+     "falsas": 25.497,
+     "heidke": 0.681,
+     "error_mm": 1.443,
+     "heidke_min90": 0.662,
+     "heidke_max90": 0.699
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 17052,
+     "acierto": 75.85,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 2.089,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 1,
-   "id": "gfs_seamless",
-   "modelo": "GFS",
-   "dias": 1070,
-   "acierto": 90.28,
-   "deteccion": 84.483,
-   "falsas": 25.758,
-   "heidke": 0.727,
-   "error_mm": 1.475,
-   "heidke_min90": 0.677,
-   "heidke_max90": 0.775
+   "id": "galicia",
+   "nombre": "Galicia",
+   "estaciones": [
+    {
+     "nombre": "A Coruña",
+     "lat": 43.367,
+     "lon": -8.417
+    },
+    {
+     "nombre": "Santiago",
+     "lat": 42.9,
+     "lon": -8.433
+    },
+    {
+     "nombre": "Vigo",
+     "lat": 42.217,
+     "lon": -8.633
+    },
+    {
+     "nombre": "Ourense",
+     "lat": 42.333,
+     "lon": -7.867
+    }
+   ],
+   "dias": 1422,
+   "dias_lluvia": 554,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1422,
+     "acierto": 89.522,
+     "deteccion": 92.96,
+     "falsas": 17.6,
+     "heidke": 0.785,
+     "error_mm": 2.608,
+     "heidke_min90": 0.75,
+     "heidke_max90": 0.818
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1422,
+     "acierto": 87.342,
+     "deteccion": 81.949,
+     "falsas": 14.981,
+     "heidke": 0.732,
+     "error_mm": 2.53,
+     "heidke_min90": 0.691,
+     "heidke_max90": 0.77
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1422,
+     "acierto": 88.326,
+     "deteccion": 81.047,
+     "falsas": 11.961,
+     "heidke": 0.751,
+     "error_mm": 2.733,
+     "heidke_min90": 0.713,
+     "heidke_max90": 0.788
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1422,
+     "acierto": 83.615,
+     "deteccion": 67.87,
+     "falsas": 12.761,
+     "heidke": 0.641,
+     "error_mm": 3.348,
+     "heidke_min90": 0.598,
+     "heidke_max90": 0.686
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1174,
+     "acierto": 88.671,
+     "deteccion": 88.129,
+     "falsas": 14.453,
+     "heidke": 0.769,
+     "error_mm": 2.987,
+     "heidke_min90": 0.726,
+     "heidke_max90": 0.805
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1422,
+     "acierto": 87.553,
+     "deteccion": 86.643,
+     "falsas": 17.667,
+     "heidke": 0.741,
+     "error_mm": 2.726,
+     "heidke_min90": 0.702,
+     "heidke_max90": 0.779
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1422,
+     "acierto": 90.999,
+     "deteccion": 88.267,
+     "falsas": 11.413,
+     "heidke": 0.811,
+     "error_mm": 2.279,
+     "heidke_min90": 0.777,
+     "heidke_max90": 0.841
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1422,
+     "acierto": 61.041,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 4.813,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1422,
+     "acierto": 86.146,
+     "deteccion": 90.253,
+     "falsas": 22.24,
+     "heidke": 0.717,
+     "error_mm": 3.066,
+     "heidke_min90": 0.678,
+     "heidke_max90": 0.758
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1422,
+     "acierto": 85.795,
+     "deteccion": 81.949,
+     "falsas": 18.345,
+     "heidke": 0.702,
+     "error_mm": 3.127,
+     "heidke_min90": 0.658,
+     "heidke_max90": 0.744
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1422,
+     "acierto": 85.654,
+     "deteccion": 77.437,
+     "falsas": 15.551,
+     "heidke": 0.694,
+     "error_mm": 3.283,
+     "heidke_min90": 0.651,
+     "heidke_max90": 0.736
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1422,
+     "acierto": 85.021,
+     "deteccion": 79.422,
+     "falsas": 18.367,
+     "heidke": 0.684,
+     "error_mm": 3.123,
+     "heidke_min90": 0.639,
+     "heidke_max90": 0.727
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1158,
+     "acierto": 87.565,
+     "deteccion": 87.292,
+     "falsas": 16.534,
+     "heidke": 0.746,
+     "error_mm": 3.384,
+     "heidke_min90": 0.698,
+     "heidke_max90": 0.786
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1422,
+     "acierto": 86.639,
+     "deteccion": 84.657,
+     "falsas": 18.293,
+     "heidke": 0.721,
+     "error_mm": 3.076,
+     "heidke_min90": 0.679,
+     "heidke_max90": 0.763
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1422,
+     "acierto": 88.256,
+     "deteccion": 85.921,
+     "falsas": 15.752,
+     "heidke": 0.754,
+     "error_mm": 2.529,
+     "heidke_min90": 0.713,
+     "heidke_max90": 0.791
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1422,
+     "acierto": 61.041,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 4.813,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 1,
-   "id": "icon_seamless",
-   "modelo": "ICON",
-   "dias": 1070,
-   "acierto": 91.682,
-   "deteccion": 81.466,
-   "falsas": 19.574,
-   "heidke": 0.756,
-   "error_mm": 1.37,
-   "heidke_min90": 0.706,
-   "heidke_max90": 0.801
+   "id": "cantabrico",
+   "nombre": "Cantábrico",
+   "estaciones": [
+    {
+     "nombre": "Avilés",
+     "lat": 43.55,
+     "lon": -6.033
+    },
+    {
+     "nombre": "Santander",
+     "lat": 43.433,
+     "lon": -3.817
+    },
+    {
+     "nombre": "Bilbao",
+     "lat": 43.3,
+     "lon": -2.933
+    },
+    {
+     "nombre": "San Sebastián",
+     "lat": 43.3,
+     "lon": -2.05
+    }
+   ],
+   "dias": 1416,
+   "dias_lluvia": 563,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1416,
+     "acierto": 81.003,
+     "deteccion": 84.725,
+     "falsas": 27.727,
+     "heidke": 0.615,
+     "error_mm": 2.448,
+     "heidke_min90": 0.566,
+     "heidke_max90": 0.658
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1416,
+     "acierto": 82.415,
+     "deteccion": 82.06,
+     "falsas": 24.262,
+     "heidke": 0.638,
+     "error_mm": 2.469,
+     "heidke_min90": 0.595,
+     "heidke_max90": 0.676
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1416,
+     "acierto": 83.121,
+     "deteccion": 78.153,
+     "falsas": 20.863,
+     "heidke": 0.647,
+     "error_mm": 2.461,
+     "heidke_min90": 0.602,
+     "heidke_max90": 0.688
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1416,
+     "acierto": 82.345,
+     "deteccion": 76.377,
+     "falsas": 21.389,
+     "heidke": 0.63,
+     "error_mm": 2.313,
+     "heidke_min90": 0.585,
+     "heidke_max90": 0.67
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1170,
+     "acierto": 82.393,
+     "deteccion": 83.943,
+     "falsas": 23.519,
+     "heidke": 0.644,
+     "error_mm": 2.706,
+     "heidke_min90": 0.599,
+     "heidke_max90": 0.685
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1416,
+     "acierto": 82.345,
+     "deteccion": 82.238,
+     "falsas": 24.47,
+     "heidke": 0.637,
+     "error_mm": 2.498,
+     "heidke_min90": 0.591,
+     "heidke_max90": 0.675
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1416,
+     "acierto": 85.028,
+     "deteccion": 85.08,
+     "falsas": 21.087,
+     "heidke": 0.692,
+     "error_mm": 2.055,
+     "heidke_min90": 0.651,
+     "heidke_max90": 0.73
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1416,
+     "acierto": 60.24,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 3.477,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1416,
+     "acierto": 80.014,
+     "deteccion": 83.481,
+     "falsas": 28.788,
+     "heidke": 0.595,
+     "error_mm": 2.74,
+     "heidke_min90": 0.547,
+     "heidke_max90": 0.638
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1416,
+     "acierto": 80.367,
+     "deteccion": 80.995,
+     "falsas": 27.273,
+     "heidke": 0.598,
+     "error_mm": 2.892,
+     "heidke_min90": 0.555,
+     "heidke_max90": 0.643
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1416,
+     "acierto": 80.226,
+     "deteccion": 75.666,
+     "falsas": 25.132,
+     "heidke": 0.588,
+     "error_mm": 2.841,
+     "heidke_min90": 0.54,
+     "heidke_max90": 0.632
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1416,
+     "acierto": 79.449,
+     "deteccion": 77.442,
+     "falsas": 27.333,
+     "heidke": 0.576,
+     "error_mm": 2.803,
+     "heidke_min90": 0.528,
+     "heidke_max90": 0.621
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1154,
+     "acierto": 78.51,
+     "deteccion": 80.802,
+     "falsas": 29.074,
+     "heidke": 0.565,
+     "error_mm": 2.977,
+     "heidke_min90": 0.513,
+     "heidke_max90": 0.614
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1416,
+     "acierto": 75.212,
+     "deteccion": 74.956,
+     "falsas": 33.228,
+     "heidke": 0.493,
+     "error_mm": 2.965,
+     "heidke_min90": 0.437,
+     "heidke_max90": 0.545
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1416,
+     "acierto": 82.133,
+     "deteccion": 83.659,
+     "falsas": 25.475,
+     "heidke": 0.635,
+     "error_mm": 2.376,
+     "heidke_min90": 0.588,
+     "heidke_max90": 0.678
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1416,
+     "acierto": 60.24,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 3.477,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 1,
-   "id": "meteofrance_seamless",
-   "modelo": "Météo-France",
-   "dias": 1070,
-   "acierto": 89.907,
-   "deteccion": 71.983,
-   "falsas": 20.476,
-   "heidke": 0.692,
-   "error_mm": 1.734,
-   "heidke_min90": 0.642,
-   "heidke_max90": 0.74
+   "id": "meseta_norte",
+   "nombre": "Castilla y León",
+   "estaciones": [
+    {
+     "nombre": "León",
+     "lat": 42.583,
+     "lon": -5.65
+    },
+    {
+     "nombre": "Burgos",
+     "lat": 42.367,
+     "lon": -3.633
+    },
+    {
+     "nombre": "Valladolid",
+     "lat": 41.65,
+     "lon": -4.767
+    },
+    {
+     "nombre": "Salamanca",
+     "lat": 40.95,
+     "lon": -5.5
+    }
+   ],
+   "dias": 1428,
+   "dias_lluvia": 417,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1428,
+     "acierto": 88.936,
+     "deteccion": 82.014,
+     "falsas": 19.529,
+     "heidke": 0.734,
+     "error_mm": 1.179,
+     "heidke_min90": 0.695,
+     "heidke_max90": 0.772
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1428,
+     "acierto": 87.535,
+     "deteccion": 76.739,
+     "falsas": 20.2,
+     "heidke": 0.695,
+     "error_mm": 1.26,
+     "heidke_min90": 0.655,
+     "heidke_max90": 0.736
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1428,
+     "acierto": 88.655,
+     "deteccion": 76.978,
+     "falsas": 17.054,
+     "heidke": 0.72,
+     "error_mm": 1.228,
+     "heidke_min90": 0.679,
+     "heidke_max90": 0.76
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1428,
+     "acierto": 88.375,
+     "deteccion": 77.938,
+     "falsas": 18.546,
+     "heidke": 0.715,
+     "error_mm": 1.296,
+     "heidke_min90": 0.679,
+     "heidke_max90": 0.751
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1180,
+     "acierto": 88.475,
+     "deteccion": 82.571,
+     "falsas": 20.604,
+     "heidke": 0.727,
+     "error_mm": 1.201,
+     "heidke_min90": 0.682,
+     "heidke_max90": 0.768
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1428,
+     "acierto": 85.644,
+     "deteccion": 80.576,
+     "falsas": 26.957,
+     "heidke": 0.663,
+     "error_mm": 1.483,
+     "heidke_min90": 0.617,
+     "heidke_max90": 0.706
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1428,
+     "acierto": 90.266,
+     "deteccion": 83.693,
+     "falsas": 16.905,
+     "heidke": 0.765,
+     "error_mm": 1.044,
+     "heidke_min90": 0.732,
+     "heidke_max90": 0.801
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1428,
+     "acierto": 70.798,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.73,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1428,
+     "acierto": 87.745,
+     "deteccion": 82.254,
+     "falsas": 22.748,
+     "heidke": 0.709,
+     "error_mm": 1.343,
+     "heidke_min90": 0.668,
+     "heidke_max90": 0.749
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1428,
+     "acierto": 84.734,
+     "deteccion": 77.218,
+     "falsas": 27.64,
+     "heidke": 0.638,
+     "error_mm": 1.453,
+     "heidke_min90": 0.594,
+     "heidke_max90": 0.683
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1428,
+     "acierto": 86.134,
+     "deteccion": 77.698,
+     "falsas": 24.476,
+     "heidke": 0.667,
+     "error_mm": 1.472,
+     "heidke_min90": 0.624,
+     "heidke_max90": 0.71
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1428,
+     "acierto": 86.345,
+     "deteccion": 78.417,
+     "falsas": 24.306,
+     "heidke": 0.673,
+     "error_mm": 1.474,
+     "heidke_min90": 0.63,
+     "heidke_max90": 0.715
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1164,
+     "acierto": 85.223,
+     "deteccion": 77.744,
+     "falsas": 27.966,
+     "heidke": 0.644,
+     "error_mm": 1.607,
+     "heidke_min90": 0.585,
+     "heidke_max90": 0.696
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1428,
+     "acierto": 84.034,
+     "deteccion": 80.336,
+     "falsas": 30.353,
+     "heidke": 0.631,
+     "error_mm": 1.712,
+     "heidke_min90": 0.589,
+     "heidke_max90": 0.67
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1428,
+     "acierto": 88.375,
+     "deteccion": 83.453,
+     "falsas": 21.798,
+     "heidke": 0.724,
+     "error_mm": 1.17,
+     "heidke_min90": 0.685,
+     "heidke_max90": 0.765
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1428,
+     "acierto": 70.798,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.73,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 1,
-   "id": "ukmo_seamless",
-   "modelo": "UKMO",
-   "dias": 884,
-   "acierto": 88.914,
-   "deteccion": 83.246,
-   "falsas": 29.333,
-   "heidke": 0.693,
-   "error_mm": 1.38,
-   "heidke_min90": 0.63,
-   "heidke_max90": 0.751
+   "id": "ebro",
+   "nombre": "Valle del Ebro y Navarra",
+   "estaciones": [
+    {
+     "nombre": "Logroño",
+     "lat": 42.45,
+     "lon": -2.333
+    },
+    {
+     "nombre": "Pamplona",
+     "lat": 42.767,
+     "lon": -1.633
+    },
+    {
+     "nombre": "Zaragoza",
+     "lat": 41.667,
+     "lon": -1.017
+    },
+    {
+     "nombre": "Lleida",
+     "lat": 41.617,
+     "lon": 0.633
+    }
+   ],
+   "dias": 1423,
+   "dias_lluvia": 357,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1423,
+     "acierto": 86.788,
+     "deteccion": 73.95,
+     "falsas": 26.462,
+     "heidke": 0.649,
+     "error_mm": 1.378,
+     "heidke_min90": 0.605,
+     "heidke_max90": 0.689
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1423,
+     "acierto": 86.015,
+     "deteccion": 74.79,
+     "falsas": 28.989,
+     "heidke": 0.634,
+     "error_mm": 1.405,
+     "heidke_min90": 0.592,
+     "heidke_max90": 0.678
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1423,
+     "acierto": 85.875,
+     "deteccion": 74.51,
+     "falsas": 29.255,
+     "heidke": 0.631,
+     "error_mm": 1.304,
+     "heidke_min90": 0.584,
+     "heidke_max90": 0.679
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1423,
+     "acierto": 85.875,
+     "deteccion": 66.387,
+     "falsas": 25.472,
+     "heidke": 0.61,
+     "error_mm": 1.296,
+     "heidke_min90": 0.563,
+     "heidke_max90": 0.654
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1179,
+     "acierto": 85.496,
+     "deteccion": 77.814,
+     "falsas": 29.651,
+     "heidke": 0.639,
+     "error_mm": 1.388,
+     "heidke_min90": 0.59,
+     "heidke_max90": 0.686
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1423,
+     "acierto": 83.486,
+     "deteccion": 68.067,
+     "falsas": 33.242,
+     "heidke": 0.563,
+     "error_mm": 1.368,
+     "heidke_min90": 0.515,
+     "heidke_max90": 0.614
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1423,
+     "acierto": 89.178,
+     "deteccion": 77.311,
+     "falsas": 20.917,
+     "heidke": 0.71,
+     "error_mm": 1.051,
+     "heidke_min90": 0.668,
+     "heidke_max90": 0.752
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1423,
+     "acierto": 74.912,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.601,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1423,
+     "acierto": 84.68,
+     "deteccion": 70.868,
+     "falsas": 31.063,
+     "heidke": 0.596,
+     "error_mm": 1.467,
+     "heidke_min90": 0.55,
+     "heidke_max90": 0.64
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1423,
+     "acierto": 82.01,
+     "deteccion": 69.748,
+     "falsas": 37.28,
+     "heidke": 0.539,
+     "error_mm": 1.516,
+     "heidke_min90": 0.483,
+     "heidke_max90": 0.587
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1423,
+     "acierto": 83.064,
+     "deteccion": 67.507,
+     "falsas": 34.153,
+     "heidke": 0.553,
+     "error_mm": 1.484,
+     "heidke_min90": 0.5,
+     "heidke_max90": 0.602
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1423,
+     "acierto": 81.94,
+     "deteccion": 71.148,
+     "falsas": 37.745,
+     "heidke": 0.541,
+     "error_mm": 1.678,
+     "heidke_min90": 0.489,
+     "heidke_max90": 0.587
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1163,
+     "acierto": 83.061,
+     "deteccion": 71.918,
+     "falsas": 35.385,
+     "heidke": 0.566,
+     "error_mm": 1.676,
+     "heidke_min90": 0.511,
+     "heidke_max90": 0.616
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1423,
+     "acierto": 79.761,
+     "deteccion": 63.866,
+     "falsas": 41.085,
+     "heidke": 0.476,
+     "error_mm": 1.676,
+     "heidke_min90": 0.424,
+     "heidke_max90": 0.525
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1423,
+     "acierto": 84.891,
+     "deteccion": 72.829,
+     "falsas": 31.217,
+     "heidke": 0.606,
+     "error_mm": 1.264,
+     "heidke_min90": 0.555,
+     "heidke_max90": 0.654
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1423,
+     "acierto": 74.912,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.601,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 1,
-   "id": "gem_seamless",
-   "modelo": "GEM",
-   "dias": 1070,
-   "acierto": 90.0,
-   "deteccion": 86.207,
-   "falsas": 27.273,
-   "heidke": 0.724,
-   "error_mm": 1.49,
-   "heidke_min90": 0.673,
-   "heidke_max90": 0.772
+   "id": "cataluna",
+   "nombre": "Cataluña",
+   "estaciones": [
+    {
+     "nombre": "Barcelona",
+     "lat": 41.283,
+     "lon": 2.067
+    },
+    {
+     "nombre": "Girona",
+     "lat": 41.9,
+     "lon": 2.767
+    },
+    {
+     "nombre": "Reus",
+     "lat": 41.15,
+     "lon": 1.167
+    }
+   ],
+   "dias": 1068,
+   "dias_lluvia": 227,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1068,
+     "acierto": 82.865,
+     "deteccion": 75.33,
+     "falsas": 42.617,
+     "heidke": 0.541,
+     "error_mm": 2.096,
+     "heidke_min90": 0.479,
+     "heidke_max90": 0.601
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1068,
+     "acierto": 83.801,
+     "deteccion": 70.485,
+     "falsas": 39.85,
+     "heidke": 0.545,
+     "error_mm": 1.9,
+     "heidke_min90": 0.486,
+     "heidke_max90": 0.605
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1068,
+     "acierto": 85.768,
+     "deteccion": 68.722,
+     "falsas": 34.177,
+     "heidke": 0.582,
+     "error_mm": 1.721,
+     "heidke_min90": 0.521,
+     "heidke_max90": 0.641
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1068,
+     "acierto": 86.798,
+     "deteccion": 66.52,
+     "falsas": 30.093,
+     "heidke": 0.598,
+     "error_mm": 2.141,
+     "heidke_min90": 0.538,
+     "heidke_max90": 0.656
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 883,
+     "acierto": 84.258,
+     "deteccion": 75.0,
+     "falsas": 39.485,
+     "heidke": 0.568,
+     "error_mm": 2.439,
+     "heidke_min90": 0.507,
+     "heidke_max90": 0.62
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1068,
+     "acierto": 86.33,
+     "deteccion": 73.128,
+     "falsas": 33.865,
+     "heidke": 0.607,
+     "error_mm": 2.155,
+     "heidke_min90": 0.553,
+     "heidke_max90": 0.66
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1068,
+     "acierto": 87.64,
+     "deteccion": 74.89,
+     "falsas": 30.612,
+     "heidke": 0.641,
+     "error_mm": 1.587,
+     "heidke_min90": 0.589,
+     "heidke_max90": 0.694
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1068,
+     "acierto": 78.745,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 2.221,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1068,
+     "acierto": 82.397,
+     "deteccion": 76.211,
+     "falsas": 43.648,
+     "heidke": 0.534,
+     "error_mm": 2.155,
+     "heidke_min90": 0.478,
+     "heidke_max90": 0.591
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1068,
+     "acierto": 81.273,
+     "deteccion": 66.96,
+     "falsas": 45.126,
+     "heidke": 0.482,
+     "error_mm": 2.204,
+     "heidke_min90": 0.422,
+     "heidke_max90": 0.541
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1068,
+     "acierto": 82.21,
+     "deteccion": 64.758,
+     "falsas": 42.802,
+     "heidke": 0.493,
+     "error_mm": 2.007,
+     "heidke_min90": 0.424,
+     "heidke_max90": 0.555
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1068,
+     "acierto": 80.805,
+     "deteccion": 62.115,
+     "falsas": 45.769,
+     "heidke": 0.455,
+     "error_mm": 2.219,
+     "heidke_min90": 0.387,
+     "heidke_max90": 0.521
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 871,
+     "acierto": 84.271,
+     "deteccion": 70.681,
+     "falsas": 37.5,
+     "heidke": 0.561,
+     "error_mm": 2.378,
+     "heidke_min90": 0.495,
+     "heidke_max90": 0.622
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1068,
+     "acierto": 80.805,
+     "deteccion": 65.639,
+     "falsas": 46.014,
+     "heidke": 0.468,
+     "error_mm": 2.39,
+     "heidke_min90": 0.406,
+     "heidke_max90": 0.53
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1068,
+     "acierto": 84.738,
+     "deteccion": 71.806,
+     "falsas": 37.786,
+     "heidke": 0.568,
+     "error_mm": 1.863,
+     "heidke_min90": 0.51,
+     "heidke_max90": 0.627
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1068,
+     "acierto": 78.745,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 2.221,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 1,
-   "id": "consenso",
-   "modelo": "Consenso (mediana)",
-   "dias": 1070,
-   "acierto": 92.897,
-   "deteccion": 87.069,
-   "falsas": 18.548,
-   "heidke": 0.796,
-   "error_mm": 1.226,
-   "heidke_min90": 0.75,
-   "heidke_max90": 0.84
+   "id": "centro",
+   "nombre": "Madrid y alrededores",
+   "estaciones": [
+    {
+     "nombre": "Madrid",
+     "lat": 40.417,
+     "lon": -3.683
+    },
+    {
+     "nombre": "Guadalajara",
+     "lat": 40.667,
+     "lon": -3.167
+    },
+    {
+     "nombre": "Segovia",
+     "lat": 40.95,
+     "lon": -4.117
+    },
+    {
+     "nombre": "Ávila",
+     "lat": 40.65,
+     "lon": -4.7
+    }
+   ],
+   "dias": 1414,
+   "dias_lluvia": 370,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1414,
+     "acierto": 86.634,
+     "deteccion": 81.892,
+     "falsas": 28.706,
+     "heidke": 0.67,
+     "error_mm": 1.55,
+     "heidke_min90": 0.624,
+     "heidke_max90": 0.712
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1414,
+     "acierto": 86.563,
+     "deteccion": 78.649,
+     "falsas": 27.612,
+     "heidke": 0.662,
+     "error_mm": 1.472,
+     "heidke_min90": 0.615,
+     "heidke_max90": 0.705
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1414,
+     "acierto": 88.048,
+     "deteccion": 78.649,
+     "falsas": 23.622,
+     "heidke": 0.694,
+     "error_mm": 1.424,
+     "heidke_min90": 0.65,
+     "heidke_max90": 0.736
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1414,
+     "acierto": 87.977,
+     "deteccion": 76.486,
+     "falsas": 22.678,
+     "heidke": 0.688,
+     "error_mm": 1.423,
+     "heidke_min90": 0.642,
+     "heidke_max90": 0.732
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1173,
+     "acierto": 84.314,
+     "deteccion": 79.322,
+     "falsas": 34.454,
+     "heidke": 0.611,
+     "error_mm": 1.554,
+     "heidke_min90": 0.555,
+     "heidke_max90": 0.661
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1414,
+     "acierto": 83.31,
+     "deteccion": 81.081,
+     "falsas": 35.622,
+     "heidke": 0.601,
+     "error_mm": 1.823,
+     "heidke_min90": 0.55,
+     "heidke_max90": 0.648
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1414,
+     "acierto": 88.331,
+     "deteccion": 80.541,
+     "falsas": 23.785,
+     "heidke": 0.703,
+     "error_mm": 1.307,
+     "heidke_min90": 0.658,
+     "heidke_max90": 0.749
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1414,
+     "acierto": 73.833,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.846,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1414,
+     "acierto": 86.492,
+     "deteccion": 79.189,
+     "falsas": 28.01,
+     "heidke": 0.661,
+     "error_mm": 1.713,
+     "heidke_min90": 0.613,
+     "heidke_max90": 0.706
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1414,
+     "acierto": 82.673,
+     "deteccion": 78.649,
+     "falsas": 36.324,
+     "heidke": 0.583,
+     "error_mm": 1.774,
+     "heidke_min90": 0.529,
+     "heidke_max90": 0.63
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1414,
+     "acierto": 86.775,
+     "deteccion": 76.757,
+     "falsas": 26.234,
+     "heidke": 0.662,
+     "error_mm": 1.56,
+     "heidke_min90": 0.61,
+     "heidke_max90": 0.71
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1414,
+     "acierto": 84.866,
+     "deteccion": 77.027,
+     "falsas": 31.159,
+     "heidke": 0.623,
+     "error_mm": 1.792,
+     "heidke_min90": 0.568,
+     "heidke_max90": 0.67
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1158,
+     "acierto": 83.247,
+     "deteccion": 77.431,
+     "falsas": 36.648,
+     "heidke": 0.583,
+     "error_mm": 1.733,
+     "heidke_min90": 0.523,
+     "heidke_max90": 0.636
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1414,
+     "acierto": 80.764,
+     "deteccion": 78.919,
+     "falsas": 39.918,
+     "heidke": 0.548,
+     "error_mm": 2.029,
+     "heidke_min90": 0.495,
+     "heidke_max90": 0.596
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1414,
+     "acierto": 86.563,
+     "deteccion": 79.459,
+     "falsas": 27.941,
+     "heidke": 0.663,
+     "error_mm": 1.451,
+     "heidke_min90": 0.612,
+     "heidke_max90": 0.709
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1414,
+     "acierto": 73.833,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.846,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 1,
-   "id": "siempre_seco",
-   "modelo": "Referencia: «siempre seco»",
-   "dias": 1070,
-   "acierto": 78.318,
-   "deteccion": 0.0,
-   "falsas": null,
-   "heidke": 0.0,
-   "error_mm": 2.258,
-   "heidke_min90": 0.0,
-   "heidke_max90": 0.0
+   "id": "la_mancha",
+   "nombre": "Castilla-La Mancha",
+   "estaciones": [
+    {
+     "nombre": "Toledo",
+     "lat": 39.883,
+     "lon": -4.05
+    },
+    {
+     "nombre": "Ciudad Real",
+     "lat": 38.983,
+     "lon": -3.917
+    },
+    {
+     "nombre": "Cuenca",
+     "lat": 40.067,
+     "lon": -2.133
+    },
+    {
+     "nombre": "Albacete",
+     "lat": 38.95,
+     "lon": -1.85
+    }
+   ],
+   "dias": 1425,
+   "dias_lluvia": 337,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1425,
+     "acierto": 89.474,
+     "deteccion": 83.383,
+     "falsas": 25.067,
+     "heidke": 0.719,
+     "error_mm": 1.21,
+     "heidke_min90": 0.676,
+     "heidke_max90": 0.756
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1425,
+     "acierto": 87.158,
+     "deteccion": 76.558,
+     "falsas": 28.729,
+     "heidke": 0.653,
+     "error_mm": 1.297,
+     "heidke_min90": 0.604,
+     "heidke_max90": 0.697
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1425,
+     "acierto": 88.561,
+     "deteccion": 77.448,
+     "falsas": 25.0,
+     "heidke": 0.687,
+     "error_mm": 1.162,
+     "heidke_min90": 0.641,
+     "heidke_max90": 0.727
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1425,
+     "acierto": 89.123,
+     "deteccion": 75.371,
+     "falsas": 22.086,
+     "heidke": 0.695,
+     "error_mm": 1.312,
+     "heidke_min90": 0.65,
+     "heidke_max90": 0.736
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1179,
+     "acierto": 86.938,
+     "deteccion": 79.008,
+     "falsas": 32.353,
+     "heidke": 0.644,
+     "error_mm": 1.174,
+     "heidke_min90": 0.592,
+     "heidke_max90": 0.691
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1425,
+     "acierto": 86.035,
+     "deteccion": 81.602,
+     "falsas": 33.252,
+     "heidke": 0.641,
+     "error_mm": 1.401,
+     "heidke_min90": 0.592,
+     "heidke_max90": 0.684
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1425,
+     "acierto": 90.105,
+     "deteccion": 80.712,
+     "falsas": 21.839,
+     "heidke": 0.729,
+     "error_mm": 1.036,
+     "heidke_min90": 0.685,
+     "heidke_max90": 0.767
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1425,
+     "acierto": 76.351,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.53,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1425,
+     "acierto": 86.947,
+     "deteccion": 73.887,
+     "falsas": 28.242,
+     "heidke": 0.642,
+     "error_mm": 1.245,
+     "heidke_min90": 0.59,
+     "heidke_max90": 0.689
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1425,
+     "acierto": 85.544,
+     "deteccion": 76.261,
+     "falsas": 32.898,
+     "heidke": 0.618,
+     "error_mm": 1.387,
+     "heidke_min90": 0.569,
+     "heidke_max90": 0.664
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1425,
+     "acierto": 86.105,
+     "deteccion": 72.997,
+     "falsas": 30.312,
+     "heidke": 0.621,
+     "error_mm": 1.279,
+     "heidke_min90": 0.57,
+     "heidke_max90": 0.67
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1425,
+     "acierto": 86.667,
+     "deteccion": 80.415,
+     "falsas": 31.392,
+     "heidke": 0.651,
+     "error_mm": 1.453,
+     "heidke_min90": 0.606,
+     "heidke_max90": 0.694
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1163,
+     "acierto": 83.921,
+     "deteccion": 75.093,
+     "falsas": 37.267,
+     "heidke": 0.577,
+     "error_mm": 1.506,
+     "heidke_min90": 0.517,
+     "heidke_max90": 0.635
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1425,
+     "acierto": 83.93,
+     "deteccion": 77.745,
+     "falsas": 37.019,
+     "heidke": 0.588,
+     "error_mm": 1.485,
+     "heidke_min90": 0.537,
+     "heidke_max90": 0.633
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1425,
+     "acierto": 88.982,
+     "deteccion": 79.525,
+     "falsas": 24.719,
+     "heidke": 0.701,
+     "error_mm": 1.05,
+     "heidke_min90": 0.654,
+     "heidke_max90": 0.741
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1425,
+     "acierto": 76.351,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.53,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 3,
-   "id": "ecmwf_ifs025",
-   "modelo": "ECMWF",
-   "dias": 1070,
-   "acierto": 90.093,
-   "deteccion": 86.207,
-   "falsas": 27.007,
-   "heidke": 0.726,
-   "error_mm": 1.7,
-   "heidke_min90": 0.673,
-   "heidke_max90": 0.775
+   "id": "levante",
+   "nombre": "Comunidad Valenciana y Murcia",
+   "estaciones": [
+    {
+     "nombre": "Castellón",
+     "lat": 39.95,
+     "lon": -0.067
+    },
+    {
+     "nombre": "Valencia",
+     "lat": 39.483,
+     "lon": -0.383
+    },
+    {
+     "nombre": "Alicante",
+     "lat": 38.367,
+     "lon": -0.5
+    },
+    {
+     "nombre": "Murcia",
+     "lat": 38.0,
+     "lon": -1.167
+    }
+   ],
+   "dias": 1416,
+   "dias_lluvia": 219,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1416,
+     "acierto": 88.559,
+     "deteccion": 73.059,
+     "falsas": 39.163,
+     "heidke": 0.596,
+     "error_mm": 1.264,
+     "heidke_min90": 0.54,
+     "heidke_max90": 0.646
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1416,
+     "acierto": 88.842,
+     "deteccion": 61.644,
+     "falsas": 35.407,
+     "heidke": 0.565,
+     "error_mm": 1.243,
+     "heidke_min90": 0.502,
+     "heidke_max90": 0.618
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1416,
+     "acierto": 87.712,
+     "deteccion": 59.361,
+     "falsas": 39.535,
+     "heidke": 0.527,
+     "error_mm": 1.187,
+     "heidke_min90": 0.454,
+     "heidke_max90": 0.589
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1416,
+     "acierto": 88.701,
+     "deteccion": 57.991,
+     "falsas": 34.872,
+     "heidke": 0.548,
+     "error_mm": 1.574,
+     "heidke_min90": 0.487,
+     "heidke_max90": 0.6
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1175,
+     "acierto": 88.426,
+     "deteccion": 61.702,
+     "falsas": 35.556,
+     "heidke": 0.562,
+     "error_mm": 1.338,
+     "heidke_min90": 0.493,
+     "heidke_max90": 0.626
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1416,
+     "acierto": 87.853,
+     "deteccion": 62.1,
+     "falsas": 39.556,
+     "heidke": 0.541,
+     "error_mm": 1.386,
+     "heidke_min90": 0.478,
+     "heidke_max90": 0.597
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1416,
+     "acierto": 90.466,
+     "deteccion": 63.014,
+     "falsas": 28.125,
+     "heidke": 0.616,
+     "error_mm": 1.057,
+     "heidke_min90": 0.551,
+     "heidke_max90": 0.674
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1416,
+     "acierto": 84.534,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.559,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1416,
+     "acierto": 85.523,
+     "deteccion": 67.123,
+     "falsas": 47.5,
+     "heidke": 0.503,
+     "error_mm": 1.453,
+     "heidke_min90": 0.444,
+     "heidke_max90": 0.56
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1416,
+     "acierto": 85.381,
+     "deteccion": 62.557,
+     "falsas": 47.71,
+     "heidke": 0.482,
+     "error_mm": 1.59,
+     "heidke_min90": 0.42,
+     "heidke_max90": 0.542
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1416,
+     "acierto": 87.571,
+     "deteccion": 56.621,
+     "falsas": 39.512,
+     "heidke": 0.512,
+     "error_mm": 1.345,
+     "heidke_min90": 0.437,
+     "heidke_max90": 0.573
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1416,
+     "acierto": 84.534,
+     "deteccion": 61.644,
+     "falsas": 50.0,
+     "heidke": 0.46,
+     "error_mm": 1.815,
+     "heidke_min90": 0.399,
+     "heidke_max90": 0.517
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1160,
+     "acierto": 86.293,
+     "deteccion": 58.659,
+     "falsas": 44.737,
+     "heidke": 0.488,
+     "error_mm": 1.759,
+     "heidke_min90": 0.412,
+     "heidke_max90": 0.554
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1416,
+     "acierto": 85.664,
+     "deteccion": 56.621,
+     "falsas": 46.552,
+     "heidke": 0.465,
+     "error_mm": 1.66,
+     "heidke_min90": 0.401,
+     "heidke_max90": 0.521
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1416,
+     "acierto": 88.418,
+     "deteccion": 62.1,
+     "falsas": 37.327,
+     "heidke": 0.555,
+     "error_mm": 1.277,
+     "heidke_min90": 0.494,
+     "heidke_max90": 0.613
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1416,
+     "acierto": 84.534,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.559,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 3,
-   "id": "gfs_seamless",
-   "modelo": "GFS",
-   "dias": 1070,
-   "acierto": 88.505,
-   "deteccion": 78.448,
-   "falsas": 28.627,
-   "heidke": 0.673,
-   "error_mm": 1.594,
-   "heidke_min90": 0.615,
-   "heidke_max90": 0.728
+   "id": "extremadura",
+   "nombre": "Extremadura",
+   "estaciones": [
+    {
+     "nombre": "Cáceres",
+     "lat": 39.467,
+     "lon": -6.333
+    },
+    {
+     "nombre": "Badajoz",
+     "lat": 38.883,
+     "lon": -6.817
+    }
+   ],
+   "dias": 704,
+   "dias_lluvia": 168,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 704,
+     "acierto": 90.909,
+     "deteccion": 85.119,
+     "falsas": 21.429,
+     "heidke": 0.757,
+     "error_mm": 1.359,
+     "heidke_min90": 0.7,
+     "heidke_max90": 0.807
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 704,
+     "acierto": 89.631,
+     "deteccion": 83.333,
+     "falsas": 24.324,
+     "heidke": 0.724,
+     "error_mm": 1.431,
+     "heidke_min90": 0.669,
+     "heidke_max90": 0.774
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 704,
+     "acierto": 90.767,
+     "deteccion": 79.762,
+     "falsas": 18.788,
+     "heidke": 0.744,
+     "error_mm": 1.434,
+     "heidke_min90": 0.686,
+     "heidke_max90": 0.796
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 704,
+     "acierto": 89.773,
+     "deteccion": 69.643,
+     "falsas": 15.217,
+     "heidke": 0.7,
+     "error_mm": 1.457,
+     "heidke_min90": 0.636,
+     "heidke_max90": 0.758
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 586,
+     "acierto": 89.42,
+     "deteccion": 79.452,
+     "falsas": 21.622,
+     "heidke": 0.719,
+     "error_mm": 1.268,
+     "heidke_min90": 0.645,
+     "heidke_max90": 0.777
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 704,
+     "acierto": 90.057,
+     "deteccion": 86.31,
+     "falsas": 24.479,
+     "heidke": 0.739,
+     "error_mm": 1.417,
+     "heidke_min90": 0.682,
+     "heidke_max90": 0.789
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 704,
+     "acierto": 91.335,
+     "deteccion": 83.333,
+     "falsas": 19.075,
+     "heidke": 0.764,
+     "error_mm": 1.208,
+     "heidke_min90": 0.71,
+     "heidke_max90": 0.809
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 704,
+     "acierto": 76.136,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.965,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 704,
+     "acierto": 90.199,
+     "deteccion": 84.524,
+     "falsas": 23.243,
+     "heidke": 0.739,
+     "error_mm": 1.642,
+     "heidke_min90": 0.682,
+     "heidke_max90": 0.791
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 704,
+     "acierto": 89.915,
+     "deteccion": 83.929,
+     "falsas": 23.784,
+     "heidke": 0.732,
+     "error_mm": 1.597,
+     "heidke_min90": 0.677,
+     "heidke_max90": 0.782
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 704,
+     "acierto": 90.199,
+     "deteccion": 77.976,
+     "falsas": 19.632,
+     "heidke": 0.727,
+     "error_mm": 1.435,
+     "heidke_min90": 0.666,
+     "heidke_max90": 0.784
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 704,
+     "acierto": 88.21,
+     "deteccion": 79.167,
+     "falsas": 26.519,
+     "heidke": 0.684,
+     "error_mm": 1.655,
+     "heidke_min90": 0.62,
+     "heidke_max90": 0.741
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 579,
+     "acierto": 85.665,
+     "deteccion": 79.71,
+     "falsas": 33.333,
+     "heidke": 0.63,
+     "error_mm": 1.743,
+     "heidke_min90": 0.556,
+     "heidke_max90": 0.695
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 704,
+     "acierto": 85.938,
+     "deteccion": 77.381,
+     "falsas": 31.937,
+     "heidke": 0.63,
+     "error_mm": 1.629,
+     "heidke_min90": 0.564,
+     "heidke_max90": 0.693
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 704,
+     "acierto": 89.773,
+     "deteccion": 83.929,
+     "falsas": 24.194,
+     "heidke": 0.729,
+     "error_mm": 1.364,
+     "heidke_min90": 0.671,
+     "heidke_max90": 0.78
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 704,
+     "acierto": 76.136,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.965,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 3,
-   "id": "icon_seamless",
-   "modelo": "ICON",
-   "dias": 1070,
-   "acierto": 90.093,
-   "deteccion": 74.138,
-   "falsas": 21.101,
-   "heidke": 0.702,
-   "error_mm": 1.672,
-   "heidke_min90": 0.648,
-   "heidke_max90": 0.755
+   "id": "andalucia_occidental",
+   "nombre": "Andalucía occidental",
+   "estaciones": [
+    {
+     "nombre": "Sevilla",
+     "lat": 37.417,
+     "lon": -5.9
+    },
+    {
+     "nombre": "Huelva",
+     "lat": 37.283,
+     "lon": -6.917
+    },
+    {
+     "nombre": "Jerez",
+     "lat": 36.75,
+     "lon": -6.067
+    },
+    {
+     "nombre": "Málaga",
+     "lat": 36.667,
+     "lon": -4.483
+    }
+   ],
+   "dias": 1419,
+   "dias_lluvia": 289,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1419,
+     "acierto": 91.543,
+     "deteccion": 86.851,
+     "falsas": 24.625,
+     "heidke": 0.753,
+     "error_mm": 1.454,
+     "heidke_min90": 0.71,
+     "heidke_max90": 0.793
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1419,
+     "acierto": 91.332,
+     "deteccion": 83.737,
+     "falsas": 23.899,
+     "heidke": 0.742,
+     "error_mm": 1.549,
+     "heidke_min90": 0.701,
+     "heidke_max90": 0.782
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1419,
+     "acierto": 91.191,
+     "deteccion": 76.125,
+     "falsas": 20.29,
+     "heidke": 0.724,
+     "error_mm": 1.486,
+     "heidke_min90": 0.674,
+     "heidke_max90": 0.769
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1419,
+     "acierto": 91.05,
+     "deteccion": 82.353,
+     "falsas": 24.204,
+     "heidke": 0.733,
+     "error_mm": 1.374,
+     "heidke_min90": 0.686,
+     "heidke_max90": 0.779
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1177,
+     "acierto": 90.484,
+     "deteccion": 82.716,
+     "falsas": 25.83,
+     "heidke": 0.721,
+     "error_mm": 1.6,
+     "heidke_min90": 0.67,
+     "heidke_max90": 0.768
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1419,
+     "acierto": 89.57,
+     "deteccion": 80.969,
+     "falsas": 28.44,
+     "heidke": 0.693,
+     "error_mm": 1.666,
+     "heidke_min90": 0.645,
+     "heidke_max90": 0.743
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1419,
+     "acierto": 92.107,
+     "deteccion": 85.121,
+     "falsas": 21.905,
+     "heidke": 0.765,
+     "error_mm": 1.299,
+     "heidke_min90": 0.722,
+     "heidke_max90": 0.805
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1419,
+     "acierto": 79.634,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 2.084,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1419,
+     "acierto": 90.204,
+     "deteccion": 78.547,
+     "falsas": 25.329,
+     "heidke": 0.704,
+     "error_mm": 1.553,
+     "heidke_min90": 0.654,
+     "heidke_max90": 0.751
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1419,
+     "acierto": 88.724,
+     "deteccion": 71.972,
+     "falsas": 27.526,
+     "heidke": 0.651,
+     "error_mm": 1.658,
+     "heidke_min90": 0.595,
+     "heidke_max90": 0.704
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1419,
+     "acierto": 89.077,
+     "deteccion": 68.858,
+     "falsas": 24.621,
+     "heidke": 0.652,
+     "error_mm": 1.628,
+     "heidke_min90": 0.594,
+     "heidke_max90": 0.705
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1419,
+     "acierto": 89.993,
+     "deteccion": 75.087,
+     "falsas": 24.39,
+     "heidke": 0.691,
+     "error_mm": 1.563,
+     "heidke_min90": 0.638,
+     "heidke_max90": 0.74
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1162,
+     "acierto": 89.071,
+     "deteccion": 76.596,
+     "falsas": 28.571,
+     "heidke": 0.67,
+     "error_mm": 1.703,
+     "heidke_min90": 0.604,
+     "heidke_max90": 0.725
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1419,
+     "acierto": 89.147,
+     "deteccion": 76.125,
+     "falsas": 27.869,
+     "heidke": 0.672,
+     "error_mm": 1.829,
+     "heidke_min90": 0.615,
+     "heidke_max90": 0.725
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1419,
+     "acierto": 91.473,
+     "deteccion": 77.509,
+     "falsas": 20.0,
+     "heidke": 0.734,
+     "error_mm": 1.356,
+     "heidke_min90": 0.685,
+     "heidke_max90": 0.781
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1419,
+     "acierto": 79.634,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 2.084,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 3,
-   "id": "meteofrance_seamless",
-   "modelo": "Météo-France",
-   "dias": 1070,
-   "acierto": 90.093,
-   "deteccion": 76.293,
-   "falsas": 22.368,
-   "heidke": 0.706,
-   "error_mm": 1.541,
-   "heidke_min90": 0.649,
-   "heidke_max90": 0.762
+   "id": "andalucia_oriental",
+   "nombre": "Andalucía oriental",
+   "estaciones": [
+    {
+     "nombre": "Jaén",
+     "lat": 37.783,
+     "lon": -3.8
+    },
+    {
+     "nombre": "Córdoba",
+     "lat": 37.85,
+     "lon": -4.85
+    },
+    {
+     "nombre": "Granada",
+     "lat": 37.183,
+     "lon": -3.783
+    },
+    {
+     "nombre": "Almería",
+     "lat": 36.85,
+     "lon": -2.383
+    }
+   ],
+   "dias": 1427,
+   "dias_lluvia": 267,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1427,
+     "acierto": 91.871,
+     "deteccion": 87.266,
+     "falsas": 26.032,
+     "heidke": 0.75,
+     "error_mm": 1.322,
+     "heidke_min90": 0.709,
+     "heidke_max90": 0.792
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1427,
+     "acierto": 90.68,
+     "deteccion": 83.521,
+     "falsas": 28.526,
+     "heidke": 0.712,
+     "error_mm": 1.307,
+     "heidke_min90": 0.665,
+     "heidke_max90": 0.758
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1427,
+     "acierto": 91.731,
+     "deteccion": 78.277,
+     "falsas": 22.305,
+     "heidke": 0.729,
+     "error_mm": 1.178,
+     "heidke_min90": 0.684,
+     "heidke_max90": 0.772
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1427,
+     "acierto": 90.329,
+     "deteccion": 69.288,
+     "falsas": 23.237,
+     "heidke": 0.67,
+     "error_mm": 1.461,
+     "heidke_min90": 0.621,
+     "heidke_max90": 0.718
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1179,
+     "acierto": 89.398,
+     "deteccion": 79.909,
+     "falsas": 31.641,
+     "heidke": 0.671,
+     "error_mm": 1.18,
+     "heidke_min90": 0.618,
+     "heidke_max90": 0.724
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1427,
+     "acierto": 90.049,
+     "deteccion": 83.146,
+     "falsas": 30.408,
+     "heidke": 0.696,
+     "error_mm": 1.29,
+     "heidke_min90": 0.649,
+     "heidke_max90": 0.741
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1427,
+     "acierto": 92.922,
+     "deteccion": 83.895,
+     "falsas": 20.567,
+     "heidke": 0.772,
+     "error_mm": 1.048,
+     "heidke_min90": 0.73,
+     "heidke_max90": 0.815
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1427,
+     "acierto": 81.289,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.849,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1427,
+     "acierto": 90.399,
+     "deteccion": 83.895,
+     "falsas": 29.56,
+     "heidke": 0.706,
+     "error_mm": 1.444,
+     "heidke_min90": 0.657,
+     "heidke_max90": 0.754
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1427,
+     "acierto": 88.648,
+     "deteccion": 75.281,
+     "falsas": 32.323,
+     "heidke": 0.642,
+     "error_mm": 1.395,
+     "heidke_min90": 0.589,
+     "heidke_max90": 0.693
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1427,
+     "acierto": 90.47,
+     "deteccion": 71.536,
+     "falsas": 23.904,
+     "heidke": 0.679,
+     "error_mm": 1.402,
+     "heidke_min90": 0.627,
+     "heidke_max90": 0.73
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1427,
+     "acierto": 90.049,
+     "deteccion": 73.408,
+     "falsas": 26.592,
+     "heidke": 0.673,
+     "error_mm": 1.325,
+     "heidke_min90": 0.617,
+     "heidke_max90": 0.72
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1163,
+     "acierto": 88.306,
+     "deteccion": 78.774,
+     "falsas": 35.271,
+     "heidke": 0.638,
+     "error_mm": 1.422,
+     "heidke_min90": 0.577,
+     "heidke_max90": 0.695
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1427,
+     "acierto": 88.297,
+     "deteccion": 76.404,
+     "falsas": 33.766,
+     "heidke": 0.637,
+     "error_mm": 1.513,
+     "heidke_min90": 0.583,
+     "heidke_max90": 0.683
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1427,
+     "acierto": 92.011,
+     "deteccion": 79.775,
+     "falsas": 21.978,
+     "heidke": 0.74,
+     "error_mm": 1.157,
+     "heidke_min90": 0.691,
+     "heidke_max90": 0.788
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1427,
+     "acierto": 81.289,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.849,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 3,
-   "id": "ukmo_seamless",
-   "modelo": "UKMO",
-   "dias": 872,
-   "acierto": 87.729,
-   "deteccion": 81.72,
-   "falsas": 32.444,
-   "heidke": 0.66,
-   "error_mm": 1.658,
-   "heidke_min90": 0.593,
-   "heidke_max90": 0.72
+   "id": "baleares",
+   "nombre": "Baleares",
+   "estaciones": [
+    {
+     "nombre": "Palma",
+     "lat": 39.55,
+     "lon": 2.733
+    },
+    {
+     "nombre": "Menorca",
+     "lat": 39.867,
+     "lon": 4.233
+    },
+    {
+     "nombre": "Ibiza",
+     "lat": 38.867,
+     "lon": 1.383
+    }
+   ],
+   "dias": 1071,
+   "dias_lluvia": 202,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1071,
+     "acierto": 87.021,
+     "deteccion": 72.277,
+     "falsas": 36.245,
+     "heidke": 0.597,
+     "error_mm": 1.488,
+     "heidke_min90": 0.537,
+     "heidke_max90": 0.657
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1071,
+     "acierto": 88.142,
+     "deteccion": 72.277,
+     "falsas": 32.719,
+     "heidke": 0.623,
+     "error_mm": 1.483,
+     "heidke_min90": 0.564,
+     "heidke_max90": 0.678
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1071,
+     "acierto": 87.302,
+     "deteccion": 67.327,
+     "falsas": 33.981,
+     "heidke": 0.588,
+     "error_mm": 1.458,
+     "heidke_min90": 0.529,
+     "heidke_max90": 0.644
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1071,
+     "acierto": 88.422,
+     "deteccion": 62.871,
+     "falsas": 27.841,
+     "heidke": 0.602,
+     "error_mm": 1.571,
+     "heidke_min90": 0.542,
+     "heidke_max90": 0.658
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 885,
+     "acierto": 83.842,
+     "deteccion": 61.667,
+     "falsas": 40.0,
+     "heidke": 0.506,
+     "error_mm": 1.824,
+     "heidke_min90": 0.43,
+     "heidke_max90": 0.569
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1071,
+     "acierto": 87.021,
+     "deteccion": 61.386,
+     "falsas": 32.973,
+     "heidke": 0.562,
+     "error_mm": 1.548,
+     "heidke_min90": 0.5,
+     "heidke_max90": 0.625
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1071,
+     "acierto": 88.982,
+     "deteccion": 68.812,
+     "falsas": 28.351,
+     "heidke": 0.634,
+     "error_mm": 1.292,
+     "heidke_min90": 0.573,
+     "heidke_max90": 0.691
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1071,
+     "acierto": 81.139,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.762,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1071,
+     "acierto": 84.967,
+     "deteccion": 68.317,
+     "falsas": 41.277,
+     "heidke": 0.538,
+     "error_mm": 1.631,
+     "heidke_min90": 0.478,
+     "heidke_max90": 0.597
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1071,
+     "acierto": 85.061,
+     "deteccion": 64.356,
+     "falsas": 40.367,
+     "heidke": 0.526,
+     "error_mm": 1.785,
+     "heidke_min90": 0.461,
+     "heidke_max90": 0.588
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1071,
+     "acierto": 84.22,
+     "deteccion": 58.911,
+     "falsas": 41.951,
+     "heidke": 0.487,
+     "error_mm": 1.533,
+     "heidke_min90": 0.422,
+     "heidke_max90": 0.55
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1071,
+     "acierto": 84.967,
+     "deteccion": 57.426,
+     "falsas": 39.267,
+     "heidke": 0.498,
+     "error_mm": 1.775,
+     "heidke_min90": 0.426,
+     "heidke_max90": 0.567
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 873,
+     "acierto": 81.443,
+     "deteccion": 50.847,
+     "falsas": 45.455,
+     "heidke": 0.411,
+     "error_mm": 1.972,
+     "heidke_min90": 0.336,
+     "heidke_max90": 0.485
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1071,
+     "acierto": 83.38,
+     "deteccion": 50.99,
+     "falsas": 43.407,
+     "heidke": 0.436,
+     "error_mm": 1.691,
+     "heidke_min90": 0.367,
+     "heidke_max90": 0.504
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1071,
+     "acierto": 87.021,
+     "deteccion": 59.901,
+     "falsas": 32.402,
+     "heidke": 0.557,
+     "error_mm": 1.503,
+     "heidke_min90": 0.489,
+     "heidke_max90": 0.625
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1071,
+     "acierto": 81.139,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 1.762,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   },
   {
-   "antelacion": 3,
-   "id": "gem_seamless",
-   "modelo": "GEM",
-   "dias": 1070,
-   "acierto": 88.131,
-   "deteccion": 80.603,
-   "falsas": 30.483,
-   "heidke": 0.67,
-   "error_mm": 1.758,
-   "heidke_min90": 0.611,
-   "heidke_max90": 0.724
-  },
-  {
-   "antelacion": 3,
-   "id": "consenso",
-   "modelo": "Consenso (mediana)",
-   "dias": 1070,
-   "acierto": 91.776,
-   "deteccion": 82.759,
-   "falsas": 20.0,
-   "heidke": 0.761,
-   "error_mm": 1.361,
-   "heidke_min90": 0.707,
-   "heidke_max90": 0.81
-  },
-  {
-   "antelacion": 3,
-   "id": "siempre_seco",
-   "modelo": "Referencia: «siempre seco»",
-   "dias": 1070,
-   "acierto": 78.318,
-   "deteccion": 0.0,
-   "falsas": null,
-   "heidke": 0.0,
-   "error_mm": 2.258,
-   "heidke_min90": 0.0,
-   "heidke_max90": 0.0
+   "id": "canarias",
+   "nombre": "Canarias",
+   "estaciones": [
+    {
+     "nombre": "Tenerife Norte",
+     "lat": 28.467,
+     "lon": -16.317
+    },
+    {
+     "nombre": "Tenerife Sur",
+     "lat": 28.05,
+     "lon": -16.567
+    },
+    {
+     "nombre": "Gran Canaria",
+     "lat": 27.933,
+     "lon": -15.383
+    },
+    {
+     "nombre": "Lanzarote",
+     "lat": 28.95,
+     "lon": -13.6
+    }
+   ],
+   "dias": 1419,
+   "dias_lluvia": 148,
+   "resultados": [
+    {
+     "antelacion": 1,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1419,
+     "acierto": 87.174,
+     "deteccion": 69.595,
+     "falsas": 57.083,
+     "heidke": 0.461,
+     "error_mm": 0.782,
+     "heidke_min90": 0.395,
+     "heidke_max90": 0.518
+    },
+    {
+     "antelacion": 1,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1419,
+     "acierto": 91.191,
+     "deteccion": 39.189,
+     "falsas": 37.634,
+     "heidke": 0.436,
+     "error_mm": 0.563,
+     "heidke_min90": 0.353,
+     "heidke_max90": 0.513
+    },
+    {
+     "antelacion": 1,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1419,
+     "acierto": 91.332,
+     "deteccion": 35.135,
+     "falsas": 34.177,
+     "heidke": 0.416,
+     "error_mm": 0.573,
+     "heidke_min90": 0.335,
+     "heidke_max90": 0.494
+    },
+    {
+     "antelacion": 1,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1419,
+     "acierto": 90.557,
+     "deteccion": 22.973,
+     "falsas": 37.037,
+     "heidke": 0.297,
+     "error_mm": 0.535,
+     "heidke_min90": 0.227,
+     "heidke_max90": 0.366
+    },
+    {
+     "antelacion": 1,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1172,
+     "acierto": 85.836,
+     "deteccion": 75.591,
+     "falsas": 58.442,
+     "heidke": 0.461,
+     "error_mm": 0.819,
+     "heidke_min90": 0.401,
+     "heidke_max90": 0.526
+    },
+    {
+     "antelacion": 1,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1419,
+     "acierto": 89.852,
+     "deteccion": 54.054,
+     "falsas": 48.718,
+     "heidke": 0.47,
+     "error_mm": 0.605,
+     "heidke_min90": 0.398,
+     "heidke_max90": 0.533
+    },
+    {
+     "antelacion": 1,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1419,
+     "acierto": 93.235,
+     "deteccion": 50.0,
+     "falsas": 22.917,
+     "heidke": 0.571,
+     "error_mm": 0.481,
+     "heidke_min90": 0.497,
+     "heidke_max90": 0.637
+    },
+    {
+     "antelacion": 1,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1419,
+     "acierto": 89.57,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 0.615,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    },
+    {
+     "antelacion": 3,
+     "id": "ecmwf_ifs025",
+     "modelo": "ECMWF",
+     "dias": 1419,
+     "acierto": 86.963,
+     "deteccion": 72.297,
+     "falsas": 57.371,
+     "heidke": 0.466,
+     "error_mm": 0.876,
+     "heidke_min90": 0.411,
+     "heidke_max90": 0.518
+    },
+    {
+     "antelacion": 3,
+     "id": "gfs_seamless",
+     "modelo": "GFS",
+     "dias": 1419,
+     "acierto": 90.557,
+     "deteccion": 37.838,
+     "falsas": 42.857,
+     "heidke": 0.406,
+     "error_mm": 0.557,
+     "heidke_min90": 0.334,
+     "heidke_max90": 0.479
+    },
+    {
+     "antelacion": 3,
+     "id": "icon_seamless",
+     "modelo": "ICON",
+     "dias": 1419,
+     "acierto": 90.557,
+     "deteccion": 35.135,
+     "falsas": 42.222,
+     "heidke": 0.389,
+     "error_mm": 0.596,
+     "heidke_min90": 0.311,
+     "heidke_max90": 0.458
+    },
+    {
+     "antelacion": 3,
+     "id": "meteofrance_seamless",
+     "modelo": "Météo-France",
+     "dias": 1419,
+     "acierto": 90.839,
+     "deteccion": 22.973,
+     "falsas": 32.0,
+     "heidke": 0.307,
+     "error_mm": 0.537,
+     "heidke_min90": 0.234,
+     "heidke_max90": 0.375
+    },
+    {
+     "antelacion": 3,
+     "id": "ukmo_seamless",
+     "modelo": "UKMO",
+     "dias": 1156,
+     "acierto": 85.986,
+     "deteccion": 76.068,
+     "falsas": 60.09,
+     "heidke": 0.451,
+     "error_mm": 0.775,
+     "heidke_min90": 0.386,
+     "heidke_max90": 0.511
+    },
+    {
+     "antelacion": 3,
+     "id": "gem_seamless",
+     "modelo": "GEM",
+     "dias": 1419,
+     "acierto": 90.98,
+     "deteccion": 59.459,
+     "falsas": 43.59,
+     "heidke": 0.528,
+     "error_mm": 0.584,
+     "heidke_min90": 0.459,
+     "heidke_max90": 0.592
+    },
+    {
+     "antelacion": 3,
+     "id": "consenso",
+     "modelo": "Consenso (mediana)",
+     "dias": 1419,
+     "acierto": 92.953,
+     "deteccion": 49.324,
+     "falsas": 25.51,
+     "heidke": 0.557,
+     "error_mm": 0.486,
+     "heidke_min90": 0.483,
+     "heidke_max90": 0.621
+    },
+    {
+     "antelacion": 3,
+     "id": "siempre_seco",
+     "modelo": "Referencia: «siempre seco»",
+     "dias": 1419,
+     "acierto": 89.57,
+     "deteccion": 0.0,
+     "falsas": null,
+     "heidke": 0.0,
+     "error_mm": 0.615,
+     "heidke_min90": 0.0,
+     "heidke_max90": 0.0
+    }
+   ]
   }
  ]
 }
