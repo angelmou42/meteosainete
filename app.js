@@ -37,6 +37,7 @@ const state = {
   view: "temp",   // pestaña activa de la matriz: temp | rain | wind
   sel: 0,         // índice del día seleccionado
   place: null,    // { lat, lon, label } de la ciudad actual
+  page: "forecast", // pestaña principal: forecast | map
   mapModel: MAP_MODELS[0].product, // modelo elegido en el mapa de Windy
 };
 
@@ -393,9 +394,9 @@ function renderMapTabs() {
   ).join("");
 }
 
-// Actualiza el iframe solo si la sección está abierta y la URL ha cambiado.
+// Actualiza el iframe solo si la pestaña de mapas está visible y la URL ha cambiado.
 function updateMap() {
-  if (!$("mapbox").open || !state.place) return;
+  if (state.page !== "map" || !state.place) return;
   const src = windyUrl(state.place, state.mapModel);
   const frame = $("windy");
   // Comparamos con la última URL guardada: frame.src la devuelve normalizada y no coincidiría.
@@ -403,6 +404,22 @@ function updateMap() {
     frame.dataset.url = src;
     frame.src = src;
   }
+}
+
+/* ---------- Pestañas principales ----------
+ * La pestaña activa se refleja en la URL (#mapa), así se puede compartir
+ * un enlace directo a los mapas y el botón "atrás" del navegador funciona. */
+
+function pageFromHash() {
+  return location.hash === "#mapa" ? "map" : "forecast";
+}
+
+function showPage(page) {
+  state.page = page;
+  $("page-forecast").hidden = page !== "forecast";
+  $("page-map").hidden = page !== "map";
+  $("views").querySelectorAll(".view-tab").forEach((t) => t.setAttribute("aria-selected", String(t.dataset.page === page)));
+  updateMap();
 }
 
 /* ---------- Estados de la interfaz ---------- */
@@ -427,6 +444,7 @@ function errorMessage(err) {
 async function load(place) {
   state.place = place;
   $("place").textContent = place.label;
+  updateMap(); // el mapa no depende de Open-Meteo: se actualiza aunque la predicción falle
   showStatus("loading");
   try {
     state.data = await fetchForecast(place.lat, place.lon);
@@ -439,7 +457,6 @@ async function load(place) {
   savePlace(place);
   showStatus("content");
   render();
-  updateMap();
 }
 
 /* ---------- Eventos ---------- */
@@ -454,8 +471,17 @@ $("tabs").addEventListener("click", (e) => {
   renderMatrix();
 });
 
-// Mapa: al abrir la sección se carga el iframe; al pulsar un modelo se cambia.
-$("mapbox").addEventListener("toggle", updateMap);
+// Pestañas principales: cambiar el hash dispara "hashchange", que muestra la página.
+$("views").addEventListener("click", (e) => {
+  const tab = e.target.closest(".view-tab");
+  if (!tab) return;
+  const hash = tab.dataset.page === "map" ? "#mapa" : "";
+  if (location.hash !== hash) location.hash = hash;
+  else showPage(tab.dataset.page);
+});
+window.addEventListener("hashchange", () => showPage(pageFromHash()));
+
+// Mapa: al pulsar un modelo se recarga el iframe con ese modelo.
 $("map-tabs").addEventListener("click", (e) => {
   const tab = e.target.closest(".tab");
   if (!tab) return;
@@ -499,4 +525,6 @@ $("search").addEventListener("submit", async (e) => {
 
 // Arranque: última ciudad guardada o Arjona.
 renderMapTabs();
+state.page = pageFromHash();
 load(readSavedPlace() || DEFAULT_PLACE);
+showPage(state.page);

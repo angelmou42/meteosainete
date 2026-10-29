@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css">
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="style.css?v=3">
+  <script src="app.js?v=3" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -25,61 +25,64 @@
   </header>
   <div class="results" id="results" aria-live="polite"></div>
 
-  <!-- Estado de carga y de error: solo uno de los tres bloques (carga, error, contenido) está visible -->
-  <p class="status" id="loading">Cargando predicciones…</p>
-  <div class="error" id="error" role="alert" hidden>
-    <p id="error-msg"></p>
-    <button type="button" id="retry">Reintentar</button>
+  <!-- Pestañas principales: comparativa de modelos o mapas de lluvia (enlazable con #mapa) -->
+  <nav class="views" role="tablist" id="views" aria-label="Vista">
+    <button type="button" class="view-tab" role="tab" data-page="forecast" aria-selected="true">Comparativa</button>
+    <button type="button" class="view-tab" role="tab" data-page="map" aria-selected="false">Mapas de lluvia</button>
+  </nav>
+
+  <div id="page-forecast">
+    <!-- Estado de carga y de error: solo uno de los tres bloques (carga, error, contenido) está visible -->
+    <p class="status" id="loading">Cargando predicciones…</p>
+    <div class="error" id="error" role="alert" hidden>
+      <p id="error-msg"></p>
+      <button type="button" id="retry">Reintentar</button>
+    </div>
+
+    <main id="content" hidden>
+      <section>
+        <div class="sec-head">
+          <h2 id="strip-title">Consenso de 6 modelos</h2>
+          <span class="label">Máx / mín · lluvia · fiabilidad</span>
+        </div>
+        <div class="strip" id="strip"></div>
+      </section>
+
+      <section>
+        <div class="sec-head">
+          <h2>Qué dice cada modelo</h2>
+          <div class="tabs" role="tablist" id="tabs">
+            <button class="tab" role="tab" aria-selected="true" data-v="temp">Temperatura</button>
+            <button class="tab" role="tab" aria-selected="false" data-v="rain">Lluvia</button>
+            <button class="tab" role="tab" aria-selected="false" data-v="wind">Viento</button>
+          </div>
+        </div>
+        <div class="tablewrap"><table id="matrix"></table></div>
+        <p class="note" id="matrix-note" hidden><span class="est">≈ 30 %</span> = estimación a partir de los mm: ese modelo no publica probabilidad de lluvia. No cuenta para el consenso.</p>
+      </section>
+
+      <section>
+        <div class="sec-head">
+          <h2 id="chart-title">Temperatura hora a hora</h2>
+          <span class="label">La banda gris es el rango entre modelos</span>
+        </div>
+        <div class="chartbox">
+          <svg id="chart" viewBox="0 0 720 260" width="100%" role="img" aria-label="Temperatura por horas según cada modelo"></svg>
+        </div>
+        <div class="legend" id="legend"></div>
+      </section>
+    </main>
   </div>
 
-  <main id="content" hidden>
-    <section>
-      <div class="sec-head">
-        <h2 id="strip-title">Consenso de 6 modelos</h2>
-        <span class="label">Máx / mín · lluvia · fiabilidad</span>
-      </div>
-      <div class="strip" id="strip"></div>
-    </section>
-
-    <section>
-      <div class="sec-head">
-        <h2>Qué dice cada modelo</h2>
-        <div class="tabs" role="tablist" id="tabs">
-          <button class="tab" role="tab" aria-selected="true" data-v="temp">Temperatura</button>
-          <button class="tab" role="tab" aria-selected="false" data-v="rain">Lluvia</button>
-          <button class="tab" role="tab" aria-selected="false" data-v="wind">Viento</button>
-        </div>
-      </div>
-      <div class="tablewrap"><table id="matrix"></table></div>
-      <p class="note" id="matrix-note" hidden><span class="est">≈ 30 %</span> = estimación a partir de los mm: ese modelo no publica probabilidad de lluvia. No cuenta para el consenso.</p>
-    </section>
-
-    <section>
-      <div class="sec-head">
-        <h2 id="chart-title">Temperatura hora a hora</h2>
-        <span class="label">La banda gris es el rango entre modelos</span>
-      </div>
-      <div class="chartbox">
-        <svg id="chart" viewBox="0 0 720 260" width="100%" role="img" aria-label="Temperatura por horas según cada modelo"></svg>
-      </div>
-      <div class="legend" id="legend"></div>
-    </section>
-
-    <!-- Mapa de Windy: plegado por defecto; el iframe solo se carga al abrirlo (pesa bastante) -->
-    <section>
-      <details class="mapbox" id="mapbox">
-        <summary>
-          <span class="map-title">Mapa de lluvia por modelo</span>
-          <span class="label">Abrir mapa</span>
-        </summary>
-        <div class="map-body">
-          <div class="tabs" role="tablist" id="map-tabs"></div>
-          <div class="map-frame"><iframe id="windy" title="Mapa de lluvia de Windy"></iframe></div>
-          <p class="note">Mapa de <a href="https://www.windy.com/" target="_blank" rel="noopener">Windy</a>. Usa la línea de tiempo de abajo para ver cómo se mueve la lluvia.</p>
-        </div>
-      </details>
-    </section>
-  </main>
+  <!-- Mapas de Windy: el iframe solo se carga la primera vez que se abre esta pestaña (pesa bastante) -->
+  <section id="page-map" hidden>
+    <div class="sec-head">
+      <h2>Lluvia prevista según cada modelo</h2>
+      <div class="tabs" role="tablist" id="map-tabs"></div>
+    </div>
+    <div class="map-frame"><iframe id="windy" title="Mapa de lluvia de Windy"></iframe></div>
+    <p class="note">Mapa de <a href="https://www.windy.com/" target="_blank" rel="noopener">Windy</a>. Pulsa ▶ o arrastra la línea de tiempo para ver cómo se mueve la lluvia en los próximos días.</p>
+  </section>
 
   <footer>
     <p>

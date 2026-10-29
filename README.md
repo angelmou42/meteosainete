@@ -15,8 +15,8 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 - **Gráfico hora a hora** del día elegido: una línea por modelo, una banda gris
   con el rango entre modelos y la mediana discontinua.
 - **Mapa de lluvia por modelo** (ECMWF, GFS e ICON-EU) incrustado de
-  [Windy](https://www.windy.com/), en una sección plegable que solo se carga
-  al abrirla.
+  [Windy](https://www.windy.com/), en su propia pestaña "Mapas de lluvia"
+  (enlace directo: `#mapa`). Solo se carga al abrir esa pestaña.
 - Recuerda la **última ciudad** buscada (localStorage). La primera vez se
   abre en Arjona (Jaén).
 
@@ -58,6 +58,9 @@ Comprobado con datos reales (octubre de 2026): todos publican
   Open-Meteo saldría pixelado y gastaría cientos de llamadas por visita. El
   iframe de Windy da la rejilla completa de cada modelo sin gastar cuota, y
   se carga solo cuando el usuario lo pide para no ralentizar la web.
+- **Versiones en CSS y JS** (`style.css?v=3`). GitHub Pages deja que el
+  navegador guarde los archivos 10 minutos; al cambiar el número tras cada
+  cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos.
 - **Sin dependencias ni compilación.** HTML, CSS y JavaScript a pelo: se abre
   tal cual y se publica en GitHub Pages sin configuración.
 
