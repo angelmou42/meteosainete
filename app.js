@@ -258,7 +258,7 @@ function cell(o, i) {
   if (!isNum(o.tmax[i])) return `<td class="na" title="Sin datos para este día">—</td>`;
   switch (state.view) {
     case "temp":
-      return `<td style="background:${tempBg(o.tmax[i])}">${fmt(o.tmax[i])}°<span class="na"> / ${fmt(o.tmin[i])}°</span></td>`;
+      return `<td style="background:${tempBg(o.tmax[i])}">${o.icon ? iconSvg(o.icon[i], 22) : ""}${fmt(o.tmax[i])}°<span class="na"> / ${fmt(o.tmin[i])}°</span></td>`;
     case "rain": {
       const r = o.rain[i];
       return `<td style="background:${rainBg(r)}">${probHtml(o, i)}<span class="rmm">${fmt(r, r >= 0.1 ? 1 : 0)} mm</span><span class="rlab">${rainLabel(r)}</span></td>`;
@@ -277,12 +277,15 @@ function renderMatrix() {
   for (const m of MODELS) {
     // Solo se estima la probabilidad si el modelo no la publica en ningún día.
     const o = { ...d.m[m.id], estimable: !publishesProb(d.m[m.id]) };
+    // Icono de cada día según ese modelo solo (skyIcon con un único modelo): así se ve si discrepan.
+    if (state.view === "temp") o.icon = d.dates.map((_, i) => skyIcon({ m: { [m.id]: d.m[m.id] }, sun: d.sun }, i));
     if (o.estimable && o.rain.some(isNum)) estimated = true;
     html += `<tr><th><div class="mname"><i style="background:var(${m.c})"></i>${m.name}</div><div class="morigin">${m.origin}</div></th>${d.dates.map((_, i) => cell(o, i)).join("")}</tr>`;
   }
 
   // Fila de consenso: misma forma que un modelo para reutilizar cell().
   const cons = { tmax: [], tmin: [], rain: [], prob: [], wind: [], estimable: false };
+  if (state.view === "temp") cons.icon = d.dates.map((_, i) => skyIcon(d, i));
   d.dates.forEach((_, i) => {
     const c = consensus(state.data, i);
     for (const k of ["tmax", "tmin", "rain", "prob", "wind"]) cons[k].push(c[k]);

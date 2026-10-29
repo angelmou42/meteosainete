@@ -44,6 +44,7 @@ const maps = {
   model: "ecmwf_ifs025",  // modelo del mapa propio (id de Open-Meteo)
   windyModel: "ecmwf",    // modelo del mapa de Windy
   t: null,                // índice de la hora elegida (0 = hoy a las 00:00); null = hora actual
+  sel: null,              // día de la Comparativa con el que se abrió el mapa (para seguirlo)
   grid: null,             // datos de la rejilla del modelo y ciudad actuales
   cache: new Map(),       // rejillas ya descargadas en esta visita, por "modelo|lat|lon"
   request: 0,             // contador para descartar respuestas de peticiones antiguas
@@ -264,6 +265,7 @@ async function showOwnMap() {
     if (maps.placeKey !== placeKey) {
       maps.placeKey = placeKey;
       maps.t = null;
+      maps.sel = null;
       fitMapToGrid(place);
       const ink = getComputedStyle(document.documentElement).getPropertyValue("--ink").trim();
       if (maps.marker) maps.marker.remove();
@@ -273,7 +275,11 @@ async function showOwnMap() {
     const grid = await getGrid(place, maps.model);
     if (request !== maps.request) return; // el usuario ya pidió otra cosa mientras tanto
     maps.grid = grid;
-    if (maps.t == null) maps.t = currentIndex(grid);
+    // Hora inicial: la actual; o, si en la Comparativa se eligió otro día, ese día a mediodía.
+    if (maps.t == null || maps.sel !== state.sel) {
+      maps.t = state.sel ? state.sel * 24 + 13 : currentIndex(grid); // marca 13:00 = lluvia de 12 a 13 h
+      maps.sel = state.sel;
+    }
     maps.t = Math.min(maps.t, grid.times.length - 1);
     renderTimeControls();
     drawRain();

@@ -28,7 +28,8 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
   cuántos modelos la dan; los secos solo dicen "Seco". En el móvil es una
   lista vertical.
 - **Tabla modelo × día** con pestañas Temperatura / Lluvia / Viento y una fila
-  final de consenso.
+  final de consenso. En Temperatura, cada celda lleva el icono que da ese
+  modelo, para ver de un vistazo si discrepan.
 - **Gráfico hora a hora** del día elegido, interactivo (ratón o dedo), con
   tres pestañas:
   - *Temperatura*: una línea por modelo, una banda gris con el rango entre
@@ -39,7 +40,8 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
   - *Viento*: como la temperatura, con el viento medio de cada modelo.
 - **Mapas de lluvia** en su propia pestaña (enlace directo: `#mapa`):
   - **Por día y hora**: mapa propio con los 6 modelos, botones de día y una
-    barra de hora. Al pulsar un punto muestra los mm previstos.
+    barra de hora. Al pulsar un punto muestra los mm previstos. Si en la
+    Comparativa se eligió un día, el mapa se abre en ese día a mediodía.
   - **Windy animado**: mapa incrustado de [Windy](https://www.windy.com/)
     (ECMWF, GFS e ICON-EU), con más detalle pero con su propia línea de tiempo.
 - **Acierto de cada modelo** con la lluvia (pestaña "Acierto", enlace
@@ -190,7 +192,7 @@ descarta al que se desvía, así que la web mantiene la mediana normal.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=21`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=22`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al
