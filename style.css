@@ -100,6 +100,17 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .c-media { color: var(--warn); }
 .c-baja { color: var(--bad); }
 
+/* Frase resumen de la lluvia (encima de la franja) */
+.headline {
+  margin: 0; padding: 10px 14px; border-radius: 10px; background: var(--surface);
+  border: 1px solid var(--line); border-left: 4px solid var(--muted); font-size: 1rem;
+}
+.headline b { font-family: var(--display); font-stretch: 112%; font-weight: 600; }
+.headline.t-dry { border-left-color: var(--ok); }
+.headline.t-rain { border-left-color: var(--accent); }
+.headline.t-doubt { border-left-color: var(--warn); }
+.rain .when { color: var(--ink); }
+
 /* ---------- Matriz modelo × día ---------- */
 .tabs { display: flex; flex-wrap: wrap; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
 .tab { background: transparent; color: var(--muted); border: 0; padding: 5px 11px; font-weight: 600; font-size: .86rem; }
@@ -135,6 +146,7 @@ svg text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .82rem; }
 .legend span { display: flex; align-items: center; gap: 6px; }
 .legend i { width: 14px; height: 3px; border-radius: 2px; }
+.legend i.sq { width: 14px; height: 10px; }
 
 /* ---------- Pestañas principales (Comparativa / Mapas de lluvia) ---------- */
 .views { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: -8px; overflow-x: auto; scrollbar-width: none; }

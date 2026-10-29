@@ -8,19 +8,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=10">
   <!-- Módulos ES. El mapa de importación añade la versión (?v=) a cada archivo
        para que, tras publicar cambios, el navegador no use copias antiguas en caché. -->
   <script type="importmap">
     {
       "imports": {
-        "./core.js": "./core.js?v=9",
-        "./map.js": "./map.js?v=9",
-        "./acierto.js": "./acierto.js?v=9"
+        "./core.js": "./core.js?v=10",
+        "./map.js": "./map.js?v=10",
+        "./acierto.js": "./acierto.js?v=10"
       }
     }
   </script>
-  <script type="module" src="app.js?v=9"></script>
+  <script type="module" src="app.js?v=10"></script>
 </head>
 <body>
 <div class="wrap">
@@ -63,6 +63,8 @@
           <h2 id="strip-title">Consenso de 6 modelos</h2>
           <span class="label">Máx / mín · lluvia · fiabilidad</span>
         </div>
+        <!-- Resumen en palabras de la lluvia del día seleccionado -->
+        <p class="headline" id="headline" aria-live="polite"></p>
         <div class="strip" id="strip"></div>
       </section>
 
@@ -82,8 +84,12 @@
       <section>
         <div class="sec-head">
           <h2 id="chart-title">Temperatura hora a hora</h2>
-          <span class="label">La banda gris es el rango entre modelos</span>
+          <div class="tabs" role="tablist" id="chart-tabs" aria-label="Gráfico">
+            <button class="tab" role="tab" aria-selected="true" data-c="temp">Temperatura</button>
+            <button class="tab" role="tab" aria-selected="false" data-c="rain">Lluvia</button>
+          </div>
         </div>
+        <p class="note" id="chart-note">La banda gris es el rango entre modelos; la línea discontinua, la mediana.</p>
         <div class="chartbox">
           <svg id="chart" viewBox="0 0 720 260" width="100%" role="img" aria-label="Temperatura por horas según cada modelo"></svg>
         </div>

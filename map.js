@@ -9,7 +9,7 @@
  *
  * app.js solo usa initMaps() y updateMaps(); el resto se exporta para los tests.
  */
-import { $, MODELS, dayName, fetchJson, fmt, isNum, state } from "./core.js";
+import { $, MODELS, RAIN_SCALE, dayName, fetchJson, fmt, isNum, rainColor, state } from "./core.js";
 
 /* ---------- Configuración ---------- */
 
@@ -30,18 +30,6 @@ const LEAFLET = {
 const GRID = { rows: 8, cols: 16, step: 0.35 };
 const GRID_CACHE_MS = 60 * 60 * 1000; // las rejillas guardadas valen 1 hora (los modelos se actualizan cada pocas horas)
 const CELL_PX = 32; // píxeles por celda al pintar (la interpolación suaviza entre puntos)
-
-// Escala de lluvia en mm por hora. Por debajo del primer valor no se pinta nada.
-const RAIN_SCALE = [
-  { mm: 0.1, rgba: [160, 210, 255, 0.3] },
-  { mm: 0.5, rgba: [90, 165, 255, 0.55] },
-  { mm: 1,   rgba: [40, 110, 240, 0.7] },
-  { mm: 2,   rgba: [30, 185, 120, 0.75] },
-  { mm: 4,   rgba: [245, 205, 40, 0.8] },
-  { mm: 8,   rgba: [245, 125, 30, 0.85] },
-  { mm: 16,  rgba: [220, 40, 60, 0.9] },
-  { mm: 30,  rgba: [170, 40, 200, 0.9] },
-];
 
 // Modelos del mapa de Windy (`product` es el nombre que usa Windy en su URL).
 const WINDY_MODELS = [
@@ -291,13 +279,6 @@ function mapErrorMessage(err) {
 }
 
 /* ---------- Mapa propio: dibujo ---------- */
-
-// Color para un valor de lluvia, o null si no llega al mínimo.
-export function rainColor(mm) {
-  let found = null;
-  for (const step of RAIN_SCALE) if (mm >= step.mm) found = step.rgba;
-  return found;
-}
 
 /* Pinta la lluvia de la hora elegida en un <canvas> y lo coloca sobre el mapa.
  * Entre puntos de la rejilla se usa interpolación bilineal (media ponderada de

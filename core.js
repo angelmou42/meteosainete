@@ -25,6 +25,7 @@ const DAY_NAMES = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
 export const state = {
   data: null,       // datos normalizados (ver fetchForecast en app.js)
   view: "temp",     // pestaña activa de la matriz: temp | rain | wind
+  chart: "temp",    // gráfico horario: temp | rain
   sel: 0,           // índice del día seleccionado
   place: null,      // { lat, lon, label } de la ciudad actual
   page: "forecast", // pestaña principal: forecast | map | accuracy
@@ -135,4 +136,118 @@ export function consensus(data, i) {
     wind: median(col("wind")),
     spread, wet, n, level,
   };
+}
+
+/* ---------- Lluvia por horas ---------- */
+
+// Escala de lluvia en mm por hora (la usan el mapa y el gráfico). Por debajo del primer valor no se pinta.
+export const RAIN_SCALE = [
+  { mm: 0.1, rgba: [160, 210, 255, 0.3] },
+  { mm: 0.5, rgba: [90, 165, 255, 0.55] },
+  { mm: 1,   rgba: [40, 110, 240, 0.7] },
+  { mm: 2,   rgba: [30, 185, 120, 0.75] },
+  { mm: 4,   rgba: [245, 205, 40, 0.8] },
+  { mm: 8,   rgba: [245, 125, 30, 0.85] },
+  { mm: 16,  rgba: [220, 40, 60, 0.9] },
+  { mm: 30,  rgba: [170, 40, 200, 0.9] },
+];
+
+// Color [r, g, b, a] para un valor de lluvia, o null si no llega al mínimo.
+export function rainColor(mm) {
+  let found = null;
+  for (const step of RAIN_SCALE) if (mm >= step.mm) found = step.rgba;
+  return found;
+}
+
+/* Lluvia de cada hora del día i según cada modelo: una fila por modelo (orden
+ * de MODELS) con 24 franjas, la franja k va de las k a las k+1 h.
+ * Open-Meteo marca cada valor con la hora en que termina, así que la franja k
+ * es la marca i*24 + k + 1 (la de 00–01 h es la marca de la 01:00). */
+export function hourlyRain(data, i) {
+  return MODELS.map((m) => {
+    const arr = data.m[m.id]?.hrain || [];
+    return Array.from({ length: 24 }, (_, k) => {
+      const v = arr[i * 24 + k + 1];
+      return isNum(v) ? v : null;
+    });
+  });
+}
+
+/* Resumen de cada franja horaria: mediana, mínimo y máximo entre modelos, y si
+ * "llueve": más de la mitad de los modelos con datos dan 0,1 mm o más (con un
+ * empate, la mediana podría ser 0 y la web diría "sin lluvia" a la vez). */
+export function rainSlots(rows) {
+  return Array.from({ length: 24 }, (_, k) => {
+    const vals = nums(rows.map((r) => r[k]));
+    const wet = vals.filter((v) => v >= 0.1).length;
+    return {
+      median: median(vals),
+      min: vals.length ? Math.min(...vals) : null,
+      max: vals.length ? Math.max(...vals) : null,
+      n: vals.length,
+      wet,
+      rainy: wet * 2 > vals.length,
+    };
+  });
+}
+
+/* Tramos seguidos de lluvia a partir de la franja `from`: [[desde, hasta], …] en horas.
+ * Una sola hora seca entre dos tramos los une: "de 15 a 20 h" se lee mejor
+ * que "de 15 a 17 h y de 18 a 20 h". */
+export function rainPeriods(slots, from = 0) {
+  const periods = [];
+  let start = null;
+  for (let k = from; k <= 24; k++) {
+    const rainy = k < 24 && slots[k].rainy;
+    if (rainy && start === null) start = k;
+    if (!rainy && start !== null) {
+      const last = periods[periods.length - 1];
+      if (last && start - last[1] <= 1) last[1] = k;
+      else periods.push([start, k]);
+      start = null;
+    }
+  }
+  return periods;
+}
+
+// "de 15 a 19 h", "de 6 a 9 h y de 15 a 19 h", "todo el día"…
+export function formatPeriods(periods, short = false) {
+  if (!periods.length) return "";
+  if (periods.length === 1 && periods[0][0] === 0 && periods[0][1] === 24) return "todo el día";
+  if (short) return periods.length > 2 ? "a ratos" : periods.map(([a, b]) => `${a}–${b} h`).join(" y ");
+  const parts = periods.map(([a, b]) => `de ${a} a ${b} h`);
+  return parts.length === 1 ? parts[0] : parts.slice(0, -1).join(", ") + " y " + parts[parts.length - 1];
+}
+
+/* Frase resumen de la lluvia del día i, para leer de un vistazo:
+ *   "Lluvia débil de 15 a 19 h. 5 de 6 modelos dan algo de lluvia."
+ * `from` es la primera franja a tener en cuenta (para hoy, la hora actual:
+ * la lluvia que ya pasó no interesa). Devuelve { text, tone } con tone
+ * "dry" (seco), "rain" (lluvia clara) o "doubt" (los modelos no se ponen de acuerdo). */
+export function daySummary(data, i, from = 0) {
+  const active = MODELS.map((m) => data.m[m.id]).filter((o) => o && hasDay(o, i));
+  if (!active.length) return { text: "Sin datos para este día.", tone: "doubt" };
+  const rows = hourlyRain(data, i);
+  const slots = rainSlots(rows);
+  const periods = rainPeriods(slots, from);
+
+  // Lluvia de cada modelo desde la franja `from` hasta el final del día (para hoy, la que queda).
+  // Solo cuentan los modelos que llegan a este día (los mismos que en el consenso).
+  const totals = rows
+    .filter((_, r) => hasDay(data.m[MODELS[r].id] || { tmax: [] }, i))
+    .map((r) => nums(r.slice(from)).reduce((a, b) => a + b, 0));
+  const n = totals.length;
+  const wetModels = totals.filter((v) => v >= 0.1).length;
+  // Aquí cuenta cualquier lluvia (≥ 0,1 mm); el "Lo dan X de N" de las tarjetas cuenta solo ≥ 1 mm.
+  const agreement = wetModels === n ? `Los ${n} modelos dan lluvia.` : `${wetModels} de ${n} modelos dan algo de lluvia.`;
+
+  if (periods.length) {
+    const label = rainLabel(median(totals));
+    const what = { llovizna: "Llovizna", débil: "Lluvia débil", moderada: "Lluvia moderada", fuerte: "Lluvia fuerte", "muy fuerte": "Lluvia muy fuerte" }[label] || "Algo de lluvia";
+    return { text: `${what} ${formatPeriods(periods)}. ${agreement}`, tone: wetModels * 3 >= n * 2 ? "rain" : "doubt" };
+  }
+  if (from > 0 && rainPeriods(slots).length) return { text: "No se espera más lluvia hoy.", tone: "dry" };
+  if (wetModels === 0) return { text: `Sin lluvia. Los ${n} modelos están de acuerdo.`, tone: "dry" };
+  if (wetModels * 2 > n) return { text: `Algo de lluvia débil, sin hora clara: ${agreement[0].toLowerCase()}${agreement.slice(1)}`, tone: "doubt" };
+  return { text: `Probablemente seco, aunque ${wetModels} de ${n} modelos dan algo de lluvia.`, tone: "doubt" };
 }

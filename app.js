@@ -5,7 +5,8 @@
  * y el gráfico horario. Las utilidades y el cálculo del consenso están en
  * core.js; los mapas de lluvia en map.js y la pestaña de acierto en acierto.js.
  */
-import { $, MODELS, consensus, dayName, estimateProb, fetchJson, fmt, isNum, median, nums, publishesProb, rainLabel, state } from "./core.js";
+import { $, MODELS, RAIN_SCALE, consensus, daySummary, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNum,
+  median, nums, publishesProb, rainColor, rainLabel, rainPeriods, rainSlots, state } from "./core.js";
 import { initMaps, updateMaps } from "./map.js";
 import { initAccuracy, showAccuracy } from "./acierto.js";
 
@@ -69,7 +70,7 @@ function placeToUrl(place) {
 /* Pide todos los modelos en una sola llamada. Con varios modelos, Open-Meteo
  * devuelve cada variable con sufijo: temperature_2m_max_ecmwf_ifs025, etc.
  * Aquí lo reorganizamos por modelo para que el resto del código sea simple:
- *   { dates, m: { ecmwf_ifs025: { tmax, tmin, rain, prob, wind, hourly }, ... } }
+ *   { dates, offset, m: { ecmwf_ifs025: { tmax, tmin, rain, prob, wind, hourly, hrain }, ... } }
  * Los días fuera del alcance de un modelo llegan como null. */
 async function fetchForecast(lat, lon) {
   const params = new URLSearchParams({
@@ -78,7 +79,7 @@ async function fetchForecast(lat, lon) {
     timezone: "auto",
     forecast_days: 7,
     daily: "temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max",
-    hourly: "temperature_2m",
+    hourly: "temperature_2m,precipitation",
     models: MODELS.map((m) => m.id).join(","),
   });
   const j = await fetchJson("https://api.open-meteo.com/v1/forecast?" + params);
@@ -88,7 +89,8 @@ async function fetchForecast(lat, lon) {
   // Si una variable no viene, la rellenamos con null para no romper el render.
   const pick = (block, name, len, id) => j[block][`${name}_${id}`] || Array(len).fill(null);
 
-  const out = { dates: j.daily.time, m: {} };
+  // offset: desfase horario de la ciudad (segundos), para saber qué hora es allí.
+  const out = { dates: j.daily.time, offset: j.utc_offset_seconds, m: {} };
   for (const { id } of MODELS) {
     const hours = j.hourly.time.length;
     out.m[id] = {
@@ -98,6 +100,7 @@ async function fetchForecast(lat, lon) {
       prob: pick("daily", "precipitation_probability_max", days, id),
       wind: pick("daily", "wind_speed_10m_max", days, id),
       hourly: pick("hourly", "temperature_2m", hours, id),
+      hrain: pick("hourly", "precipitation", hours, id), // mm caídos en la hora anterior a cada marca
     };
   }
   return out;
@@ -111,7 +114,12 @@ function renderStrip() {
   state.data.dates.forEach((iso, i) => {
     const c = consensus(state.data, i);
     const probTxt = isNum(c.prob) ? `<b class="pct">${fmt(c.prob)} %</b> de lluvia · ` : "";
-    const rainTxt = c.rain >= 0.1 ? `${fmt(c.rain, 1)} mm, ${rainLabel(c.rain)}` : "sin lluvia";
+    // Horas de lluvia del día (por ejemplo "15–19 h"), cuando más de la mitad de los modelos la dan.
+    const when = formatPeriods(rainPeriods(rainSlots(hourlyRain(state.data, i))), true);
+    // El total diario de Open-Meteo va de 23 a 23 h y las franjas de 0 a 24 h: si la lluvia cae
+    // justo al final del día, el total puede salir 0 aunque haya horas de lluvia.
+    const rainTxt = c.rain >= 0.1 ? `${fmt(c.rain, 1)} mm, ${rainLabel(c.rain)}` : when ? "algo de lluvia" : "sin lluvia";
+    const whenTxt = when ? ` · <span class="when">${when}</span>` : "";
 
     const b = document.createElement("button");
     b.type = "button";
@@ -120,12 +128,26 @@ function renderStrip() {
     b.innerHTML = `
       <span class="dname">${dayName(iso, i)}</span>
       <span class="temps">${fmt(c.tmax)}°<small> / ${fmt(c.tmin)}°</small></span>
-      <span class="rain">${probTxt}${rainTxt}<br>Lo dan ${c.wet} de ${c.n} modelos</span>
+      <span class="rain">${probTxt}${rainTxt}${whenTxt}<br>Lo dan ${c.wet} de ${c.n} modelos</span>
       <span class="chip c-${c.level}">Fiabilidad ${c.level}</span>`;
     b.addEventListener("click", () => { state.sel = i; render(); });
     el.appendChild(b);
   });
   $("strip-title").textContent = `Consenso de ${MODELS.length} modelos`;
+}
+
+// Hora actual (0–23) en la zona horaria de la ciudad.
+function localHour() {
+  return new Date(Date.now() + (state.data.offset || 0) * 1000).getUTCHours();
+}
+
+// Frase resumen del día seleccionado. Para hoy solo cuenta la lluvia que queda por venir.
+function renderHeadline() {
+  const i = state.sel;
+  const { text, tone } = daySummary(state.data, i, i === 0 ? localHour() : 0);
+  const el = $("headline");
+  el.className = `headline t-${tone}`;
+  el.innerHTML = `<b>${dayName(state.data.dates[i], i)}:</b> ${text}`;
 }
 
 // Texto de probabilidad para una celda de la pestaña Lluvia.
@@ -191,13 +213,26 @@ function linePath(points) {
   return d;
 }
 
+// Gráfico del día seleccionado: temperatura o lluvia según la pestaña.
 function renderChart() {
+  const name = dayName(state.data.dates[state.sel], state.sel).toLowerCase();
+  const rain = state.chart === "rain";
+  $("chart-title").textContent = `${rain ? "Lluvia" : "Temperatura"} hora a hora · ${name}`;
+  $("chart-note").textContent = rain
+    ? "Barras: mediana de los modelos (la raya va del que menos al que más da). Debajo, la lluvia de cada modelo hora a hora."
+    : "La banda gris es el rango entre modelos; la línea discontinua, la mediana.";
+  if (rain) renderRainChart();
+  else renderTempChart();
+}
+
+function renderTempChart() {
   const svg = $("chart");
   const d = state.data;
   const i = state.sel;
   const W = 720, H = 260, L = 36, R = 12, T = 14, B = 28; // tamaño y márgenes
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("aria-label", "Temperatura por horas según cada modelo");
 
-  $("chart-title").textContent = "Temperatura hora a hora · " + dayName(d.dates[i], i).toLowerCase();
   $("legend").innerHTML = MODELS.map((m) => `<span><i style="background:var(${m.c})"></i>${m.name}</span>`).join("")
     + `<span><i style="background:var(--ink)"></i>Mediana</span>`;
 
@@ -244,7 +279,82 @@ function renderChart() {
   svg.innerHTML = g;
 }
 
+/* Lluvia por horas: arriba, barras con la mediana de los modelos y una raya
+ * del mínimo al máximo; debajo, una fila por modelo con cada hora coloreada
+ * según los mm (como un mapa de calor), para ver si coinciden en el "cuándo". */
+function renderRainChart() {
+  const svg = $("chart");
+  const rows = hourlyRain(state.data, state.sel);
+  const slots = rainSlots(rows);
+  const W = 720, L = 92, R = 12, T = 14, BARS = 110, GAP = 26, ROW = 17, B = 24;
+  const H = T + BARS + GAP + ROW * MODELS.length + B;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("aria-label", "Lluvia por horas según cada modelo");
+
+  const cw = (W - L - R) / 24; // ancho de cada franja horaria
+  const x = (k) => L + k * cw;
+  const maxVal = Math.max(0, ...slots.map((s) => s.max ?? 0));
+  const top = [1, 2, 5, 10, 20, 50].find((v) => v >= maxVal) || Math.ceil(maxVal); // escala "redonda"
+  const y = (mm) => T + BARS - (mm / top) * BARS;
+  const rgba = (c) => `rgba(${c.join(",")})`;
+  const tip = (k) => `${k}–${k + 1} h`;
+
+  let g = "";
+  // Rejilla y eje de mm.
+  for (const v of [0, top / 2, top]) {
+    g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/>`;
+    g += `<text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${fmt(v, v % 1 ? 1 : 0)} mm</text>`;
+  }
+  // Barras de la mediana y raya del rango entre modelos.
+  slots.forEach((s, k) => {
+    if (!s.n) return;
+    const cx = x(k) + cw / 2;
+    if (s.median >= 0.05) {
+      const color = rainColor(s.median);
+      const fill = color ? rgba([...color.slice(0, 3), 0.9]) : "var(--accent)";
+      g += `<rect x="${x(k) + 2}" y="${y(s.median)}" width="${cw - 4}" height="${y(0) - y(s.median)}" rx="2" fill="${fill}">` +
+        `<title>${tip(k)}: ${fmt(s.median, 1)} mm (mediana)</title></rect>`;
+    }
+    if (s.max >= 0.1) {
+      g += `<line x1="${cx}" x2="${cx}" y1="${y(s.max)}" y2="${y(s.min)}" stroke="var(--ink)" stroke-width="1.5" stroke-opacity=".6"/>`;
+    }
+  });
+
+  // Una fila por modelo: cada hora coloreada según los mm.
+  const rowsTop = T + BARS + GAP;
+  MODELS.forEach((m, r) => {
+    const yy = rowsTop + r * ROW;
+    g += `<text x="${L - 6}" y="${yy + ROW / 2 + 4}" text-anchor="end">${m.name}</text>`;
+    if (!rows[r].some(isNum)) {
+      g += `<text x="${(L + W - R) / 2}" y="${yy + ROW / 2 + 4}" text-anchor="middle">sin datos (no llega a este día)</text>`;
+      return;
+    }
+    rows[r].forEach((v, k) => {
+      const color = isNum(v) ? rainColor(v) : null;
+      const fill = color ? rgba(color) : "var(--line)";
+      const opacity = v == null ? 0.12 : color ? 1 : 0.35; // sin datos, seco o con lluvia
+      const label = v == null ? "sin datos" : `${fmt(v, 1)} mm`;
+      g += `<rect x="${x(k) + 1}" y="${yy + 1}" width="${cw - 2}" height="${ROW - 3}" rx="2" fill="${fill}" fill-opacity="${opacity}">` +
+        `<title>${m.name} · ${tip(k)}: ${label}</title></rect>`;
+    });
+  });
+
+  // Horas en el eje inferior (en los bordes de las franjas).
+  for (let k = 0; k <= 24; k += 3) {
+    g += `<text x="${x(k)}" y="${H - 6}" text-anchor="middle">${k}h</text>`;
+  }
+  if (maxVal < 0.1) {
+    g += `<text x="${(L + W - R) / 2}" y="${T + BARS / 2}" text-anchor="middle">Ningún modelo da lluvia este día</text>`;
+  }
+  svg.innerHTML = g;
+
+  $("legend").innerHTML = RAIN_SCALE.map(({ mm, rgba: c }) =>
+    `<span><i class="sq" style="background:${rgba(c)}"></i>${fmt(mm, mm < 1 ? 1 : 0)}</span>`
+  ).join("") + "<span>mm en la hora</span>";
+}
+
 function render() {
+  renderHeadline();
   renderStrip();
   renderMatrix();
   renderChart();
@@ -320,6 +430,15 @@ $("tabs").addEventListener("click", (e) => {
   state.view = tab.dataset.v;
   $("tabs").querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
   renderMatrix();
+});
+
+// Pestañas del gráfico: temperatura o lluvia.
+$("chart-tabs").addEventListener("click", (e) => {
+  const tab = e.target.closest(".tab");
+  if (!tab) return;
+  state.chart = tab.dataset.c;
+  $("chart-tabs").querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+  renderChart();
 });
 
 // Pestañas principales: cambiar el hash dispara "hashchange", que muestra la página.

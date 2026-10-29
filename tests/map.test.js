@@ -1,7 +1,8 @@
 // Tests de las funciones puras del mapa de lluvia (map.js).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { bilinear, currentIndex, gridBounds, hourRange, rainColor } from "../map.js";
+import { rainColor } from "../core.js";
+import { bilinear, currentIndex, gridBounds, hourRange } from "../map.js";
 
 test("bilinear: devuelve las esquinas y la media en el centro", () => {
   // Esquinas: a (suroeste), b (sureste), d (noroeste), e (noreste).
