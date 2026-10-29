@@ -366,7 +366,12 @@ function readLast(place) {
   }
 }
 
+// Contador de cargas: si el usuario cambia de ciudad antes de que llegue la
+// respuesta anterior, esa respuesta vieja se descarta y no pisa a la nueva.
+let loadCount = 0;
+
 async function load(place) {
+  const request = ++loadCount;
   state.place = place;
   $("place").textContent = place.label;
   placeToUrl(place);
@@ -375,9 +380,12 @@ async function load(place) {
   showStatus("loading");
   $("stale").hidden = true;
   try {
-    state.data = await fetchForecast(place.lat, place.lon);
+    const data = await fetchForecast(place.lat, place.lon);
+    if (request !== loadCount) return; // llegó tarde: ya se pidió otra ciudad
+    state.data = data;
     saveLast(place, state.data);
   } catch (err) {
+    if (request !== loadCount) return;
     console.error(err);
     const last = readLast(place);
     if (!last) {
