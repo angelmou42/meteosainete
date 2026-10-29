@@ -10,7 +10,7 @@ import { $, MODELS, RAIN_SCALE, consensus, daySummary, dayName, estimateProb, fe
 import { ICON_LABELS, iconSvg } from "./icons.js";
 import { initPlaces, notePlace } from "./places.js";
 import { initMaps, setMapTheme, updateMaps } from "./map.js";
-import { initAccuracy, showAccuracy } from "./acierto.js";
+import { initAccuracy, loadResults, rainChanceFor, showAccuracy } from "./acierto.js";
 
 /* ---------- Configuración ---------- */
 
@@ -173,7 +173,7 @@ function renderNow() {
       </div>
     </div>
     <div class="now-side">
-      <p class="now-summary t-${tone}">${text}</p>
+      <p class="now-summary t-${tone}">${text} ${chanceText(c, 0)}</p>
       <p class="now-facts">
         <span>Hoy <b>${fmt(c.tmax)}°</b> / ${fmt(c.tmin)}°</span>
         <span>Viento hasta <b>${fmt(c.wind)}</b> km/h</span>
@@ -210,6 +210,17 @@ function nextHours(d, h) {
   return html;
 }
 
+/* Frase extra con lo que dice el estudio de acierto: cuando X de N modelos dan
+ * lluvia, cuántas veces llovió de verdad en la zona. Hoy y mañana usan la tabla
+ * de 1 día de antelación; los días siguientes, la de 3 días. */
+function chanceText(c, i) {
+  if (!c.wet || !c.n) return "";
+  const r = rainChanceFor(state.place, i <= 1 ? 1 : 3, c.wet, c.n);
+  if (!r) return "";
+  return `<span class="chance">Días como este (${c.wet} de ${c.n} modelos con 1 mm o más) acabaron con lluvia ` +
+    `el ${fmt(r.pct)} % de las veces ${r.zone ? "en esta zona" : "en España"}.</span>`;
+}
+
 // Frase resumen del día elegido (para hoy ya está en el bloque "Ahora").
 function renderHeadline() {
   const i = state.sel, el = $("headline");
@@ -217,7 +228,7 @@ function renderHeadline() {
   if (i === 0) return;
   const { text, tone } = daySummary(state.data, i, 0);
   el.className = `headline t-${tone}`;
-  el.innerHTML = `<b>${dayName(state.data.dates[i], i)}:</b> ${text}`;
+  el.innerHTML = `<b>${dayName(state.data.dates[i], i)}:</b> ${text} ${chanceText(consensus(state.data, i), i)}`;
 }
 
 // Texto de probabilidad para una celda de la pestaña Lluvia.
@@ -596,6 +607,9 @@ async function load(place) {
   notePlace(place); // recientes y estrella de favorita
   showStatus("content");
   render();
+  // Los resultados del estudio llegan después (no hacen falta para ver el tiempo): al llegar,
+  // se repintan las frases con "en esta zona llueve el X % de las veces".
+  loadResults().then(() => { if (state.place === place) { renderNow(); renderHeadline(); } }).catch(() => {});
 }
 
 /* ---------- Eventos ---------- */

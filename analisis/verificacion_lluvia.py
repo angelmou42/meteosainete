@@ -269,12 +269,14 @@ def main() -> None:
     zones = [("espana", "Toda España", STATIONS), *((rid, name, st) for rid, (name, st) in REGIONS.items())]
     regions_out, csv_rows = [], []
     for rid, rname, stations in zones:
-        rows = []
+        rows, agreement = [], []
         for lead in LEADS:
             per_model = {m: pairs_for(stations, m, lead, window) for m in MODELS}
 
             # Consenso: mediana de los modelos con datos ese día (lo que muestra la web).
+            # De paso se cuenta cuántos modelos daban lluvia (≥ 1 mm) y si al final llovió.
             consensus = []
+            agree: dict[int, list[int]] = {}  # modelos que la daban (en sextos) → [días, días que llovió]
             for s in stations:
                 h = hourly[s]
                 dailies = [daily_sums(h["time"], h[f"precipitation_previous_day{lead}_{m}"], *window) for m in MODELS]
@@ -282,6 +284,13 @@ def main() -> None:
                     vals = [dd[d] for dd in dailies if dd.get(d) is not None]
                     if len(vals) >= 4:
                         consensus.append((statistics.median(vals), o, d))
+                        # Con 5 o 4 modelos (días sin Météo-France o UKMO) se pasa a "de 6" redondeando.
+                        k = round(6 * sum(v >= RAIN_MM for v in vals) / len(vals))
+                        cell = agree.setdefault(k, [0, 0])
+                        cell[0] += 1
+                        cell[1] += o >= RAIN_MM
+            agreement += [{"antelacion": lead, "modelos": k, "dias": n, "llovio_pct": 100 * wet / n}
+                          for k, (n, wet) in sorted(agree.items())]
 
             always_dry = [(0.0, o, d) for _, o, d in consensus]
             for key, name, pairs in [*((m, MODELS[m], p) for m, p in per_model.items()),
@@ -299,6 +308,8 @@ def main() -> None:
             "id": rid, "nombre": rname,
             "estaciones": [{"nombre": n, "lat": la, "lon": lo} for n, la, lo in stations.values()],
             "dias": total, "dias_lluvia": rainy, "resultados": rows,
+            # "Lo dan X de 6 modelos": cuántas veces llovió de verdad según cuántos modelos la daban.
+            "lo_dan": agreement,
         })
         csv_rows += [{"zona": rid, **r} for r in rows]
 
@@ -306,6 +317,7 @@ def main() -> None:
         lead1 = sorted((r for r in rows if r["antelacion"] == 1 and r["id"] != "siempre_seco"), key=lambda r: -r["heidke"])
         print(f"\n{rname}: {total} días, {rainy} con lluvia ({100 * rainy / max(total, 1):.0f} %)")
         print("  " + " · ".join(f"{r['modelo'].replace(' (mediana)', '')} {r['heidke']:.2f}" for r in lead1))
+        print("  Lo dan X de 6 → llovió: " + " · ".join(f"{a['modelos']}: {a['llovio_pct']:.0f} % ({a['dias']})" for a in agreement if a["antelacion"] == 1))
 
     out = Path(__file__).parent / "resultados.csv"
     with out.open("w", newline="", encoding="utf-8") as f:
@@ -318,6 +330,7 @@ def main() -> None:
     clean = lambda v: None if isinstance(v, float) and v != v else (round(v, 3) if isinstance(v, float) else v)
     for region in regions_out:
         region["resultados"] = [{k: clean(v) for k, v in r.items()} for r in region["resultados"]]
+        region["lo_dan"] = [{k: clean(v) for k, v in r.items()} for r in region["lo_dan"]]
     summary = {
         "periodo": [START.isoformat(), END.isoformat()],
         "umbral_mm": RAIN_MM,

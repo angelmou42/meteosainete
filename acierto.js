@@ -19,16 +19,45 @@ const accuracy = {
   zone: "auto",   // zona elegida en el desplegable: "auto" = la más cercana a la ciudad
 };
 
+// Descarga resultados.json una sola vez (lo usan la pestaña y las frases de la Comparativa).
+export async function loadResults() {
+  accuracy.loading ??= fetchJson("analisis/resultados.json").catch((err) => { accuracy.loading = null; throw err; });
+  accuracy.data = await accuracy.loading;
+  return accuracy.data;
+}
+
+/* "Lo dan X de N modelos": con qué frecuencia llovió de verdad (≥ 1 mm) en el
+ * estudio cuando esa parte de los modelos daban lluvia. `table` es lo_dan de
+ * una zona; con 4 o 5 modelos se pasa a "de 6" igual que en el análisis.
+ * Devuelve el porcentaje, o null si hay menos de `minDays` días con ese reparto. */
+export function chanceOfRain(table, lead, wet, n, minDays = 20) {
+  if (!table || !n) return null;
+  const k = Math.round((6 * wet) / n);
+  const row = table.find((r) => r.antelacion === lead && r.modelos === k);
+  return row && row.dias >= minDays ? row.llovio_pct : null;
+}
+
+/* Porcentaje para un sitio: el de su zona si hay bastantes días con ese reparto
+ * (80), y si no el de toda España, que es más estable. Devuelve { pct, zone }
+ * (zone = true si es de la zona) o null si aún no se han cargado los resultados. */
+export function rainChanceFor(place, lead, wet, n) {
+  if (!accuracy.data) return null;
+  const { region } = pickRegion(accuracy.data.regiones, place);
+  const spain = accuracy.data.regiones.find((r) => r.id === "espana");
+  const local = region.id !== "espana" ? chanceOfRain(region.lo_dan, lead, wet, n, 80) : null;
+  if (local != null) return { pct: local, zone: true };
+  const all = chanceOfRain(spain.lo_dan, lead, wet, n);
+  return all == null ? null : { pct: all, zone: false };
+}
+
 // Se llama al abrir la pestaña y al cambiar de ciudad. Descarga los resultados la primera vez.
 export async function showAccuracy() {
   if (!accuracy.data) {
     $("acc-status").hidden = false;
     $("acc-status").textContent = "Cargando resultados…";
     try {
-      accuracy.loading ??= fetchJson("analisis/resultados.json");
-      accuracy.data = await accuracy.loading;
+      await loadResults();
     } catch (err) {
-      accuracy.loading = null; // permite reintentar al volver a abrir la pestaña
       $("acc-status").textContent = "No se han podido cargar los resultados del análisis. Recarga la página para intentarlo de nuevo.";
       return;
     }
@@ -115,6 +144,8 @@ function renderAccuracy() {
       <span class="score-val">${fmt(r.heidke, 2)}</span>
     </div>`;
 
+  renderAgreement(region);
+
   $("acc-table").innerHTML = `
     <thead><tr>
       <th>Modelo</th><th class="col-score">Puntuación</th><th>Acierto</th>
@@ -131,6 +162,21 @@ function renderAccuracy() {
         <td>${fmt(r.error_mm, 1)} mm</td>
       </tr>`).join("")}
     </tbody>`;
+}
+
+/* "¿Qué significa «Lo dan X de 6 modelos»?": una barra por cada número de
+ * modelos que daban lluvia, con el % de esas veces en que llovió de verdad. */
+function renderAgreement(region) {
+  const rows = (region.lo_dan || []).filter((r) => r.antelacion === accuracy.lead);
+  $("acc-agree").innerHTML = rows.map((r) => {
+    const few = r.dias < 40; // con pocos días el porcentaje baila mucho: se muestra atenuado
+    return `<div class="ag-row${few ? " few" : ""}"${few ? ' title="Pocos días: este porcentaje es poco fiable"' : ""}>
+      <span class="ag-k">${r.modelos} de 6</span>
+      <span class="ag-track"><span class="ag-fill" style="width:${r.llovio_pct}%"></span></span>
+      <span class="ag-val">${fmt(r.llovio_pct)} %${few ? "*" : ""}</span>
+      <span class="ag-n">${fmt(r.dias)} días</span>
+    </div>`;
+  }).join("");
 }
 
 // Explica de qué zona son los resultados y por qué, según la ciudad que se está viendo.

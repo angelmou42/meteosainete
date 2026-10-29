@@ -465,6 +465,92 @@
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
     }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 10240,
+     "llovio_pct": 1.846
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 1533,
+     "llovio_pct": 16.895
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 884,
+     "llovio_pct": 33.484
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 568,
+     "llovio_pct": 44.894
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 612,
+     "llovio_pct": 59.314
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 881,
+     "llovio_pct": 71.51
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 2334,
+     "llovio_pct": 91.088
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 9603,
+     "llovio_pct": 2.239
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 1806,
+     "llovio_pct": 15.781
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 1056,
+     "llovio_pct": 29.167
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 681,
+     "llovio_pct": 42.584
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 782,
+     "llovio_pct": 52.941
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 974,
+     "llovio_pct": 70.021
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 2150,
+     "llovio_pct": 89.488
+    }
    ]
   },
   {
@@ -702,6 +788,92 @@
      "error_mm": 4.813,
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
+    }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 697,
+     "llovio_pct": 2.439
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 84,
+     "llovio_pct": 21.429
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 69,
+     "llovio_pct": 36.232
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 46,
+     "llovio_pct": 52.174
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 72,
+     "llovio_pct": 68.056
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 122,
+     "llovio_pct": 85.246
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 332,
+     "llovio_pct": 95.482
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 647,
+     "llovio_pct": 3.091
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 103,
+     "llovio_pct": 16.505
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 83,
+     "llovio_pct": 32.53
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 46,
+     "llovio_pct": 47.826
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 81,
+     "llovio_pct": 61.728
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 100,
+     "llovio_pct": 76.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 362,
+     "llovio_pct": 94.475
     }
    ]
   },
@@ -941,6 +1113,92 @@
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
     }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 559,
+     "llovio_pct": 2.504
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 129,
+     "llovio_pct": 22.481
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 98,
+     "llovio_pct": 35.714
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 71,
+     "llovio_pct": 45.07
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 82,
+     "llovio_pct": 54.878
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 122,
+     "llovio_pct": 66.393
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 355,
+     "llovio_pct": 92.113
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 513,
+     "llovio_pct": 3.509
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 124,
+     "llovio_pct": 21.774
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 109,
+     "llovio_pct": 34.862
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 84,
+     "llovio_pct": 35.714
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 118,
+     "llovio_pct": 50.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 152,
+     "llovio_pct": 73.684
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 316,
+     "llovio_pct": 88.291
+    }
    ]
   },
   {
@@ -1178,6 +1436,92 @@
      "error_mm": 1.73,
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
+    }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 809,
+     "llovio_pct": 1.483
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 115,
+     "llovio_pct": 16.522
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 62,
+     "llovio_pct": 40.323
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 52,
+     "llovio_pct": 61.538
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 70,
+     "llovio_pct": 61.429
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 82,
+     "llovio_pct": 75.61
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 238,
+     "llovio_pct": 94.118
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 746,
+     "llovio_pct": 1.743
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 136,
+     "llovio_pct": 15.441
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 81,
+     "llovio_pct": 35.802
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 50,
+     "llovio_pct": 34.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 73,
+     "llovio_pct": 61.644
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 108,
+     "llovio_pct": 74.074
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 234,
+     "llovio_pct": 90.598
     }
    ]
   },
@@ -1417,6 +1761,92 @@
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
     }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 812,
+     "llovio_pct": 2.34
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 142,
+     "llovio_pct": 19.718
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 92,
+     "llovio_pct": 23.913
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 61,
+     "llovio_pct": 50.82
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 63,
+     "llovio_pct": 65.079
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 97,
+     "llovio_pct": 74.227
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 156,
+     "llovio_pct": 92.308
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 761,
+     "llovio_pct": 3.285
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 147,
+     "llovio_pct": 19.048
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 100,
+     "llovio_pct": 26.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 77,
+     "llovio_pct": 46.753
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 87,
+     "llovio_pct": 49.425
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 102,
+     "llovio_pct": 67.647
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 149,
+     "llovio_pct": 87.248
+    }
    ]
   },
   {
@@ -1649,6 +2079,92 @@
      "error_mm": 2.221,
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
+    }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 625,
+     "llovio_pct": 2.88
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 118,
+     "llovio_pct": 13.559
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 64,
+     "llovio_pct": 28.125
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 42,
+     "llovio_pct": 30.952
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 47,
+     "llovio_pct": 55.319
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 55,
+     "llovio_pct": 60.0
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 117,
+     "llovio_pct": 88.034
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 579,
+     "llovio_pct": 3.282
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 130,
+     "llovio_pct": 13.077
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 77,
+     "llovio_pct": 27.273
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 47,
+     "llovio_pct": 42.553
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 65,
+     "llovio_pct": 43.077
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 67,
+     "llovio_pct": 55.224
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 103,
+     "llovio_pct": 82.524
     }
    ]
   },
@@ -1888,6 +2404,92 @@
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
     }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 787,
+     "llovio_pct": 2.668
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 141,
+     "llovio_pct": 15.603
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 77,
+     "llovio_pct": 29.87
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 43,
+     "llovio_pct": 37.209
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 39,
+     "llovio_pct": 43.59
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 67,
+     "llovio_pct": 70.149
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 260,
+     "llovio_pct": 86.154
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 713,
+     "llovio_pct": 1.683
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 183,
+     "llovio_pct": 20.219
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 88,
+     "llovio_pct": 21.591
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 52,
+     "llovio_pct": 32.692
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 58,
+     "llovio_pct": 46.552
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 83,
+     "llovio_pct": 65.06
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 237,
+     "llovio_pct": 86.076
+    }
    ]
   },
   {
@@ -2125,6 +2727,92 @@
      "error_mm": 1.53,
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
+    }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 861,
+     "llovio_pct": 1.394
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 120,
+     "llovio_pct": 15.833
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 78,
+     "llovio_pct": 37.179
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 38,
+     "llovio_pct": 39.474
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 51,
+     "llovio_pct": 54.902
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 59,
+     "llovio_pct": 74.576
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 218,
+     "llovio_pct": 87.156
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 776,
+     "llovio_pct": 1.675
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 166,
+     "llovio_pct": 12.651
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 94,
+     "llovio_pct": 24.468
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 66,
+     "llovio_pct": 46.97
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 55,
+     "llovio_pct": 43.636
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 85,
+     "llovio_pct": 72.941
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 183,
+     "llovio_pct": 89.071
     }
    ]
   },
@@ -2364,6 +3052,92 @@
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
     }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 979,
+     "llovio_pct": 2.043
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 149,
+     "llovio_pct": 16.107
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 71,
+     "llovio_pct": 36.62
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 56,
+     "llovio_pct": 46.429
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 28,
+     "llovio_pct": 57.143
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 50,
+     "llovio_pct": 66.0
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 83,
+     "llovio_pct": 89.157
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 902,
+     "llovio_pct": 2.217
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 179,
+     "llovio_pct": 17.318
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 87,
+     "llovio_pct": 24.138
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 66,
+     "llovio_pct": 31.818
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 52,
+     "llovio_pct": 53.846
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 59,
+     "llovio_pct": 64.407
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 71,
+     "llovio_pct": 84.507
+    }
    ]
   },
   {
@@ -2591,6 +3365,92 @@
      "error_mm": 1.965,
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
+    }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 464,
+     "llovio_pct": 1.724
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 39,
+     "llovio_pct": 25.641
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 24,
+     "llovio_pct": 41.667
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 10,
+     "llovio_pct": 20.0
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 19,
+     "llovio_pct": 57.895
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 39,
+     "llovio_pct": 66.667
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 109,
+     "llovio_pct": 92.661
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 437,
+     "llovio_pct": 1.831
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 48,
+     "llovio_pct": 14.583
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 25,
+     "llovio_pct": 32.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 20,
+     "llovio_pct": 45.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 32,
+     "llovio_pct": 50.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 34,
+     "llovio_pct": 67.647
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 108,
+     "llovio_pct": 89.815
     }
    ]
   },
@@ -2830,6 +3690,92 @@
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
     }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 971,
+     "llovio_pct": 1.133
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 76,
+     "llovio_pct": 18.421
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 47,
+     "llovio_pct": 34.043
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 33,
+     "llovio_pct": 36.364
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 35,
+     "llovio_pct": 51.429
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 52,
+     "llovio_pct": 61.538
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 205,
+     "llovio_pct": 90.732
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 955,
+     "llovio_pct": 2.094
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 108,
+     "llovio_pct": 20.37
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 62,
+     "llovio_pct": 27.419
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 30,
+     "llovio_pct": 46.667
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 48,
+     "llovio_pct": 62.5
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 54,
+     "llovio_pct": 70.37
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 162,
+     "llovio_pct": 91.358
+    }
    ]
   },
   {
@@ -3068,6 +4014,92 @@
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
     }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 963,
+     "llovio_pct": 1.142
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 117,
+     "llovio_pct": 11.111
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 59,
+     "llovio_pct": 27.119
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 24,
+     "llovio_pct": 54.167
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 32,
+     "llovio_pct": 46.875
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 68,
+     "llovio_pct": 75.0
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 164,
+     "llovio_pct": 90.244
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 932,
+     "llovio_pct": 1.609
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 138,
+     "llovio_pct": 10.87
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 69,
+     "llovio_pct": 26.087
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 38,
+     "llovio_pct": 47.368
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 39,
+     "llovio_pct": 51.282
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 56,
+     "llovio_pct": 71.429
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 155,
+     "llovio_pct": 90.968
+    }
    ]
   },
   {
@@ -3300,6 +4332,92 @@
      "error_mm": 1.762,
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
+    }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 697,
+     "llovio_pct": 1.435
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 109,
+     "llovio_pct": 20.183
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 53,
+     "llovio_pct": 41.509
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 48,
+     "llovio_pct": 45.833
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 39,
+     "llovio_pct": 74.359
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 47,
+     "llovio_pct": 59.574
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 78,
+     "llovio_pct": 88.462
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 647,
+     "llovio_pct": 3.246
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 139,
+     "llovio_pct": 14.388
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 81,
+     "llovio_pct": 35.802
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 54,
+     "llovio_pct": 48.148
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 43,
+     "llovio_pct": 53.488
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 54,
+     "llovio_pct": 66.667
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 53,
+     "llovio_pct": 88.679
     }
    ]
   },
@@ -3538,6 +4656,92 @@
      "error_mm": 0.615,
      "heidke_min90": 0.0,
      "heidke_max90": 0.0
+    }
+   ],
+   "lo_dan": [
+    {
+     "antelacion": 1,
+     "modelos": 0,
+     "dias": 1016,
+     "llovio_pct": 1.575
+    },
+    {
+     "antelacion": 1,
+     "modelos": 1,
+     "dias": 194,
+     "llovio_pct": 12.887
+    },
+    {
+     "antelacion": 1,
+     "modelos": 2,
+     "dias": 90,
+     "llovio_pct": 32.222
+    },
+    {
+     "antelacion": 1,
+     "modelos": 3,
+     "dias": 44,
+     "llovio_pct": 38.636
+    },
+    {
+     "antelacion": 1,
+     "modelos": 4,
+     "dias": 35,
+     "llovio_pct": 71.429
+    },
+    {
+     "antelacion": 1,
+     "modelos": 5,
+     "dias": 21,
+     "llovio_pct": 80.952
+    },
+    {
+     "antelacion": 1,
+     "modelos": 6,
+     "dias": 19,
+     "llovio_pct": 100.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 0,
+     "dias": 995,
+     "llovio_pct": 1.106
+    },
+    {
+     "antelacion": 3,
+     "modelos": 1,
+     "dias": 205,
+     "llovio_pct": 10.732
+    },
+    {
+     "antelacion": 3,
+     "modelos": 2,
+     "dias": 100,
+     "llovio_pct": 32.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 3,
+     "dias": 51,
+     "llovio_pct": 56.863
+    },
+    {
+     "antelacion": 3,
+     "modelos": 4,
+     "dias": 31,
+     "llovio_pct": 67.742
+    },
+    {
+     "antelacion": 3,
+     "modelos": 5,
+     "dias": 20,
+     "llovio_pct": 85.0
+    },
+    {
+     "antelacion": 3,
+     "modelos": 6,
+     "dias": 17,
+     "llovio_pct": 94.118
     }
    ]
   }

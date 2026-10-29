@@ -115,6 +115,18 @@ La pestaña "Acierto" muestra la zona más cercana a la ciudad que se está
 viendo (o la que se elija), y toda España si está a más de 150 km de las
 estaciones.
 
+**¿Qué significa «Lo dan X de 6 modelos»?** El mismo script cuenta cuántas
+veces llovió de verdad (1 mm o más) según cuántos modelos daban lluvia el día
+antes. En toda España:
+
+| Modelos que dan lluvia | 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Llovió de verdad | 2 % | 17 % | 33 % | 45 % | 59 % | 72 % | 91 % |
+
+La web usa esta tabla en la frase de cada día ("días como este acabaron con
+lluvia el 45 % de las veces"), con la de la zona si tiene bastantes días y
+la de España si no.
+
 ```bash
 python analisis/verificacion_lluvia.py
 ```
@@ -127,10 +139,18 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
 prueba a dar más peso a los modelos que más aciertan (mediana ponderada por
 su índice de Heidke). Para que la prueba sea justa, los pesos se calculan con
 la mitad de los meses y se evalúan con la otra mitad (validación cruzada), y
-la diferencia se mide día a día con *bootstrap*. Resultado: no mejora
-(Heidke −0,008 a −0,011 con 1 día, intervalo del 90 % que incluye el 0). Los
-modelos aciertan de forma muy parecida y la mediana ya descarta al que se
-desvía, así que la web mantiene la mediana normal.
+la diferencia se mide día a día con *bootstrap*. Con las 48 estaciones:
+
+| Con 1 día de antelación | Heidke | Diferencia con la mediana (90 %) |
+|---|---:|---|
+| Mediana normal (la de la web) | **0,730** | |
+| Mediana ponderada | 0,723 | −0,007 (−0,012 a −0,003) |
+| Solo ECMWF | 0,685 | −0,045 (−0,067 a −0,024) |
+
+Ponderar no mejora (con 3 días queda empatado: +0,003, intervalo que
+incluye el 0), y la mediana de los 6 modelos gana con claridad al mejor
+modelo suelto. Los modelos aciertan de forma muy parecida y la mediana ya
+descarta al que se desvía, así que la web mantiene la mediana normal.
 
 ## Decisiones de diseño
 
@@ -168,7 +188,7 @@ desvía, así que la web mantiene la mediana normal.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=18`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=19`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al
