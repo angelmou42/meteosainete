@@ -4,10 +4,9 @@
  * analisis/resultados.json, que genera analisis/verificacion_lluvia.py: si se
  * repite el análisis, la web se actualiza sola sin tocar este archivo.
  *
- * Como map.js, se carga antes que app.js y usa sus utilidades ($, MODELS,
- * fmt…) solo dentro de funciones.
+ * app.js usa initAccuracy() y showAccuracy(); el resto se exporta para los tests.
  */
-"use strict";
+import { $, MODELS, fetchJson, fmt, state } from "./core.js";
 
 const accuracy = {
   data: null,     // contenido de resultados.json
@@ -16,7 +15,7 @@ const accuracy = {
 };
 
 // Se llama al abrir la pestaña. Descarga los resultados la primera vez.
-async function showAccuracy() {
+export async function showAccuracy() {
   if (!accuracy.data) {
     $("acc-status").hidden = false;
     $("acc-status").textContent = "Cargando resultados…";
@@ -109,7 +108,7 @@ function renderAreaWarning(stations) {
 }
 
 // Distancia en km entre dos puntos (fórmula del haversine).
-function distanceKm(lat1, lon1, lat2, lon2) {
+export function distanceKm(lat1, lon1, lat2, lon2) {
   const rad = Math.PI / 180;
   const a = Math.sin(((lat2 - lat1) * rad) / 2) ** 2 +
     Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(((lon2 - lon1) * rad) / 2) ** 2;
@@ -117,12 +116,12 @@ function distanceKm(lat1, lon1, lat2, lon2) {
 }
 
 // "Jaén, Córdoba y Granada"
-function listJoin(items) {
+export function listJoin(items) {
   return items.length < 2 ? items.join("") : items.slice(0, -1).join(", ") + " y " + items[items.length - 1];
 }
 
 // Botones "1 día antes / 3 días antes". Se conectan una vez desde app.js.
-function initAccuracy() {
+export function initAccuracy() {
   $("acc-leads").addEventListener("click", (e) => {
     const tab = e.target.closest(".tab");
     if (!tab) return;

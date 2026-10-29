@@ -1,0 +1,9 @@
+{
+  "name": "meteosainete",
+  "private": true,
+  "type": "module",
+  "description": "Compara 6 modelos meteorológicos y muestra un consenso con su fiabilidad",
+  "scripts": {
+    "test": "node --test"
+  }
+}

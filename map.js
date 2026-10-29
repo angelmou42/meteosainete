@@ -7,11 +7,9 @@
  *  2. Windy: mapa animado incrustado, con más detalle pero sin poder elegir la
  *     hora desde fuera (su iframe no lo permite).
  *
- * Este archivo se carga antes que app.js y usa sus utilidades ($, MODELS, state,
- * fetchJson, fmt, dayName…) solo dentro de funciones, que se ejecutan cuando
- * los dos scripts ya están cargados.
+ * app.js solo usa initMaps() y updateMaps(); el resto se exporta para los tests.
  */
-"use strict";
+import { $, MODELS, dayName, fetchJson, fmt, isNum, state } from "./core.js";
 
 /* ---------- Configuración ---------- */
 
@@ -71,7 +69,7 @@ const maps = {
 /* ---------- Arranque y cambios de vista ---------- */
 
 // Pinta los botones y conecta los eventos. Se llama una vez desde app.js.
-function initMaps() {
+export function initMaps() {
   const modelTabs = (list, selected, key) => list.map((m) =>
     `<button type="button" class="tab" role="tab" data-${key}="${m.id || m.product}" aria-selected="${(m.id || m.product) === selected}">${m.name}</button>`
   ).join("");
@@ -104,7 +102,7 @@ function onTab(containerId, key, onSelect) {
 }
 
 // Se llama al abrir la pestaña de mapas y al cambiar de ciudad.
-function updateMaps() {
+export function updateMaps() {
   if (state.page !== "map" || !state.place) return;
   $("own-map-box").hidden = maps.kind !== "own";
   $("windy-box").hidden = maps.kind !== "windy";
@@ -169,14 +167,14 @@ async function getGrid(place, model) {
 /* Índice de la hora en curso en la zona horaria de la ciudad. Cada valor es la
  * lluvia de la hora anterior, así que a las 14:30 la hora en curso (14–15 h)
  * es la que tiene marca "15:00": de ahí el +1. */
-function currentIndex(grid) {
+export function currentIndex(grid) {
   const localNow = new Date(Date.now() + grid.offset * 1000).toISOString().slice(0, 13) + ":00";
   const i = grid.times.indexOf(localNow);
   return i < 0 ? 0 : Math.min(i + 1, grid.times.length - 1);
 }
 
 // Esquina suroeste y límites [[sur, oeste], [norte, este]] de la rejilla centrada en `place`.
-function gridBounds(place) {
+export function gridBounds(place) {
   const { rows, cols, step } = GRID;
   const lat0 = place.lat - ((rows - 1) / 2) * step;
   const lon0 = place.lon - ((cols - 1) / 2) * step;
@@ -295,7 +293,7 @@ function mapErrorMessage(err) {
 /* ---------- Mapa propio: dibujo ---------- */
 
 // Color para un valor de lluvia, o null si no llega al mínimo.
-function rainColor(mm) {
+export function rainColor(mm) {
   let found = null;
   for (const step of RAIN_SCALE) if (mm >= step.mm) found = step.rgba;
   return found;
@@ -325,7 +323,7 @@ function drawRain() {
       const d = gridValue(g, r + 1, c, t), e = gridValue(g, r + 1, c + 1, t);
       if (a == null || b == null || d == null || e == null) continue; // sin datos: transparente
       hasData = true;
-      const v = (a * (1 - tx) + b * tx) * (1 - ty) + (d * (1 - tx) + e * tx) * ty;
+      const v = bilinear(a, b, d, e, tx, ty);
       const color = rainColor(v);
       if (!color) continue;
       hasRain = true;
@@ -354,6 +352,12 @@ function drawRain() {
   else setMapMessage("");
 }
 
+/* Interpolación bilineal: valor en (tx, ty) ∈ [0, 1]² dentro de una celda,
+ * a partir de sus esquinas a (suroeste), b (sureste), d (noroeste) y e (noreste). */
+export function bilinear(a, b, d, e, tx, ty) {
+  return (a * (1 - tx) + b * tx) * (1 - ty) + (d * (1 - tx) + e * tx) * ty;
+}
+
 /* ---------- Mapa propio: controles de día y hora ---------- */
 
 function setHour(t) {
@@ -364,7 +368,7 @@ function setHour(t) {
 }
 
 // "13:00–14:00": la lluvia de cada hora es la caída durante la hora anterior.
-function hourRange(t) {
+export function hourRange(t) {
   const h = t % 24;
   const pad = (n) => String(n).padStart(2, "0");
   return `${pad((h + 23) % 24)}:00–${pad(h)}:00`;

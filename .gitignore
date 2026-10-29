@@ -1,3 +1,4 @@
 .claude/
 # Descargas del análisis (los datos de Meteostat no se pueden redistribuir libremente)
 analisis/datos/
+__pycache__/
