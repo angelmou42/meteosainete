@@ -19,6 +19,8 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
     barra de hora. Al pulsar un punto muestra los mm previstos.
   - **Windy animado**: mapa incrustado de [Windy](https://www.windy.com/)
     (ECMWF, GFS e ICON-EU), con más detalle pero con su propia línea de tiempo.
+- **Acierto de cada modelo** con la lluvia (pestaña "Acierto", enlace
+  directo: `#acierto`), calculado con un año de datos reales.
 - Recuerda la **última ciudad** buscada (localStorage). La primera vez se
   abre en Arjona (Jaén).
 
@@ -35,6 +37,34 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 
 Comprobado con datos reales (octubre de 2026): todos publican
 `precipitation_probability_max` salvo Météo-France.
+
+## ¿Qué modelo acierta más? (análisis)
+
+[`analisis/verificacion_lluvia.py`](analisis/verificacion_lluvia.py) compara la
+lluvia que cada modelo predijo 1 y 3 días antes con la medida por las
+estaciones de AEMET de Jaén, Córdoba y Granada durante un año (12/03/2025 –
+11/03/2026, 1070 días, 232 con lluvia).
+
+- **Predicciones pasadas:** API *Previous Runs* de Open-Meteo
+  (`precipitation_previous_dayN`).
+- **Lluvia medida:** datos diarios de [Meteostat](https://meteostat.net/).
+- **Día de lluvia:** 1 mm o más. Antes de comparar, el script comprueba con
+  los datos a qué hora cierran el día las estaciones (07–07 h en España).
+- **Métricas:** acierto, días de lluvia detectados, falsas alarmas, error en
+  mm e **índice de Heidke** (acierto descontando el azar), con un margen de
+  error del 90 % calculado por *bootstrap* remuestreando fechas.
+
+Resultado con 1 día de antelación: el **consenso** (mediana) obtiene la mejor
+puntuación (0,80), seguido de ECMWF (0,78). Decir siempre "seco" ya acierta
+el 78 % de los días, por eso la puntuación importa más que el acierto.
+
+```bash
+python analisis/verificacion_lluvia.py
+```
+
+Genera `resultados.csv` (todos los números) y `resultados.json`, que es lo que
+lee la pestaña "Acierto": si se repite el análisis, la web se actualiza sola.
+Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
 
 ## Decisiones de diseño
 
@@ -68,7 +98,7 @@ Comprobado con datos reales (octubre de 2026): todos publican
 - **Nada pesado hasta que hace falta.** Leaflet, las rejillas y Windy solo se
   descargan al abrir la pestaña de mapas. Leaflet se carga con SRI
   (`integrity`) para que el navegador lo rechace si el CDN lo alterase.
-- **Versiones en CSS y JS** (`style.css?v=5`). GitHub Pages deja que el
+- **Versiones en CSS y JS** (`style.css?v=7`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos.
 - **Sin compilación.** HTML, CSS y JavaScript a pelo, sin npm: se abre tal
@@ -82,6 +112,8 @@ index.html   Estructura de la página
 style.css    Estilos (modo claro/oscuro automático, adaptado a móvil)
 app.js       Datos, consenso, tabla y gráfico
 map.js       Mapas de lluvia (mapa propio con Leaflet y Windy)
+acierto.js   Pestaña "Acierto" (lee analisis/resultados.json)
+analisis/    Script en Python del análisis de acierto y sus resultados
 ```
 
 ## Ejecutarlo en local
@@ -106,4 +138,5 @@ y abrir <http://localhost:8000>.
 ## Créditos
 
 Datos meteorológicos de [Open-Meteo](https://open-meteo.com/) bajo licencia
-CC BY 4.0. Mapa base de Esri. Mapa animado de Windy.
+CC BY 4.0. Observaciones de AEMET a través de Meteostat. Mapa base de Esri.
+Mapa animado de Windy.

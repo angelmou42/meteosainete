@@ -2,7 +2,8 @@
  *
  * Flujo: load() pide la predicción de 6 modelos a Open-Meteo → normaliza los
  * datos en `state.data` → render() pinta la franja de consenso, la matriz
- * y el gráfico horario. Los mapas de lluvia viven en map.js.
+ * y el gráfico horario. Los mapas de lluvia viven en map.js y la pestaña
+ * de acierto de los modelos en acierto.js.
  */
 "use strict";
 
@@ -359,16 +360,21 @@ function render() {
  * La pestaña activa se refleja en la URL (#mapa), así se puede compartir
  * un enlace directo a los mapas y el botón "atrás" del navegador funciona. */
 
+// Hash de la URL para cada pestaña principal.
+const PAGE_HASH = { forecast: "", map: "#mapa", accuracy: "#acierto" };
+
 function pageFromHash() {
-  return location.hash === "#mapa" ? "map" : "forecast";
+  return Object.keys(PAGE_HASH).find((p) => PAGE_HASH[p] === location.hash) || "forecast";
 }
 
 function showPage(page) {
   state.page = page;
   $("page-forecast").hidden = page !== "forecast";
   $("page-map").hidden = page !== "map";
+  $("page-accuracy").hidden = page !== "accuracy";
   $("views").querySelectorAll(".view-tab").forEach((t) => t.setAttribute("aria-selected", String(t.dataset.page === page)));
   updateMaps();
+  if (page === "accuracy") showAccuracy();
 }
 
 /* ---------- Estados de la interfaz ---------- */
@@ -424,7 +430,7 @@ $("tabs").addEventListener("click", (e) => {
 $("views").addEventListener("click", (e) => {
   const tab = e.target.closest(".view-tab");
   if (!tab) return;
-  const hash = tab.dataset.page === "map" ? "#mapa" : "";
+  const hash = PAGE_HASH[tab.dataset.page];
   if (location.hash !== hash) location.hash = hash;
   else showPage(tab.dataset.page);
 });
@@ -465,6 +471,7 @@ $("search").addEventListener("submit", async (e) => {
 
 // Arranque: última ciudad guardada o Arjona.
 initMaps();
+initAccuracy();
 state.page = pageFromHash();
 load(readSavedPlace() || DEFAULT_PLACE);
 showPage(state.page);

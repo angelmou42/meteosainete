@@ -8,9 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=5">
-  <script src="map.js?v=5" defer></script>
-  <script src="app.js?v=5" defer></script>
+  <link rel="stylesheet" href="style.css?v=7">
+  <script src="map.js?v=7" defer></script>
+  <script src="acierto.js?v=7" defer></script>
+  <script src="app.js?v=7" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -26,10 +27,11 @@
   </header>
   <div class="results" id="results" aria-live="polite"></div>
 
-  <!-- Pestañas principales: comparativa de modelos o mapas de lluvia (enlazable con #mapa) -->
+  <!-- Pestañas principales: comparativa, mapas de lluvia (#mapa) y acierto de los modelos (#acierto) -->
   <nav class="views" role="tablist" id="views" aria-label="Vista">
     <button type="button" class="view-tab" role="tab" data-page="forecast" aria-selected="true">Comparativa</button>
     <button type="button" class="view-tab" role="tab" data-page="map" aria-selected="false">Mapas de lluvia</button>
+    <button type="button" class="view-tab" role="tab" data-page="accuracy" aria-selected="false">Acierto</button>
   </nav>
 
   <div id="page-forecast">
@@ -111,6 +113,40 @@
       </div>
       <div class="map-frame windy-frame"><iframe id="windy" title="Mapa de lluvia de Windy"></iframe></div>
       <p class="note">Mapa de <a href="https://www.windy.com/" target="_blank" rel="noopener">Windy</a>, con más detalle. Aquí la hora se elige con su propia línea de tiempo: Windy no deja controlarla desde fuera.</p>
+    </div>
+  </section>
+
+  <!-- Acierto de cada modelo con la lluvia (acierto.js). Los datos salen de analisis/resultados.json -->
+  <section id="page-accuracy" hidden>
+    <div class="sec-head">
+      <h2>¿Qué modelo acierta más con la lluvia?</h2>
+      <div class="tabs" role="tablist" id="acc-leads" aria-label="Antelación">
+        <button type="button" class="tab" role="tab" data-lead="1" aria-selected="true">Predicción de 1 día</button>
+        <button type="button" class="tab" role="tab" data-lead="3" aria-selected="false">De 3 días</button>
+      </div>
+    </div>
+    <p class="status" id="acc-status" hidden></p>
+    <p class="acc-intro" id="acc-intro"></p>
+    <ul class="acc-summary" id="acc-summary"></ul>
+    <div class="tablewrap"><table id="acc-table" class="acc-table"></table></div>
+
+    <div class="acc-help">
+      <h3>Cómo leer la tabla</h3>
+      <dl>
+        <dt>Puntuación</dt>
+        <dd>Índice de Heidke: cuánto acierta el modelo si llueve o no, descontando lo que se acertaría por casualidad. 0 = como tirar una moneda, 1 = perfecto. La raya fina marca el margen de error: si las rayas de dos modelos se solapan, no se puede decir que uno sea mejor que el otro.</dd>
+        <dt>Acierto</dt>
+        <dd>Días en los que acertó si llovía o no.</dd>
+        <dt>Detecta la lluvia</dt>
+        <dd>De los días en que llovió, cuántos había avisado el modelo.</dd>
+        <dt>Falsas alarmas</dt>
+        <dd>De los días en que el modelo dio lluvia, en cuántos no llovió.</dd>
+        <dt>Error medio</dt>
+        <dd>Diferencia media entre los mm previstos y los medidos.</dd>
+      </dl>
+      <h3>Cómo se ha hecho</h3>
+      <p>Se compara lo que cada modelo predijo uno o tres días antes (archivo de predicciones pasadas de Open-Meteo) con la lluvia medida por las estaciones de AEMET (vía Meteostat). Un día cuenta como "de lluvia" con 1 mm o más. El consenso es la mediana de los modelos, como en la pestaña Comparativa.</p>
+      <p>Límites: son tres estaciones y un año; un año más seco o más lluvioso podría cambiar algo el orden. Se compara un pluviómetro con una celda del modelo de varios kilómetros, igual para todos. El código está en <a href="https://github.com/angelmou42/meteosainete/tree/main/analisis" target="_blank" rel="noopener">analisis/</a>.</p>
     </div>
   </section>
 

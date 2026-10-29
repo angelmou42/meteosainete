@@ -1,0 +1,17 @@
+antelacion,id,modelo,dias,acierto,deteccion,falsas,heidke,error_mm,heidke_min90,heidke_max90
+1,ecmwf_ifs025,ECMWF,1070,92.243,88.793,21.673,0.782,1.531,0.738,0.827
+1,gfs_seamless,GFS,1070,90.28,84.483,25.758,0.727,1.475,0.677,0.775
+1,icon_seamless,ICON,1070,91.682,81.466,19.574,0.756,1.37,0.706,0.801
+1,meteofrance_seamless,Météo-France,1070,89.907,71.983,20.476,0.692,1.734,0.642,0.74
+1,ukmo_seamless,UKMO,884,88.914,83.246,29.333,0.693,1.38,0.63,0.751
+1,gem_seamless,GEM,1070,90.0,86.207,27.273,0.724,1.49,0.673,0.772
+1,consenso,Consenso (mediana),1070,92.897,87.069,18.548,0.796,1.226,0.75,0.84
+1,siempre_seco,Referencia: «siempre seco»,1070,78.318,0.0,nan,0.0,2.258,0.0,0.0
+3,ecmwf_ifs025,ECMWF,1070,90.093,86.207,27.007,0.726,1.7,0.673,0.775
+3,gfs_seamless,GFS,1070,88.505,78.448,28.627,0.673,1.594,0.615,0.728
+3,icon_seamless,ICON,1070,90.093,74.138,21.101,0.702,1.672,0.648,0.755
+3,meteofrance_seamless,Météo-France,1070,90.093,76.293,22.368,0.706,1.541,0.649,0.762
+3,ukmo_seamless,UKMO,872,87.729,81.72,32.444,0.66,1.658,0.593,0.72
+3,gem_seamless,GEM,1070,88.131,80.603,30.483,0.67,1.758,0.611,0.724
+3,consenso,Consenso (mediana),1070,91.776,82.759,20.0,0.761,1.361,0.707,0.81
+3,siempre_seco,Referencia: «siempre seco»,1070,78.318,0.0,nan,0.0,2.258,0.0,0.0

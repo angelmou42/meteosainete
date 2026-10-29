@@ -135,12 +135,13 @@ svg text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
 .legend i { width: 14px; height: 3px; border-radius: 2px; }
 
 /* ---------- Pestañas principales (Comparativa / Mapas de lluvia) ---------- */
-.views { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: -8px; }
+.views { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: -8px; overflow-x: auto; scrollbar-width: none; }
 .view-tab {
   background: transparent; color: var(--muted); border: 0; border-bottom: 3px solid transparent;
   border-radius: 0; padding: 8px 14px; font-family: var(--display); font-stretch: 112%; font-size: 1.02rem;
-  margin-bottom: -1px;
+  margin-bottom: -1px; white-space: nowrap;
 }
+@media (max-width: 420px) { .view-tab { padding: 8px 10px; font-size: .95rem; } }
 .view-tab:hover { color: var(--ink); }
 .view-tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
 .view-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
@@ -192,6 +193,32 @@ svg text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
 .leaflet-container { font-family: var(--body); }
 .leaflet-popup-content { font-size: .85rem; margin: 10px 14px; }
 .note a { color: var(--accent); }
+
+/* ---------- Acierto de los modelos ---------- */
+#page-accuracy { display: flex; flex-direction: column; gap: 12px; }
+.acc-intro { margin: 0; color: var(--muted); max-width: 75ch; }
+.acc-summary { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; max-width: 80ch; }
+.acc-table td { font-size: .9rem; }
+.acc-table tr.cons th, .acc-table tr.cons td { border-top: 0; }
+.acc-table thead th:not(:first-child) { white-space: nowrap; }
+.acc-table tr.ref th, .acc-table tr.ref td { color: var(--muted); font-style: italic; }
+.col-score { width: 34%; min-width: 180px; }
+/* Barra de puntuación: relleno = valor, raya fina = margen de error */
+.score { display: flex; align-items: center; gap: 8px; }
+.score-track { position: relative; flex: 1; height: 10px; border-radius: 99px; background: var(--line); }
+.score-fill { position: absolute; inset: 0 auto 0 0; border-radius: 99px; background: var(--accent); }
+tr.cons .score-fill { background: var(--ok); }
+.score-range { position: absolute; top: -3px; bottom: -3px; border: 2px solid var(--ink); border-top: 0; border-bottom: 0; opacity: .55; }
+.score-range::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px solid var(--ink); }
+.score-val { font-family: var(--mono); font-weight: 500; min-width: 4ch; text-align: right; }
+.acc-help { font-size: .88rem; color: var(--muted); max-width: 80ch; }
+.acc-help h3 { font-family: var(--display); font-stretch: 112%; font-weight: 600; font-size: 1rem; color: var(--ink); margin: 14px 0 6px; }
+.acc-help dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; }
+.acc-help dt { font-weight: 600; color: var(--ink); }
+.acc-help dd { margin: 0; }
+.acc-help p { margin: 0 0 8px; }
+.acc-help a { color: var(--accent); }
+@media (max-width: 560px) { .acc-help dl { grid-template-columns: 1fr; } .acc-help dd { margin-bottom: 6px; } }
 
 footer { font-size: .8rem; color: var(--muted); max-width: 75ch; }
 footer p { margin: 0 0 6px; }
