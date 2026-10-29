@@ -7,12 +7,16 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 
 ## Qué muestra
 
+- **Bloque "Ahora"**: temperatura y cielo de la hora actual según el consenso,
+  con icono propio (SVG), la frase de lo que queda de hoy, máxima, mínima,
+  viento y fiabilidad.
 - **Frase resumen** del día elegido, por ejemplo *"Lluvia débil de 15 a 19 h.
   5 de 6 modelos dan algo de lluvia."* Para hoy solo cuenta la lluvia que
   queda por venir.
-- **Franja de 7 días** con el consenso: máxima y mínima (mediana de los
-  modelos), probabilidad y cantidad de lluvia, cuántos modelos dan lluvia y la
-  fiabilidad (alta, media o baja).
+- **Franja de 7 días** con el consenso: icono, máxima y mínima (mediana de los
+  modelos) y fiabilidad. Los días de lluvia añaden probabilidad, mm, horas y
+  cuántos modelos la dan; los secos solo dicen "Seco". En el móvil es una
+  lista vertical.
 - **Tabla modelo × día** con pestañas Temperatura / Lluvia / Viento y una fila
   final de consenso.
 - **Gráfico hora a hora** del día elegido, con dos pestañas:
@@ -121,10 +125,15 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=10`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=11`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos.
+- **Iconos que no contradicen al texto.** El icono de cada día no sale del
+  "código del tiempo" de un solo modelo, sino del mismo criterio que la frase:
+  lluvia si más de la mitad de los modelos la dan en alguna hora; tormenta,
+  nieve o niebla si la mayoría lo dicen; y si no, la nubosidad media
+  (mediana de los modelos) durante el día.
 - **Sin compilación.** HTML, CSS y JavaScript a pelo, sin npm: se abre tal
   cual y se publica en GitHub Pages sin configuración. La única librería
   (Leaflet) se carga desde un CDN.
@@ -138,6 +147,7 @@ core.js      Configuración, estado y funciones puras (consenso, mediana…)
 app.js       Módulo principal: carga de datos, tabla, gráfico y pestañas
 map.js       Mapas de lluvia (mapa propio con Leaflet y Windy)
 acierto.js   Pestaña "Acierto" (lee analisis/resultados.json)
+icons.js     Iconos del tiempo en SVG
 analisis/    Análisis de acierto en Python, sus resultados y sus tests
 tests/       Tests de la web (node --test)
 .github/     GitHub Actions: ejecuta todos los tests en cada push
