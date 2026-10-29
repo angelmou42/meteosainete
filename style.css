@@ -99,7 +99,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .c-baja { color: var(--bad); }
 
 /* ---------- Matriz modelo × día ---------- */
-.tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
 .tab { background: transparent; color: var(--muted); border: 0; padding: 5px 11px; font-weight: 600; font-size: .86rem; }
 .tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
 .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
@@ -146,15 +146,51 @@ svg text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
 .view-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 #page-forecast { display: flex; flex-direction: column; gap: 22px; }
 
-/* ---------- Mapa de Windy ---------- */
-#page-map { display: flex; flex-direction: column; gap: 10px; }
+/* ---------- Mapas de lluvia ---------- */
+#page-map, .map-view { display: flex; flex-direction: column; gap: 12px; }
+.map-kind { align-self: flex-start; }
 .map-frame { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
-/* Aviso de carga detrás del iframe: queda tapado cuando Windy termina de pintar el mapa */
-.map-frame::before {
+/* Alto proporcional al ancho: en móvil un mapa muy alto y estrecho enseñaría muy poca zona */
+#rainmap { height: clamp(260px, 60vw, 560px); background: var(--surface); }
+.windy-frame::before {
+  /* Aviso de carga detrás del iframe: queda tapado cuando Windy termina de pintar el mapa */
   content: "Cargando mapa…"; position: absolute; inset: 0; display: grid; place-items: center;
   color: var(--muted); font-size: .9rem; z-index: 0;
 }
-.map-frame iframe { position: relative; z-index: 1; display: block; width: 100%; height: min(640px, 72vh); border: 0; }
+.windy-frame iframe { position: relative; z-index: 1; display: block; width: 100%; height: min(640px, 72vh); border: 0; }
+
+/* Mensaje flotante sobre el mapa (cargando, sin lluvia, error) */
+.map-msg {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000;
+  margin: 0; max-width: calc(100% - 80px); display: flex; align-items: center; gap: 10px;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 99px;
+  padding: 5px 14px; font-size: .85rem; box-shadow: 0 2px 8px rgb(0 0 0 / .2);
+}
+.map-msg.is-error { border-color: var(--bad); border-radius: 10px; }
+.map-msg button { padding: 4px 10px; font-size: .8rem; }
+
+/* Selector de día y hora */
+.time-controls { display: flex; flex-direction: column; gap: 8px; }
+.daychips { position: relative; display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+.daychip {
+  flex: none; background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+  font-weight: 500; padding: 6px 12px;
+}
+.daychip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.hour-row { display: flex; align-items: center; gap: 8px; }
+.hour-row input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); padding: 0; border: 0; background: none; }
+.hour-btn { background: var(--surface); color: var(--ink); border-color: var(--line); padding: 6px 10px; line-height: 1; }
+.hour-btn:disabled { opacity: .4; cursor: default; }
+#map-hour-label { font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 500; min-width: 11ch; text-align: right; }
+
+/* Leyenda de colores */
+.rain-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-family: var(--mono); font-size: .78rem; color: var(--muted); }
+.rain-legend span { display: flex; align-items: center; gap: 5px; }
+.rain-legend i { width: 18px; height: 10px; border-radius: 2px; }
+
+/* Ajustes de Leaflet para que encaje con los colores de la web */
+.leaflet-container { font-family: var(--body); }
+.leaflet-popup-content { font-size: .85rem; margin: 10px 14px; }
 .note a { color: var(--accent); }
 
 footer { font-size: .8rem; color: var(--muted); max-width: 75ch; }

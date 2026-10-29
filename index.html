@@ -8,8 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=3">
-  <script src="app.js?v=3" defer></script>
+  <link rel="stylesheet" href="style.css?v=5">
+  <script src="map.js?v=5" defer></script>
+  <script src="app.js?v=5" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -74,14 +75,43 @@
     </main>
   </div>
 
-  <!-- Mapas de Windy: el iframe solo se carga la primera vez que se abre esta pestaña (pesa bastante) -->
+  <!-- Mapas de lluvia: mapa propio con día y hora (map.js) o Windy animado. Nada se descarga hasta abrir la pestaña -->
   <section id="page-map" hidden>
-    <div class="sec-head">
-      <h2>Lluvia prevista según cada modelo</h2>
-      <div class="tabs" role="tablist" id="map-tabs"></div>
+    <div class="tabs map-kind" role="tablist" id="map-kind">
+      <button type="button" class="tab" role="tab" data-kind="own" aria-selected="true">Por día y hora</button>
+      <button type="button" class="tab" role="tab" data-kind="windy" aria-selected="false">Windy animado</button>
     </div>
-    <div class="map-frame"><iframe id="windy" title="Mapa de lluvia de Windy"></iframe></div>
-    <p class="note">Mapa de <a href="https://www.windy.com/" target="_blank" rel="noopener">Windy</a>. Pulsa ▶ o arrastra la línea de tiempo para ver cómo se mueve la lluvia en los próximos días.</p>
+
+    <div id="own-map-box" class="map-view">
+      <div class="sec-head">
+        <h2>Lluvia hora a hora según cada modelo</h2>
+        <div class="tabs" role="tablist" id="rain-models" aria-label="Modelo"></div>
+      </div>
+      <div class="time-controls">
+        <div class="daychips" id="map-days" aria-label="Día"></div>
+        <div class="hour-row">
+          <button type="button" class="hour-btn" id="hour-prev" aria-label="Hora anterior">◀</button>
+          <input type="range" id="map-hour" min="0" max="23" step="1" value="12" aria-label="Hora">
+          <button type="button" class="hour-btn" id="hour-next" aria-label="Hora siguiente">▶</button>
+          <output id="map-hour-label" for="map-hour">—</output>
+        </div>
+      </div>
+      <div class="map-frame">
+        <div id="rainmap"></div>
+        <p class="map-msg" id="rainmap-msg" role="status" hidden></p>
+      </div>
+      <div class="rain-legend" id="rain-legend"></div>
+      <p class="note">Lluvia caída en la hora indicada según el modelo elegido. Pulsa en el mapa para ver los mm de un punto. Rejilla de unos 35 km suavizada: sirve para ver por dónde entra la lluvia, no el detalle de cada calle.</p>
+    </div>
+
+    <div id="windy-box" class="map-view" hidden>
+      <div class="sec-head">
+        <h2>Mapa animado de Windy</h2>
+        <div class="tabs" role="tablist" id="windy-models" aria-label="Modelo"></div>
+      </div>
+      <div class="map-frame windy-frame"><iframe id="windy" title="Mapa de lluvia de Windy"></iframe></div>
+      <p class="note">Mapa de <a href="https://www.windy.com/" target="_blank" rel="noopener">Windy</a>, con más detalle. Aquí la hora se elige con su propia línea de tiempo: Windy no deja controlarla desde fuera.</p>
+    </div>
   </section>
 
   <footer>

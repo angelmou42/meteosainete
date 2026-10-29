@@ -14,9 +14,11 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
   final de consenso.
 - **Gráfico hora a hora** del día elegido: una línea por modelo, una banda gris
   con el rango entre modelos y la mediana discontinua.
-- **Mapa de lluvia por modelo** (ECMWF, GFS e ICON-EU) incrustado de
-  [Windy](https://www.windy.com/), en su propia pestaña "Mapas de lluvia"
-  (enlace directo: `#mapa`). Solo se carga al abrir esa pestaña.
+- **Mapas de lluvia** en su propia pestaña (enlace directo: `#mapa`):
+  - **Por día y hora**: mapa propio con los 6 modelos, botones de día y una
+    barra de hora. Al pulsar un punto muestra los mm previstos.
+  - **Windy animado**: mapa incrustado de [Windy](https://www.windy.com/)
+    (ECMWF, GFS e ICON-EU), con más detalle pero con su propia línea de tiempo.
 - Recuerda la **última ciudad** buscada (localStorage). La primera vez se
   abre en Arjona (Jaén).
 
@@ -54,22 +56,32 @@ Comprobado con datos reales (octubre de 2026): todos publican
   **no entra en el consenso**.
 - **Solo datos reales.** Si la API falla, se muestra un error claro con un
   botón de reintentar, nunca datos inventados.
-- **Mapa de Windy en lugar de uno propio.** Un mapa hecho con puntos de
-  Open-Meteo saldría pixelado y gastaría cientos de llamadas por visita. El
-  iframe de Windy da la rejilla completa de cada modelo sin gastar cuota, y
-  se carga solo cuando el usuario lo pide para no ralentizar la web.
-- **Versiones en CSS y JS** (`style.css?v=3`). GitHub Pages deja que el
+- **Dos mapas, cada uno para lo que hace mejor.** El iframe de Windy no deja
+  elegir la hora desde fuera, así que hay un mapa propio: una rejilla de
+  8 × 16 puntos de Open-Meteo pintada en un `<canvas>` con interpolación
+  bilineal sobre [Leaflet](https://leafletjs.com/). Se descargan los 7 días
+  de golpe, así que cambiar de día u hora es instantáneo. Windy se mantiene
+  como vista animada con más detalle.
+- **Cuidar la cuota de Open-Meteo.** Cada punto de la rejilla cuenta como una
+  llamada (límite gratuito: 600 por minuto y usuario), por eso la rejilla es
+  pequeña y cada modelo descargado se guarda una hora en `sessionStorage`.
+- **Nada pesado hasta que hace falta.** Leaflet, las rejillas y Windy solo se
+  descargan al abrir la pestaña de mapas. Leaflet se carga con SRI
+  (`integrity`) para que el navegador lo rechace si el CDN lo alterase.
+- **Versiones en CSS y JS** (`style.css?v=5`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos.
-- **Sin dependencias ni compilación.** HTML, CSS y JavaScript a pelo: se abre
-  tal cual y se publica en GitHub Pages sin configuración.
+- **Sin compilación.** HTML, CSS y JavaScript a pelo, sin npm: se abre tal
+  cual y se publica en GitHub Pages sin configuración. La única librería
+  (Leaflet) se carga desde un CDN.
 
 ## Estructura
 
 ```
 index.html   Estructura de la página
 style.css    Estilos (modo claro/oscuro automático, adaptado a móvil)
-app.js       Datos, consenso y dibujado
+app.js       Datos, consenso, tabla y gráfico
+map.js       Mapas de lluvia (mapa propio con Leaflet y Windy)
 ```
 
 ## Ejecutarlo en local
@@ -94,4 +106,4 @@ y abrir <http://localhost:8000>.
 ## Créditos
 
 Datos meteorológicos de [Open-Meteo](https://open-meteo.com/) bajo licencia
-CC BY 4.0.
+CC BY 4.0. Mapa base de Esri. Mapa animado de Windy.

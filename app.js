@@ -2,7 +2,7 @@
  *
  * Flujo: load() pide la predicción de 6 modelos a Open-Meteo → normaliza los
  * datos en `state.data` → render() pinta la franja de consenso, la matriz
- * y el gráfico horario. No hay dependencias ni paso de compilación.
+ * y el gráfico horario. Los mapas de lluvia viven en map.js.
  */
 "use strict";
 
@@ -21,12 +21,6 @@ const MODELS = [
 
 const DEFAULT_PLACE = { lat: 37.93493, lon: -4.05478, label: "Arjona, Jaén, Andalucía, España" };
 
-// Modelos disponibles en el mapa de Windy. `product` es el nombre que usa Windy en su URL.
-const MAP_MODELS = [
-  { product: "ecmwf", name: "ECMWF" },
-  { product: "gfs", name: "GFS" },
-  { product: "iconEu", name: "ICON-EU" },
-];
 const STORAGE_KEY = "meteosainete:lastPlace";
 const FETCH_TIMEOUT_MS = 12000;
 const DAY_NAMES = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
@@ -38,7 +32,6 @@ const state = {
   sel: 0,         // índice del día seleccionado
   place: null,    // { lat, lon, label } de la ciudad actual
   page: "forecast", // pestaña principal: forecast | map
-  mapModel: MAP_MODELS[0].product, // modelo elegido en el mapa de Windy
 };
 
 /* ---------- Utilidades ---------- */
@@ -362,50 +355,6 @@ function render() {
   renderChart();
 }
 
-/* ---------- Mapa de Windy ----------
- * Windy ofrece un mapa incrustable (iframe) configurable por URL. Así tenemos
- * mapas de lluvia de cada modelo a resolución completa, sin gastar cuota de
- * Open-Meteo. Como pesa bastante, solo se carga cuando el usuario abre la sección. */
-
-function windyUrl(place, product) {
-  const p = new URLSearchParams({
-    lat: place.lat, lon: place.lon,             // centro del mapa
-    detailLat: place.lat, detailLon: place.lon, // posición del marcador
-    zoom: 8,
-    level: "surface",
-    overlay: "rain",
-    product,
-    menu: "",
-    message: "true",
-    marker: "true",
-    calendar: "now",
-    type: "map",
-    location: "coordinates",
-    metricWind: "km/h",
-    metricTemp: "°C",
-    radarRange: "-1",
-  });
-  return "https://embed.windy.com/embed2.html?" + p;
-}
-
-function renderMapTabs() {
-  $("map-tabs").innerHTML = MAP_MODELS.map((m) =>
-    `<button type="button" class="tab" role="tab" data-p="${m.product}" aria-selected="${m.product === state.mapModel}">${m.name}</button>`
-  ).join("");
-}
-
-// Actualiza el iframe solo si la pestaña de mapas está visible y la URL ha cambiado.
-function updateMap() {
-  if (state.page !== "map" || !state.place) return;
-  const src = windyUrl(state.place, state.mapModel);
-  const frame = $("windy");
-  // Comparamos con la última URL guardada: frame.src la devuelve normalizada y no coincidiría.
-  if (frame.dataset.url !== src) {
-    frame.dataset.url = src;
-    frame.src = src;
-  }
-}
-
 /* ---------- Pestañas principales ----------
  * La pestaña activa se refleja en la URL (#mapa), así se puede compartir
  * un enlace directo a los mapas y el botón "atrás" del navegador funciona. */
@@ -419,7 +368,7 @@ function showPage(page) {
   $("page-forecast").hidden = page !== "forecast";
   $("page-map").hidden = page !== "map";
   $("views").querySelectorAll(".view-tab").forEach((t) => t.setAttribute("aria-selected", String(t.dataset.page === page)));
-  updateMap();
+  updateMaps();
 }
 
 /* ---------- Estados de la interfaz ---------- */
@@ -444,7 +393,7 @@ function errorMessage(err) {
 async function load(place) {
   state.place = place;
   $("place").textContent = place.label;
-  updateMap(); // el mapa no depende de Open-Meteo: se actualiza aunque la predicción falle
+  updateMaps(); // los mapas no dependen de esta petición: se actualizan aunque falle
   showStatus("loading");
   try {
     state.data = await fetchForecast(place.lat, place.lon);
@@ -481,15 +430,6 @@ $("views").addEventListener("click", (e) => {
 });
 window.addEventListener("hashchange", () => showPage(pageFromHash()));
 
-// Mapa: al pulsar un modelo se recarga el iframe con ese modelo.
-$("map-tabs").addEventListener("click", (e) => {
-  const tab = e.target.closest(".tab");
-  if (!tab) return;
-  state.mapModel = tab.dataset.p;
-  renderMapTabs();
-  updateMap();
-});
-
 // Buscador: muestra hasta 5 coincidencias y carga la elegida.
 $("search").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -524,7 +464,7 @@ $("search").addEventListener("submit", async (e) => {
 });
 
 // Arranque: última ciudad guardada o Arjona.
-renderMapTabs();
+initMaps();
 state.page = pageFromHash();
 load(readSavedPlace() || DEFAULT_PLACE);
 showPage(state.page);
