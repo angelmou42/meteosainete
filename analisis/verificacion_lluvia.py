@@ -230,7 +230,7 @@ def main() -> None:
     clean = lambda v: None if isinstance(v, float) and v != v else (round(v, 3) if isinstance(v, float) else v)
     summary = {
         "periodo": [START.isoformat(), END.isoformat()],
-        "estaciones": [name for name, _, _ in STATIONS.values()],
+        "estaciones": [{"nombre": n, "lat": la, "lon": lo} for n, la, lo in STATIONS.values()],
         "umbral_mm": RAIN_MM,
         "dias": total,
         "dias_lluvia": rainy,

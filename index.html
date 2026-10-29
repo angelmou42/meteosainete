@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=7">
-  <script src="map.js?v=7" defer></script>
-  <script src="acierto.js?v=7" defer></script>
-  <script src="app.js?v=7" defer></script>
+  <link rel="stylesheet" href="style.css?v=8">
+  <script src="map.js?v=8" defer></script>
+  <script src="acierto.js?v=8" defer></script>
+  <script src="app.js?v=8" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -23,6 +23,12 @@
     <form id="search" autocomplete="off">
       <input id="q" type="search" placeholder="Buscar ciudad…" aria-label="Buscar ciudad">
       <button type="submit">Buscar</button>
+      <button type="button" class="locate" id="locate" title="Usar mi ubicación" aria-label="Usar mi ubicación">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+          <path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/>
+        </svg>
+      </button>
     </form>
   </header>
   <div class="results" id="results" aria-live="polite"></div>
@@ -127,6 +133,7 @@
     </div>
     <p class="status" id="acc-status" hidden></p>
     <p class="acc-intro" id="acc-intro"></p>
+    <p class="acc-area" id="acc-area"></p>
     <ul class="acc-summary" id="acc-summary"></ul>
     <div class="tablewrap"><table id="acc-table" class="acc-table"></table></div>
 

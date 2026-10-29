@@ -4,9 +4,21 @@
   "2026-03-11"
  ],
  "estaciones": [
-  "Jaén",
-  "Córdoba",
-  "Granada"
+  {
+   "nombre": "Jaén",
+   "lat": 37.7833,
+   "lon": -3.8
+  },
+  {
+   "nombre": "Córdoba",
+   "lat": 37.85,
+   "lon": -4.85
+  },
+  {
+   "nombre": "Granada",
+   "lat": 37.1833,
+   "lon": -3.7833
+  }
  ],
  "umbral_mm": 1.0,
  "dias": 1070,

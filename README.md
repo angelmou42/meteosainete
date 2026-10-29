@@ -21,6 +21,9 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
     (ECMWF, GFS e ICON-EU), con más detalle pero con su propia línea de tiempo.
 - **Acierto de cada modelo** con la lluvia (pestaña "Acierto", enlace
   directo: `#acierto`), calculado con un año de datos reales.
+- **Usar mi ubicación** (GPS del navegador, redondeada a unos 1 km).
+- **Ciudad en la URL** (`?lugar=…&lat=…&lon=…`) para compartir el enlace de
+  un sitio concreto.
 - Recuerda la **última ciudad** buscada (localStorage). La primera vez se
   abre en Arjona (Jaén).
 
@@ -98,7 +101,7 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
 - **Nada pesado hasta que hace falta.** Leaflet, las rejillas y Windy solo se
   descargan al abrir la pestaña de mapas. Leaflet se carga con SRI
   (`integrity`) para que el navegador lo rechace si el CDN lo alterase.
-- **Versiones en CSS y JS** (`style.css?v=7`). GitHub Pages deja que el
+- **Versiones en CSS y JS** (`style.css?v=8`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos.
 - **Sin compilación.** HTML, CSS y JavaScript a pelo, sin npm: se abre tal

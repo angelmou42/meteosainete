@@ -41,9 +41,11 @@ function renderAccuracy() {
 
   const date = (iso) => new Date(iso + "T12:00").toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" });
   $("acc-intro").textContent =
-    `Lluvia prevista frente a la medida en las estaciones de ${listJoin(d.estaciones)}, ` +
+    `Lluvia prevista frente a la medida en las estaciones de ${listJoin(d.estaciones.map((e) => e.nombre))}, ` +
     `del ${date(d.periodo[0])} al ${date(d.periodo[1])}: ${fmt(d.dias)} días, ${fmt(d.dias_lluvia)} de ellos con lluvia ` +
     `(${fmt(d.umbral_mm)} mm o más).`;
+
+  renderAreaWarning(d.estaciones);
 
   // Resumen calculado con los datos: mejor modelo suelto y comparación con el consenso.
   const models = rows.filter((r) => r.id !== "consenso" && r.id !== "siempre_seco");
@@ -89,6 +91,29 @@ function renderAccuracy() {
         <td>${fmt(r.error_mm, 1)} mm</td>
       </tr>`).join("")}
     </tbody>`;
+}
+
+/* El estudio solo vale para la zona de sus estaciones. Si la ciudad que se está
+ * viendo queda lejos, se avisa: en otro clima el orden de los modelos puede cambiar. */
+const NEAR_KM = 100;
+
+function renderAreaWarning(stations) {
+  const el = $("acc-area");
+  const place = state.place;
+  const km = place ? Math.min(...stations.map((e) => distanceKm(place.lat, place.lon, e.lat, e.lon))) : 0;
+  el.classList.toggle("is-far", km > NEAR_KM);
+  el.textContent = km > NEAR_KM
+    ? `Ojo: estás viendo ${place.label}, a unos ${fmt(Math.round(km / 10) * 10)} km de la estación más cercana del estudio. ` +
+      "Estos resultados son de Andalucía oriental; en otra zona el orden de los modelos puede ser distinto."
+    : "Estos resultados son de Andalucía oriental, la zona de la ciudad que estás viendo.";
+}
+
+// Distancia en km entre dos puntos (fórmula del haversine).
+function distanceKm(lat1, lon1, lat2, lon2) {
+  const rad = Math.PI / 180;
+  const a = Math.sin(((lat2 - lat1) * rad) / 2) ** 2 +
+    Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(((lon2 - lon1) * rad) / 2) ** 2;
+  return 2 * 6371 * Math.asin(Math.sqrt(a));
 }
 
 // "Jaén, Córdoba y Granada"

@@ -117,6 +117,22 @@ function readSavedPlace() {
   return null;
 }
 
+/* ---------- Ciudad en la URL ----------
+ * ?lugar=Arjona…&lat=37.93&lon=-4.05 permite compartir el enlace de un sitio
+ * concreto. Se usa replaceState para no llenar el historial con cada búsqueda. */
+
+function placeFromUrl() {
+  const q = new URLSearchParams(location.search);
+  const lat = Number(q.get("lat")), lon = Number(q.get("lon"));
+  if (!q.has("lat") || !q.has("lon") || Math.abs(lat) > 90 || Math.abs(lon) > 180) return null;
+  return { lat, lon, label: q.get("lugar") || `${fmt(lat, 2)}, ${fmt(lon, 2)}` };
+}
+
+function placeToUrl(place) {
+  const q = new URLSearchParams({ lugar: place.label, lat: place.lat, lon: place.lon });
+  history.replaceState(null, "", `${location.pathname}?${q}${location.hash}`);
+}
+
 /* ---------- Datos ---------- */
 
 // fetch con tiempo máximo: si la API no responde, mejor un error claro que una espera infinita.
@@ -399,7 +415,9 @@ function errorMessage(err) {
 async function load(place) {
   state.place = place;
   $("place").textContent = place.label;
+  placeToUrl(place);
   updateMaps(); // los mapas no dependen de esta petición: se actualizan aunque falle
+  if (state.page === "accuracy") showAccuracy(); // el aviso de zona depende de la ciudad
   showStatus("loading");
   try {
     state.data = await fetchForecast(place.lat, place.lon);
@@ -469,9 +487,38 @@ $("search").addEventListener("submit", async (e) => {
   }
 });
 
-// Arranque: última ciudad guardada o Arjona.
+/* "Usar mi ubicación": pide la posición al navegador (que pregunta al usuario).
+ * Se redondea a 2 decimales (≈ 1 km): suficiente para el tiempo y no deja la
+ * posición exacta en la URL si se comparte el enlace. */
+$("locate").addEventListener("click", () => {
+  const box = $("results");
+  if (!navigator.geolocation) {
+    box.textContent = "Este navegador no permite obtener tu ubicación.";
+    return;
+  }
+  const btn = $("locate");
+  btn.setAttribute("aria-busy", "true");
+  box.textContent = "Buscando tu ubicación…";
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      btn.removeAttribute("aria-busy");
+      box.textContent = "";
+      const round = (v) => Math.round(v * 100) / 100;
+      load({ lat: round(pos.coords.latitude), lon: round(pos.coords.longitude), label: "Tu ubicación" });
+    },
+    (err) => {
+      btn.removeAttribute("aria-busy");
+      box.textContent = err.code === err.PERMISSION_DENIED
+        ? "No has dado permiso para usar tu ubicación. Puedes buscar tu ciudad por su nombre."
+        : "No se ha podido obtener tu ubicación. Prueba a buscar tu ciudad por su nombre.";
+    },
+    { timeout: 10000, maximumAge: 10 * 60 * 1000 },
+  );
+});
+
+// Arranque: ciudad de la URL (enlace compartido), si no la última guardada, si no Arjona.
 initMaps();
 initAccuracy();
 state.page = pageFromHash();
-load(readSavedPlace() || DEFAULT_PLACE);
+load(placeFromUrl() || readSavedPlace() || DEFAULT_PLACE);
 showPage(state.page);
