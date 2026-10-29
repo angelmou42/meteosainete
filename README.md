@@ -39,6 +39,9 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 - **Modo claro u oscuro**: sigue al sistema y se puede cambiar con un botón.
 - **Esqueleto de carga** mientras llegan los datos y **pestañas manejables
   con las flechas del teclado** (patrón de pestañas de WAI-ARIA).
+- **Instalable como app (PWA)** con su icono, y **sin conexión**: la página
+  se abre desde la caché y muestra la última predicción descargada con un
+  aviso de cuándo se guardó.
 - **Usar mi ubicación** (GPS del navegador, redondeada a unos 1 km).
 - **Ciudad en la URL** (`?lugar=…&lat=…&lon=…`) para compartir el enlace de
   un sitio concreto.
@@ -132,15 +135,21 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=14`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=15`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
-  cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos.
+  cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al
+  subir la versión hay que subir también `CACHE` en `sw.js`.
 - **Iconos que no contradicen al texto.** El icono de cada día no sale del
   "código del tiempo" de un solo modelo, sino del mismo criterio que la frase:
   lluvia si más de la mitad de los modelos la dan en alguna hora; tormenta,
   nieve o niebla si la mayoría lo dicen; y si no, la nubosidad media
   (mediana de los modelos) durante el día.
+- **Sin conexión, datos viejos pero avisados.** La regla "solo datos reales"
+  se mantiene: si no hay red, se enseña la última predicción *real* que se
+  descargó, con un aviso de la fecha y un botón de reintentar. Nunca datos
+  inventados. Los iconos PNG se generan con un script en Python sin
+  librerías (PNG escrito a mano con `zlib`).
 - **Sin compilación.** HTML, CSS y JavaScript a pelo, sin npm: se abre tal
   cual y se publica en GitHub Pages sin configuración. La única librería
   (Leaflet) se carga desde un CDN.
@@ -156,6 +165,9 @@ map.js       Mapas de lluvia (mapa propio con Leaflet y Windy)
 acierto.js   Pestaña "Acierto" (lee analisis/resultados.json)
 icons.js     Iconos del tiempo en SVG
 places.js    Buscador con sugerencias, recientes y favoritas
+sw.js        Service worker: caché para abrir la web sin conexión
+manifest.webmanifest, img/   Datos e iconos de la app instalable
+herramientas/                Script que genera los iconos PNG
 analisis/    Análisis de acierto en Python, sus resultados y sus tests
 tests/       Tests de la web (node --test)
 .github/     GitHub Actions: ejecuta todos los tests en cada push

@@ -187,6 +187,13 @@ h2 { display: flex; align-items: center; gap: 8px; }
   @keyframes pulse { 50% { opacity: .45; } }
 }
 
+/* Aviso de predicción guardada (sin conexión) */
+.stale {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 14px;
+  background: var(--surface); border: 1px solid var(--warn); border-left-width: 4px; border-radius: 10px; padding: 10px 14px;
+}
+.stale p { margin: 0; flex: 1 1 240px; }
+
 /* ---------- Bloque "Ahora" ---------- */
 .now {
   display: grid; grid-template-columns: auto 1fr; gap: 14px 28px; align-items: center;

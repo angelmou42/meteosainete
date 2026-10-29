@@ -5,10 +5,20 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Meteosainete</title>
   <meta name="description" content="Compara las predicciones de 6 modelos meteorológicos y muestra un consenso con su fiabilidad.">
+  <!-- App instalable (PWA) e iconos -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="theme-color" content="#0f5f7a">
+  <!-- Vista previa al compartir el enlace -->
+  <meta property="og:title" content="Meteosainete">
+  <meta property="og:description" content="El tiempo según 6 modelos meteorológicos, su consenso y cuánto te puedes fiar.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://angelmou42.github.io/meteosainete/img/icon-512.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
   <!-- Tema elegido por el usuario (claro u oscuro), aplicado antes de pintar para que no haya destello -->
   <script>
     try { const t = localStorage.getItem("meteosainete:tema"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -18,15 +28,15 @@
   <script type="importmap">
     {
       "imports": {
-        "./core.js": "./core.js?v=14",
-        "./map.js": "./map.js?v=14",
-        "./acierto.js": "./acierto.js?v=14",
-        "./icons.js": "./icons.js?v=14",
-        "./places.js": "./places.js?v=14"
+        "./core.js": "./core.js?v=15",
+        "./map.js": "./map.js?v=15",
+        "./acierto.js": "./acierto.js?v=15",
+        "./icons.js": "./icons.js?v=15",
+        "./places.js": "./places.js?v=15"
       }
     }
   </script>
-  <script type="module" src="app.js?v=14"></script>
+  <script type="module" src="app.js?v=15"></script>
 </head>
 <body>
 <div class="wrap">
@@ -76,6 +86,12 @@
     <div class="error" id="error" role="alert" hidden>
       <p id="error-msg"></p>
       <button type="button" id="retry">Reintentar</button>
+    </div>
+
+    <!-- Sin conexión: se muestra la última predicción guardada con este aviso -->
+    <div class="stale" id="stale" role="status" hidden>
+      <p id="stale-msg"></p>
+      <button type="button" id="stale-retry">Reintentar</button>
     </div>
 
     <main id="content" hidden>

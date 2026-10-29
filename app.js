@@ -511,6 +511,26 @@ function errorMessage(err) {
 
 /* ---------- Carga ---------- */
 
+/* ---------- Última predicción guardada (para usar sin conexión) ----------
+ * Se guarda la última predicción descargada. Si la red falla para ese mismo
+ * sitio, se muestra con un aviso de cuándo se descargó: son datos reales,
+ * pero viejos, y la web lo dice claramente. */
+const LAST_KEY = "meteosainete:ultima";
+
+function saveLast(place, data) {
+  try { localStorage.setItem(LAST_KEY, JSON.stringify({ place, data, savedAt: Date.now() })); } catch { /* lleno o bloqueado */ }
+}
+
+function readLast(place) {
+  try {
+    const last = JSON.parse(localStorage.getItem(LAST_KEY));
+    const same = last && Math.abs(last.place.lat - place.lat) < 0.01 && Math.abs(last.place.lon - place.lon) < 0.01;
+    return same ? last : null;
+  } catch {
+    return null;
+  }
+}
+
 async function load(place) {
   state.place = place;
   $("place").textContent = place.label;
@@ -518,12 +538,21 @@ async function load(place) {
   updateMaps(); // los mapas no dependen de esta petición: se actualizan aunque falle
   if (state.page === "accuracy") showAccuracy(); // el aviso de zona depende de la ciudad
   showStatus("loading");
+  $("stale").hidden = true;
   try {
     state.data = await fetchForecast(place.lat, place.lon);
+    saveLast(place, state.data);
   } catch (err) {
     console.error(err);
-    showStatus("error", errorMessage(err));
-    return;
+    const last = readLast(place);
+    if (!last) {
+      showStatus("error", errorMessage(err));
+      return;
+    }
+    state.data = last.data;
+    const when = new Date(last.savedAt).toLocaleString("es-ES", { weekday: "long", hour: "2-digit", minute: "2-digit" });
+    $("stale-msg").textContent = `${errorMessage(err)} Mientras tanto ves la predicción guardada el ${when}.`;
+    $("stale").hidden = false;
   }
   state.sel = 0;
   savePlace(place);
@@ -535,6 +564,12 @@ async function load(place) {
 /* ---------- Eventos ---------- */
 
 $("retry").addEventListener("click", () => load(state.place));
+$("stale-retry").addEventListener("click", () => load(state.place));
+
+// Service worker: hace la web instalable y permite abrirla sin conexión (ver sw.js).
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch((err) => console.warn("Sin service worker:", err));
+}
 
 $("tabs").addEventListener("click", (e) => {
   const tab = e.target.closest(".tab");
