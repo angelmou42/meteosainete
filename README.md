@@ -14,7 +14,11 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
   final de consenso.
 - **Gráfico hora a hora** del día elegido: una línea por modelo, una banda gris
   con el rango entre modelos y la mediana discontinua.
-- Recuerda la **última ciudad** buscada (localStorage).
+- **Mapa de lluvia por modelo** (ECMWF, GFS e ICON-EU) incrustado de
+  [Windy](https://www.windy.com/), en una sección plegable que solo se carga
+  al abrirla.
+- Recuerda la **última ciudad** buscada (localStorage). La primera vez se
+  abre en Arjona (Jaén).
 
 ## Modelos
 
@@ -50,6 +54,10 @@ Comprobado con datos reales (octubre de 2026): todos publican
   **no entra en el consenso**.
 - **Solo datos reales.** Si la API falla, se muestra un error claro con un
   botón de reintentar, nunca datos inventados.
+- **Mapa de Windy en lugar de uno propio.** Un mapa hecho con puntos de
+  Open-Meteo saldría pixelado y gastaría cientos de llamadas por visita. El
+  iframe de Windy da la rejilla completa de cada modelo sin gastar cuota, y
+  se carga solo cuando el usuario lo pide para no ralentizar la web.
 - **Sin dependencias ni compilación.** HTML, CSS y JavaScript a pelo: se abre
   tal cual y se publica en GitHub Pages sin configuración.
 
@@ -78,6 +86,7 @@ y abrir <http://localhost:8000>.
 - Añadir la predicción oficial de AEMET (API AEMET OpenData) como séptima fila,
   con un pequeño proxy para no exponer la clave.
 - Probabilidad de lluvia por horas en el gráfico.
+- Radar de lluvia en tiempo real (AEMET o RainViewer) junto al mapa.
 
 ## Créditos
 

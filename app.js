@@ -19,7 +19,14 @@ const MODELS = [
   { id: "gem_seamless",         name: "GEM",          origin: "Canadá",      c: "--m6" },
 ];
 
-const DEFAULT_PLACE = { lat: 40.4168, lon: -3.7038, label: "Madrid" };
+const DEFAULT_PLACE = { lat: 37.93493, lon: -4.05478, label: "Arjona, Jaén, Andalucía, España" };
+
+// Modelos disponibles en el mapa de Windy. `product` es el nombre que usa Windy en su URL.
+const MAP_MODELS = [
+  { product: "ecmwf", name: "ECMWF" },
+  { product: "gfs", name: "GFS" },
+  { product: "iconEu", name: "ICON-EU" },
+];
 const STORAGE_KEY = "meteosainete:lastPlace";
 const FETCH_TIMEOUT_MS = 12000;
 const DAY_NAMES = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
@@ -30,6 +37,7 @@ const state = {
   view: "temp",   // pestaña activa de la matriz: temp | rain | wind
   sel: 0,         // índice del día seleccionado
   place: null,    // { lat, lon, label } de la ciudad actual
+  mapModel: MAP_MODELS[0].product, // modelo elegido en el mapa de Windy
 };
 
 /* ---------- Utilidades ---------- */
@@ -353,6 +361,50 @@ function render() {
   renderChart();
 }
 
+/* ---------- Mapa de Windy ----------
+ * Windy ofrece un mapa incrustable (iframe) configurable por URL. Así tenemos
+ * mapas de lluvia de cada modelo a resolución completa, sin gastar cuota de
+ * Open-Meteo. Como pesa bastante, solo se carga cuando el usuario abre la sección. */
+
+function windyUrl(place, product) {
+  const p = new URLSearchParams({
+    lat: place.lat, lon: place.lon,             // centro del mapa
+    detailLat: place.lat, detailLon: place.lon, // posición del marcador
+    zoom: 8,
+    level: "surface",
+    overlay: "rain",
+    product,
+    menu: "",
+    message: "true",
+    marker: "true",
+    calendar: "now",
+    type: "map",
+    location: "coordinates",
+    metricWind: "km/h",
+    metricTemp: "°C",
+    radarRange: "-1",
+  });
+  return "https://embed.windy.com/embed2.html?" + p;
+}
+
+function renderMapTabs() {
+  $("map-tabs").innerHTML = MAP_MODELS.map((m) =>
+    `<button type="button" class="tab" role="tab" data-p="${m.product}" aria-selected="${m.product === state.mapModel}">${m.name}</button>`
+  ).join("");
+}
+
+// Actualiza el iframe solo si la sección está abierta y la URL ha cambiado.
+function updateMap() {
+  if (!$("mapbox").open || !state.place) return;
+  const src = windyUrl(state.place, state.mapModel);
+  const frame = $("windy");
+  // Comparamos con la última URL guardada: frame.src la devuelve normalizada y no coincidiría.
+  if (frame.dataset.url !== src) {
+    frame.dataset.url = src;
+    frame.src = src;
+  }
+}
+
 /* ---------- Estados de la interfaz ---------- */
 
 // Muestra solo uno de: "loading", "error" o "content".
@@ -387,6 +439,7 @@ async function load(place) {
   savePlace(place);
   showStatus("content");
   render();
+  updateMap();
 }
 
 /* ---------- Eventos ---------- */
@@ -397,8 +450,18 @@ $("tabs").addEventListener("click", (e) => {
   const tab = e.target.closest(".tab");
   if (!tab) return;
   state.view = tab.dataset.v;
-  document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+  $("tabs").querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
   renderMatrix();
+});
+
+// Mapa: al abrir la sección se carga el iframe; al pulsar un modelo se cambia.
+$("mapbox").addEventListener("toggle", updateMap);
+$("map-tabs").addEventListener("click", (e) => {
+  const tab = e.target.closest(".tab");
+  if (!tab) return;
+  state.mapModel = tab.dataset.p;
+  renderMapTabs();
+  updateMap();
 });
 
 // Buscador: muestra hasta 5 coincidencias y carga la elegida.
@@ -434,5 +497,6 @@ $("search").addEventListener("submit", async (e) => {
   }
 });
 
-// Arranque: última ciudad guardada o Madrid.
+// Arranque: última ciudad guardada o Arjona.
+renderMapTabs();
 load(readSavedPlace() || DEFAULT_PLACE);

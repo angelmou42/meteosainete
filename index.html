@@ -16,7 +16,7 @@
   <header>
     <div>
       <h1>Meteosainete</h1>
-      <div class="place" id="place">Madrid</div>
+      <div class="place" id="place">Arjona, Jaén, Andalucía, España</div>
     </div>
     <form id="search" autocomplete="off">
       <input id="q" type="search" placeholder="Buscar ciudad…" aria-label="Buscar ciudad">
@@ -63,6 +63,21 @@
         <svg id="chart" viewBox="0 0 720 260" width="100%" role="img" aria-label="Temperatura por horas según cada modelo"></svg>
       </div>
       <div class="legend" id="legend"></div>
+    </section>
+
+    <!-- Mapa de Windy: plegado por defecto; el iframe solo se carga al abrirlo (pesa bastante) -->
+    <section>
+      <details class="mapbox" id="mapbox">
+        <summary>
+          <span class="map-title">Mapa de lluvia por modelo</span>
+          <span class="label">Abrir mapa</span>
+        </summary>
+        <div class="map-body">
+          <div class="tabs" role="tablist" id="map-tabs"></div>
+          <div class="map-frame"><iframe id="windy" title="Mapa de lluvia de Windy"></iframe></div>
+          <p class="note">Mapa de <a href="https://www.windy.com/" target="_blank" rel="noopener">Windy</a>. Usa la línea de tiempo de abajo para ver cómo se mueve la lluvia.</p>
+        </div>
+      </details>
     </section>
   </main>
 
