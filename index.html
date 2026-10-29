@@ -8,21 +8,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
+  <!-- Tema elegido por el usuario (claro u oscuro), aplicado antes de pintar para que no haya destello -->
+  <script>
+    try { const t = localStorage.getItem("meteosainete:tema"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
   <!-- Módulos ES. El mapa de importación añade la versión (?v=) a cada archivo
        para que, tras publicar cambios, el navegador no use copias antiguas en caché. -->
   <script type="importmap">
     {
       "imports": {
-        "./core.js": "./core.js?v=13",
-        "./map.js": "./map.js?v=13",
-        "./acierto.js": "./acierto.js?v=13",
-        "./icons.js": "./icons.js?v=13",
-        "./places.js": "./places.js?v=13"
+        "./core.js": "./core.js?v=14",
+        "./map.js": "./map.js?v=14",
+        "./acierto.js": "./acierto.js?v=14",
+        "./icons.js": "./icons.js?v=14",
+        "./places.js": "./places.js?v=14"
       }
     }
   </script>
-  <script type="module" src="app.js?v=13"></script>
+  <script type="module" src="app.js?v=14"></script>
 </head>
 <body>
 <div class="wrap">
@@ -39,6 +43,7 @@
         <ul class="suggest" id="suggest" role="listbox" aria-label="Sugerencias" hidden></ul>
       </div>
       <button type="submit">Buscar</button>
+      <button type="button" class="locate" id="theme" title="Cambiar a modo oscuro" aria-label="Cambiar a modo oscuro"></button>
       <button type="button" class="locate" id="locate" title="Usar mi ubicación" aria-label="Usar mi ubicación">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>
@@ -60,7 +65,14 @@
 
   <div id="page-forecast">
     <!-- Estado de carga y de error: solo uno de los tres bloques (carga, error, contenido) está visible -->
-    <p class="status" id="loading">Cargando predicciones…</p>
+    <div class="skeleton" id="loading" role="status" aria-label="Cargando predicciones">
+      <div class="sk sk-now"></div>
+      <div class="sk-row">
+        <div class="sk sk-day"></div><div class="sk sk-day"></div><div class="sk sk-day"></div><div class="sk sk-day"></div>
+        <div class="sk sk-day"></div><div class="sk sk-day"></div><div class="sk sk-day"></div>
+      </div>
+      <div class="sk sk-table"></div>
+    </div>
     <div class="error" id="error" role="alert" hidden>
       <p id="error-msg"></p>
       <button type="button" id="retry">Reintentar</button>
@@ -72,7 +84,8 @@
 
       <section>
         <div class="sec-head">
-          <h2 id="strip-title">Consenso de 6 modelos</h2>
+          <h2><span id="strip-title">Consenso de 6 modelos</span>
+          <button type="button" class="info" popovertarget="info-consenso" aria-label="Cómo se calcula el consenso">i</button></h2>
           <span class="label">Máx / mín · lluvia · fiabilidad</span>
         </div>
         <!-- Resumen en palabras de la lluvia del día seleccionado -->
@@ -82,7 +95,8 @@
 
       <section>
         <div class="sec-head">
-          <h2>Qué dice cada modelo</h2>
+          <h2>Qué dice cada modelo
+          <button type="button" class="info" popovertarget="info-modelos" aria-label="Los modelos">i</button></h2>
           <div class="tabs" role="tablist" id="tabs">
             <button class="tab" role="tab" aria-selected="true" data-v="temp">Temperatura</button>
             <button class="tab" role="tab" aria-selected="false" data-v="rain">Lluvia</button>
@@ -95,7 +109,8 @@
 
       <section>
         <div class="sec-head">
-          <h2 id="chart-title">Temperatura hora a hora</h2>
+          <h2><span id="chart-title">Temperatura hora a hora</span>
+          <button type="button" class="info" popovertarget="info-grafico" aria-label="Cómo leer el gráfico">i</button></h2>
           <div class="tabs" role="tablist" id="chart-tabs" aria-label="Gráfico">
             <button class="tab" role="tab" aria-selected="true" data-c="temp">Temperatura</button>
             <button class="tab" role="tab" aria-selected="false" data-c="rain">Lluvia</button>
@@ -121,7 +136,7 @@
     <div id="own-map-box" class="map-view">
       <div class="sec-head">
         <h2>Lluvia hora a hora según cada modelo</h2>
-        <div class="tabs" role="tablist" id="rain-models" aria-label="Modelo"></div>
+        <div class="tabs pick" role="tablist" id="rain-models" aria-label="Modelo"></div>
       </div>
       <div class="time-controls">
         <div class="daychips" id="map-days" aria-label="Día"></div>
@@ -143,7 +158,7 @@
     <div id="windy-box" class="map-view" hidden>
       <div class="sec-head">
         <h2>Mapa animado de Windy</h2>
-        <div class="tabs" role="tablist" id="windy-models" aria-label="Modelo"></div>
+        <div class="tabs pick" role="tablist" id="windy-models" aria-label="Modelo"></div>
       </div>
       <div class="map-frame windy-frame"><iframe id="windy" title="Mapa de lluvia de Windy"></iframe></div>
       <p class="note">Mapa de <a href="https://www.windy.com/" target="_blank" rel="noopener">Windy</a>, con más detalle. Aquí la hora se elige con su propia línea de tiempo: Windy no deja controlarla desde fuera.</p>
@@ -188,15 +203,34 @@
 
   <footer>
     <p>
-      Fiabilidad: <b>alta</b> si las máximas difieren 2 °C o menos y los modelos coinciden en si llueve;
-      <b>media</b> hasta 4 °C o con lluvia dudosa; <b>baja</b> en el resto.
-      En lluvia, el <b>%</b> es la probabilidad de que llueva según cada modelo y los <b>mm</b> son el total del día
-      (1 mm = 1 litro por m²): llovizna menos de 1, débil hasta 5, moderada hasta 15, fuerte hasta 30.
-      "Lo dan X de N" cuenta los modelos con 1 mm o más entre los que tienen datos ese día.
-      Un "—" indica que el modelo no llega a ese día; esos huecos no cuentan para el consenso.
+      Datos de <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (CC BY 4.0).
+      Mapa base de Esri; mapa animado de Windy. Código en
+      <a href="https://github.com/angelmou42/meteosainete" target="_blank" rel="noopener">GitHub</a>.
     </p>
-    <p>Datos de <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (CC BY 4.0).</p>
   </footer>
 </div>
+  <!-- Explicaciones de los botones ⓘ (Popover API: se abren encima de todo, sin JavaScript) -->
+  <div class="info-pop" id="info-consenso" popover>
+    <h3>Cómo se calcula el consenso</h3>
+    <p>Para cada día se toma la <b>mediana</b> de los modelos que tienen datos: el valor del medio, que no se deja arrastrar por un modelo que se desvía. Comprobamos con un año de datos que da más aciertos que cualquier modelo suelto (pestaña Acierto).</p>
+    <p><b>Fiabilidad:</b> alta si las máximas difieren 2 °C o menos y todos coinciden en si llueve; media hasta 4 °C o si una minoría discrepa sobre la lluvia; baja en el resto.</p>
+    <p><b>"Lo dan X de N"</b> cuenta los modelos que dan 1 mm o más ese día. El <b>%</b> es la probabilidad de lluvia (mediana de los modelos que la publican).</p>
+    <p>Lluvia diaria: llovizna menos de 1 mm, débil hasta 5, moderada hasta 15, fuerte hasta 30. 1 mm = 1 litro por m².</p>
+    <button type="button" class="info-close" popovertarget="info-consenso" popovertargetaction="hide">Entendido</button>
+  </div>
+  <div class="info-pop" id="info-modelos" popover>
+    <h3>Los modelos</h3>
+    <p>Cada fila es un modelo meteorológico de un servicio distinto: ECMWF (centro europeo), GFS (EE. UU.), ICON (Alemania), Météo-France, UKMO (Reino Unido) y GEM (Canadá). Casi todas las webs del tiempo usan alguno de ellos.</p>
+    <p>Un <b>"—"</b> indica que el modelo no llega a ese día (Météo-France predice unos 4 días); esos huecos no cuentan para el consenso.</p>
+    <p>En la pestaña Lluvia, un <b>"≈"</b> en cursiva es una estimación a partir de los mm: ese modelo no publica probabilidad y la estimación no entra en el consenso.</p>
+    <button type="button" class="info-close" popovertarget="info-modelos" popovertargetaction="hide">Entendido</button>
+  </div>
+  <div class="info-pop" id="info-grafico" popover>
+    <h3>Cómo leer el gráfico</h3>
+    <p><b>Temperatura:</b> una línea por modelo; la banda gris va del modelo más frío al más cálido y la línea discontinua es la mediana.</p>
+    <p><b>Lluvia:</b> las barras son la mediana de los modelos y la raya fina va del que menos al que más lluvia da. Debajo, cada fila es un modelo y cada casilla una hora, coloreada según los mm.</p>
+    <p>Pasa el ratón o el dedo por encima para ver el valor de cada modelo a esa hora.</p>
+    <button type="button" class="info-close" popovertarget="info-grafico" popovertargetaction="hide">Entendido</button>
+  </div>
 </body>
 </html>

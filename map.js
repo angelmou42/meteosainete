@@ -51,6 +51,8 @@ const maps = {
   map: null,              // instancia de L.map
   overlay: null,          // capa con la imagen de la lluvia
   marker: null,           // punto de la ciudad
+  baseLayer: null,        // teselas del fondo y de los nombres (para cambiar de tema)
+  labelLayer: null,
   placeKey: "",           // ciudad que está centrada ahora en el mapa
 };
 
@@ -194,11 +196,22 @@ function loadLeaflet() {
 }
 
 // Crea el mapa la primera vez: fondo sin nombres, capa de lluvia y nombres por encima.
+// Teselas grises de Esri en el tema actual de la web (claro u oscuro).
+function tileUrl(layer) {
+  const root = document.documentElement.dataset.theme;
+  const dark = root ? root === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  return `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${dark ? "Dark" : "Light"}_Gray_${layer}/MapServer/tile/{z}/{y}/{x}`;
+}
+
+// Al cambiar el tema con el botón de la cabecera, el mapa base cambia también.
+export function setMapTheme() {
+  maps.baseLayer?.setUrl(tileUrl("Base"));
+  maps.labelLayer?.setUrl(tileUrl("Reference"));
+}
+
 function createMap() {
   // Mapa base gris de Esri (gratuito, sin clave): en gris los colores de la lluvia destacan.
   // Viene en dos capas, fondo y nombres, para poder poner la lluvia en medio.
-  const theme = matchMedia("(prefers-color-scheme: dark)").matches ? "Dark" : "Light";
-  const tiles = (layer) => `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${theme}_Gray_${layer}/MapServer/tile/{z}/{y}/{x}`;
   const attribution = 'Mapa &copy; <a href="https://www.esri.com/">Esri</a>, HERE, Garmin, &copy; OpenStreetMap · Datos: Open-Meteo';
 
   // Sin zoom con la rueda: al bajar por la página no queremos que el mapa se aleje sin querer.
@@ -207,8 +220,8 @@ function createMap() {
   map.createPane("rain").style.zIndex = 350;
   map.createPane("labels").style.zIndex = 450;
   map.getPane("labels").style.pointerEvents = "none";
-  L.tileLayer(tiles("Base"), { attribution, maxNativeZoom: 16 }).addTo(map);
-  L.tileLayer(tiles("Reference"), { pane: "labels", maxNativeZoom: 16 }).addTo(map);
+  maps.baseLayer = L.tileLayer(tileUrl("Base"), { attribution, maxNativeZoom: 16 }).addTo(map);
+  maps.labelLayer = L.tileLayer(tileUrl("Reference"), { pane: "labels", maxNativeZoom: 16 }).addTo(map);
 
   // Al pulsar el mapa, muestra los mm del punto de la rejilla más cercano.
   map.on("click", (e) => {

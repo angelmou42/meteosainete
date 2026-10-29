@@ -34,6 +34,11 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
   directo: `#acierto`), calculado con un año de datos reales.
 - **Buscador con sugerencias** mientras se escribe (con teclado: ↑ ↓, Intro,
   Esc) y accesos rápidos a las **ciudades recientes y favoritas** (★).
+- **Botones ⓘ** con las explicaciones (consenso, fiabilidad, modelos y
+  gráfico) justo donde hacen falta, con la Popover API del navegador.
+- **Modo claro u oscuro**: sigue al sistema y se puede cambiar con un botón.
+- **Esqueleto de carga** mientras llegan los datos y **pestañas manejables
+  con las flechas del teclado** (patrón de pestañas de WAI-ARIA).
 - **Usar mi ubicación** (GPS del navegador, redondeada a unos 1 km).
 - **Ciudad en la URL** (`?lugar=…&lat=…&lon=…`) para compartir el enlace de
   un sitio concreto.
@@ -127,7 +132,7 @@ Las descargas se guardan en `analisis/datos/`, que no se sube al repositorio.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=13`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=14`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos.

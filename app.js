@@ -9,7 +9,7 @@ import { $, MODELS, RAIN_SCALE, consensus, daySummary, dayName, estimateProb, fe
   isNum, median, nums, publishesProb, rainColor, rainLabel, rainPeriods, rainSlots, skyIcon, state, tempAt } from "./core.js";
 import { ICON_LABELS, iconSvg } from "./icons.js";
 import { initPlaces, notePlace } from "./places.js";
-import { initMaps, updateMaps } from "./map.js";
+import { initMaps, setMapTheme, updateMaps } from "./map.js";
 import { initAccuracy, showAccuracy } from "./acierto.js";
 
 /* ---------- Configuración ---------- */
@@ -607,7 +607,48 @@ $("locate").addEventListener("click", () => {
   );
 });
 
+/* ---------- Tema claro / oscuro ----------
+ * Por defecto sigue al sistema. El botón alterna y guarda la elección. */
+const THEME_KEY = "meteosainete:tema";
+const darkNow = () => document.documentElement.dataset.theme === "dark" ||
+  (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+
+function renderThemeButton() {
+  const dark = darkNow();
+  const btn = $("theme");
+  const label = dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro";
+  btn.title = label;
+  btn.setAttribute("aria-label", label);
+  // Sol en modo oscuro (para pasar a claro) y luna en modo claro.
+  btn.innerHTML = dark
+    ? `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`
+    : `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>`;
+}
+
+$("theme").addEventListener("click", () => {
+  const next = darkNow() ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem(THEME_KEY, next); } catch { /* sin almacenamiento: solo dura esta visita */ }
+  renderThemeButton();
+  setMapTheme(); // el mapa base también cambia de tema
+  if (state.data) renderChart(); // el gráfico usa colores calculados al dibujarse
+});
+
+/* Pestañas con teclado: ← → (y Inicio / Fin) mueven entre las pestañas de un
+ * mismo grupo, como en el patrón de pestañas accesibles de WAI-ARIA. */
+document.addEventListener("keydown", (e) => {
+  const tab = e.target.closest?.('[role="tab"]');
+  if (!tab || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+  const tabs = [...tab.closest('[role="tablist"]').querySelectorAll('[role="tab"]')];
+  const k = tabs.indexOf(tab);
+  const next = e.key === "Home" ? 0 : e.key === "End" ? tabs.length - 1 : (k + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+  e.preventDefault();
+  tabs[next].focus();
+  tabs[next].click();
+});
+
 // Arranque: ciudad de la URL (enlace compartido), si no la última guardada, si no Arjona.
+renderThemeButton();
 initMaps();
 initAccuracy();
 initPlaces({ onSelect: load });

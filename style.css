@@ -16,15 +16,23 @@
   --sun: #f2b531; --moon: #c9cfe0; --cloud: #c9d3dc; --cloud-dark: #93a1ad; --drop: #2f86d6; --snow: #9fc3e6;
 }
 
-/* Modo oscuro automático según el sistema */
+/* Modo oscuro: automático según el sistema, salvo que el usuario elija claro
+   (data-theme="light") u oscuro (data-theme="dark") con el botón de la cabecera. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0e161c; --surface: #16212a; --ink: #e4ecf1; --muted: #93a3b0; --line: #2a3945;
     --accent: #5fb7d4; --accent-ink: #06222c; --ok: #6cc58f; --warn: #e2ad48; --bad: #ef7d70;
     --m1: #6aaee8; --m2: #ef8a68; --m3: #6cc58f; --m4: #b495e6; --m5: #e0c055; --m6: #5fcbd2;
     --sun: #f5c04a; --moon: #dfe4f0; --cloud: #8796a3; --cloud-dark: #5d6b77; --drop: #5fb0f0; --snow: #cfe3f6;
     color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #0e161c; --surface: #16212a; --ink: #e4ecf1; --muted: #93a3b0; --line: #2a3945;
+  --accent: #5fb7d4; --accent-ink: #06222c; --ok: #6cc58f; --warn: #e2ad48; --bad: #ef7d70;
+  --m1: #6aaee8; --m2: #ef8a68; --m3: #6cc58f; --m4: #b495e6; --m5: #e0c055; --m6: #5fcbd2;
+  --sun: #f5c04a; --moon: #dfe4f0; --cloud: #8796a3; --cloud-dark: #5d6b77; --drop: #5fb0f0; --snow: #cfe3f6;
+  color-scheme: dark;
 }
 
 /* ---------- Base ---------- */
@@ -148,6 +156,37 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .c-media { color: var(--warn); }
 .c-baja { color: var(--bad); }
 
+/* ---------- Botones ⓘ con explicaciones (Popover API, sin JavaScript) ---------- */
+h2 { display: flex; align-items: center; gap: 8px; }
+.info {
+  width: 20px; height: 20px; padding: 0; border-radius: 50%; flex: none;
+  background: transparent; color: var(--muted); border: 1.5px solid currentColor;
+  font: italic 600 .75rem/1 Georgia, serif; display: inline-grid; place-items: center;
+}
+.info:hover { color: var(--accent); }
+.info-pop {
+  max-width: min(460px, calc(100vw - 32px)); padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px;
+  background: var(--surface); color: var(--ink); box-shadow: 0 12px 40px rgb(0 0 0 / .3);
+  font: 400 .92rem/1.55 var(--body); text-align: left;
+}
+.info-pop::backdrop { background: rgb(0 0 0 / .35); }
+.info-pop h3 { margin: 0 0 8px; font-family: var(--display); font-stretch: 112%; font-size: 1.05rem; }
+.info-pop p { margin: 0 0 8px; }
+.info-close { margin-top: 6px; }
+
+/* ---------- Carga: esqueleto que "late" mientras llegan los datos ---------- */
+.skeleton { display: flex; flex-direction: column; gap: 14px; }
+.sk { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.sk-now { height: 112px; }
+.sk-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+.sk-day { height: 150px; }
+.sk-table { height: 260px; }
+@media (max-width: 560px) { .sk-row { grid-template-columns: 1fr; } .sk-day { height: 52px; } }
+@media (prefers-reduced-motion: no-preference) {
+  .sk { animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .45; } }
+}
+
 /* ---------- Bloque "Ahora" ---------- */
 .now {
   display: grid; grid-template-columns: auto 1fr; gap: 14px 28px; align-items: center;
@@ -185,6 +224,10 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .tabs { display: flex; flex-wrap: wrap; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
 .tab { background: transparent; color: var(--muted); border: 0; padding: 5px 11px; font-weight: 600; font-size: .86rem; }
 .tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
+/* Selectores de modelo: "chips" separados, para distinguirlos de las pestañas */
+.tabs.pick { background: none; border: 0; padding: 0; gap: 6px; }
+.tabs.pick .tab { border: 1px solid var(--line); border-radius: 99px; padding: 4px 11px; font-size: .82rem; background: var(--surface); }
+.tabs.pick .tab[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
 table { border-collapse: collapse; width: 100%; min-width: 640px; font-variant-numeric: tabular-nums; }
 th, td { padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--line); }
