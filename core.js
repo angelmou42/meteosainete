@@ -8,12 +8,13 @@
 /* ---------- Configuración ---------- */
 
 // Modelos que comparamos. `id` es el nombre que usa Open-Meteo; `c` es la
-// variable CSS con su color (definida en style.css).
+// variable CSS con su color (definida en style.css); `short`, un nombre corto
+// para los sitios estrechos (si no hay, se usa `name`).
 export const MODELS = [
   { id: "ecmwf_ifs025",         name: "ECMWF",        origin: "Europa",      c: "--m1" },
   { id: "gfs_seamless",         name: "GFS",          origin: "EE. UU.",     c: "--m2" },
   { id: "icon_seamless",        name: "ICON",         origin: "Alemania",    c: "--m3" },
-  { id: "meteofrance_seamless", name: "Météo-France", origin: "Francia",     c: "--m4" },
+  { id: "meteofrance_seamless", name: "Météo-France", origin: "Francia",     c: "--m4", short: "Météo-Fr." },
   { id: "ukmo_seamless",        name: "UKMO",         origin: "Reino Unido", c: "--m5" },
   { id: "gem_seamless",         name: "GEM",          origin: "Canadá",      c: "--m6" },
 ];

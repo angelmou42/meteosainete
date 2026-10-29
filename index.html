@@ -8,20 +8,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="style.css?v=12">
   <!-- Módulos ES. El mapa de importación añade la versión (?v=) a cada archivo
        para que, tras publicar cambios, el navegador no use copias antiguas en caché. -->
   <script type="importmap">
     {
       "imports": {
-        "./core.js": "./core.js?v=11",
-        "./map.js": "./map.js?v=11",
-        "./acierto.js": "./acierto.js?v=11",
-        "./icons.js": "./icons.js?v=11"
+        "./core.js": "./core.js?v=12",
+        "./map.js": "./map.js?v=12",
+        "./acierto.js": "./acierto.js?v=12",
+        "./icons.js": "./icons.js?v=12"
       }
     }
   </script>
-  <script type="module" src="app.js?v=11"></script>
+  <script type="module" src="app.js?v=12"></script>
 </head>
 <body>
 <div class="wrap">
@@ -95,7 +95,8 @@
         </div>
         <p class="note" id="chart-note">La banda gris es el rango entre modelos; la línea discontinua, la mediana.</p>
         <div class="chartbox">
-          <svg id="chart" viewBox="0 0 720 260" width="100%" role="img" aria-label="Temperatura por horas según cada modelo"></svg>
+          <svg id="chart" viewBox="0 0 720 260" role="img" aria-label="Temperatura por horas según cada modelo"></svg>
+          <div class="chart-tip" id="chart-tip" hidden></div>
         </div>
         <div class="legend" id="legend"></div>
       </section>

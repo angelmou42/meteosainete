@@ -184,8 +184,19 @@ td .rlab { display: block; font-family: var(--body); font-size: .72rem; color: v
 .note .est { font-family: var(--mono); }
 
 /* ---------- Gráfico horario ---------- */
-.chartbox { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; overflow-x: auto; }
-#chart { min-width: 520px; display: block; }
+.chartbox { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; overflow: hidden; }
+/* touch-action: el dedo en horizontal mueve la ficha; en vertical sigue haciendo scroll de la página */
+#chart { display: block; touch-action: pan-y; cursor: crosshair; }
+.chart-tip {
+  position: absolute; top: 10px; z-index: 2; pointer-events: none; min-width: 150px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / .18); font-size: .8rem;
+}
+.chart-tip div { display: flex; align-items: center; gap: 6px; }
+.chart-tip i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.chart-tip b { margin-left: auto; padding-left: 12px; font-family: var(--mono); font-weight: 500; }
+.chart-tip .tip-head { font-weight: 600; margin-bottom: 4px; }
+.chart-tip .tip-med { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 4px; font-weight: 600; }
 svg text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .82rem; }
 .legend span { display: flex; align-items: center; gap: 6px; }
