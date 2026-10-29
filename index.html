@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Meteosainete</title>
+  <meta name="description" content="Compara las predicciones de 6 modelos meteorológicos y muestra un consenso con su fiabilidad.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Meteosainete</h1>
+      <div class="place" id="place">Madrid</div>
+    </div>
+    <form id="search" autocomplete="off">
+      <input id="q" type="search" placeholder="Buscar ciudad…" aria-label="Buscar ciudad">
+      <button type="submit">Buscar</button>
+    </form>
+  </header>
+  <div class="results" id="results" aria-live="polite"></div>
+
+  <!-- Estado de carga y de error: solo uno de los tres bloques (carga, error, contenido) está visible -->
+  <p class="status" id="loading">Cargando predicciones…</p>
+  <div class="error" id="error" role="alert" hidden>
+    <p id="error-msg"></p>
+    <button type="button" id="retry">Reintentar</button>
+  </div>
+
+  <main id="content" hidden>
+    <section>
+      <div class="sec-head">
+        <h2 id="strip-title">Consenso de 6 modelos</h2>
+        <span class="label">Máx / mín · lluvia · fiabilidad</span>
+      </div>
+      <div class="strip" id="strip"></div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <h2>Qué dice cada modelo</h2>
+        <div class="tabs" role="tablist" id="tabs">
+          <button class="tab" role="tab" aria-selected="true" data-v="temp">Temperatura</button>
+          <button class="tab" role="tab" aria-selected="false" data-v="rain">Lluvia</button>
+          <button class="tab" role="tab" aria-selected="false" data-v="wind">Viento</button>
+        </div>
+      </div>
+      <div class="tablewrap"><table id="matrix"></table></div>
+      <p class="note" id="matrix-note" hidden><span class="est">≈ 30 %</span> = estimación a partir de los mm: ese modelo no publica probabilidad de lluvia. No cuenta para el consenso.</p>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <h2 id="chart-title">Temperatura hora a hora</h2>
+        <span class="label">La banda gris es el rango entre modelos</span>
+      </div>
+      <div class="chartbox">
+        <svg id="chart" viewBox="0 0 720 260" width="100%" role="img" aria-label="Temperatura por horas según cada modelo"></svg>
+      </div>
+      <div class="legend" id="legend"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Fiabilidad: <b>alta</b> si las máximas difieren 2 °C o menos y los modelos coinciden en si llueve;
+      <b>media</b> hasta 4 °C o con lluvia dudosa; <b>baja</b> en el resto.
+      En lluvia, el <b>%</b> es la probabilidad de que llueva según cada modelo y los <b>mm</b> son el total del día
+      (1 mm = 1 litro por m²): llovizna menos de 1, débil hasta 5, moderada hasta 15, fuerte hasta 30.
+      "Lo dan X de N" cuenta los modelos con 1 mm o más entre los que tienen datos ese día.
+      Un "—" indica que el modelo no llega a ese día; esos huecos no cuentan para el consenso.
+    </p>
+    <p>Datos de <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (CC BY 4.0).</p>
+  </footer>
+</div>
+</body>
+</html>
