@@ -12,6 +12,8 @@
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   /* Un color por modelo (mismo orden que MODELS en app.js) */
   --m1: #1f6fb2; --m2: #c2512f; --m3: #2f8a57; --m4: #7a4fb5; --m5: #b08a12; --m6: #2a9aa3;
+  /* Iconos del tiempo */
+  --sun: #f2b531; --moon: #c9cfe0; --cloud: #c9d3dc; --cloud-dark: #93a1ad; --drop: #2f86d6; --snow: #9fc3e6;
 }
 
 /* Modo oscuro automático según el sistema */
@@ -20,6 +22,7 @@
     --bg: #0e161c; --surface: #16212a; --ink: #e4ecf1; --muted: #93a3b0; --line: #2a3945;
     --accent: #5fb7d4; --accent-ink: #06222c; --ok: #6cc58f; --warn: #e2ad48; --bad: #ef7d70;
     --m1: #6aaee8; --m2: #ef8a68; --m3: #6cc58f; --m4: #b495e6; --m5: #e0c055; --m6: #5fcbd2;
+    --sun: #f5c04a; --moon: #dfe4f0; --cloud: #8796a3; --cloud-dark: #5d6b77; --drop: #5fb0f0; --snow: #cfe3f6;
     color-scheme: dark;
   }
 }
@@ -91,6 +94,25 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 }
 .day[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .day .dname { font-family: var(--display); font-stretch: 112%; font-weight: 600; font-size: .95rem; }
+.day-main { display: flex; align-items: center; gap: 6px; }
+.day-main .wicon { width: 34px; height: 34px; }
+.day .temps { white-space: nowrap; font-size: 1.12rem; }
+.day .rel { white-space: nowrap; font-size: .74rem; }
+.rain.dry { color: var(--muted); }
+/* En móvil los 7 días pasan de fila horizontal con scroll a una lista vertical */
+@media (max-width: 560px) {
+  .strip { display: flex; flex-direction: column; gap: 6px; overflow: visible; }
+  .day {
+    display: grid; grid-template-columns: 5.4em 1fr auto; grid-template-areas: "name main rel" "rain rain rain";
+    align-items: center; gap: 2px 10px; padding: 8px 12px;
+  }
+  .day .dname { grid-area: name; }
+  .day .day-main { grid-area: main; }
+  .day .rel { grid-area: rel; }
+  .day .rain { grid-area: rain; }
+  .day .rain.dry { display: none; } /* en la lista, un día seco ya se entiende por el icono */
+}
+.rain .agree { font-size: .76rem; }
 .temps { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 1.25rem; font-weight: 500; }
 .temps small { font-size: .85rem; color: var(--muted); }
 .rain { font-size: .82rem; color: var(--muted); }
@@ -99,6 +121,28 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .c-alta { color: var(--ok); }
 .c-media { color: var(--warn); }
 .c-baja { color: var(--bad); }
+
+/* ---------- Bloque "Ahora" ---------- */
+.now {
+  display: grid; grid-template-columns: auto 1fr; gap: 14px 28px; align-items: center;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px;
+}
+.now-main { display: flex; align-items: center; gap: 14px; }
+.now-temp { font-family: var(--display); font-stretch: 125%; font-weight: 800; font-size: clamp(2.6rem, 9vw, 3.6rem); line-height: 1; }
+.now-cond { color: var(--muted); font-weight: 500; margin-top: 4px; }
+.now-side { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.now-summary { margin: 0; font-size: 1.05rem; font-weight: 500; border-left: 4px solid var(--muted); padding-left: 10px; }
+.now-summary.t-dry { border-left-color: var(--ok); }
+.now-summary.t-rain { border-left-color: var(--accent); }
+.now-summary.t-doubt { border-left-color: var(--warn); }
+.now-facts { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; color: var(--muted); font-size: .9rem; }
+.now-facts b { color: var(--ink); font-family: var(--mono); font-weight: 500; }
+@media (max-width: 560px) { .now { grid-template-columns: 1fr; padding: 14px 16px; } }
+.wicon { flex: none; display: block; }
+
+/* Fiabilidad como punto de color (en tarjetas y en "Ahora") */
+.rel { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 600; }
+.rel i { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
 
 /* Frase resumen de la lluvia (encima de la franja) */
 .headline {

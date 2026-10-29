@@ -5,8 +5,9 @@
  * y el gráfico horario. Las utilidades y el cálculo del consenso están en
  * core.js; los mapas de lluvia en map.js y la pestaña de acierto en acierto.js.
  */
-import { $, MODELS, RAIN_SCALE, consensus, daySummary, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNum,
-  median, nums, publishesProb, rainColor, rainLabel, rainPeriods, rainSlots, state } from "./core.js";
+import { $, MODELS, RAIN_SCALE, consensus, daySummary, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNight,
+  isNum, median, nums, publishesProb, rainColor, rainLabel, rainPeriods, rainSlots, skyIcon, state, tempAt } from "./core.js";
+import { ICON_LABELS, iconSvg } from "./icons.js";
 import { initMaps, updateMaps } from "./map.js";
 import { initAccuracy, showAccuracy } from "./acierto.js";
 
@@ -78,8 +79,8 @@ async function fetchForecast(lat, lon) {
     longitude: lon,
     timezone: "auto",
     forecast_days: 7,
-    daily: "temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max",
-    hourly: "temperature_2m,precipitation",
+    daily: "temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,weather_code,sunrise,sunset",
+    hourly: "temperature_2m,precipitation,weather_code,cloud_cover",
     models: MODELS.map((m) => m.id).join(","),
   });
   const j = await fetchJson("https://api.open-meteo.com/v1/forecast?" + params);
@@ -91,6 +92,9 @@ async function fetchForecast(lat, lon) {
 
   // offset: desfase horario de la ciudad (segundos), para saber qué hora es allí.
   const out = { dates: j.daily.time, offset: j.utc_offset_seconds, m: {} };
+  // Salida y puesta de sol: son iguales en todos los modelos, vale el primero que las traiga.
+  const sunKey = (name) => Object.keys(j.daily).find((k) => k.startsWith(name + "_"));
+  out.sun = { rise: j.daily[sunKey("sunrise")] || [], set: j.daily[sunKey("sunset")] || [] };
   for (const { id } of MODELS) {
     const hours = j.hourly.time.length;
     out.m[id] = {
@@ -101,6 +105,8 @@ async function fetchForecast(lat, lon) {
       wind: pick("daily", "wind_speed_10m_max", days, id),
       hourly: pick("hourly", "temperature_2m", hours, id),
       hrain: pick("hourly", "precipitation", hours, id), // mm caídos en la hora anterior a cada marca
+      hcode: pick("hourly", "weather_code", hours, id),   // código WMO del tiempo (para tormenta, nieve y niebla)
+      hcloud: pick("hourly", "cloud_cover", hours, id),   // nubosidad en %
     };
   }
   return out;
@@ -113,13 +119,19 @@ function renderStrip() {
   el.innerHTML = "";
   state.data.dates.forEach((iso, i) => {
     const c = consensus(state.data, i);
-    const probTxt = isNum(c.prob) ? `<b class="pct">${fmt(c.prob)} %</b> de lluvia · ` : "";
+    const icon = skyIcon(state.data, i);
     // Horas de lluvia del día (por ejemplo "15–19 h"), cuando más de la mitad de los modelos la dan.
     const when = formatPeriods(rainPeriods(rainSlots(hourlyRain(state.data, i))), true);
     // El total diario de Open-Meteo va de 23 a 23 h y las franjas de 0 a 24 h: si la lluvia cae
     // justo al final del día, el total puede salir 0 aunque haya horas de lluvia.
-    const rainTxt = c.rain >= 0.1 ? `${fmt(c.rain, 1)} mm, ${rainLabel(c.rain)}` : when ? "algo de lluvia" : "sin lluvia";
-    const whenTxt = when ? ` · <span class="when">${when}</span>` : "";
+    const rainy = c.rain >= 0.1 || when || c.wet > 0;
+    // Días secos: solo "Seco". Días con lluvia: probabilidad, mm, horas y cuántos modelos la dan.
+    const rainHtml = rainy
+      ? `<span class="rain">${isNum(c.prob) ? `<b class="pct">${fmt(c.prob)} %</b> · ` : ""}` +
+        `${c.rain >= 0.1 ? `${fmt(c.rain, 1)} mm ${rainLabel(c.rain)}` : "algo de lluvia"}` +
+        `${when ? ` · <span class="when">${when}</span>` : ""}` +
+        `<br><span class="agree">Lo dan ${c.wet} de ${c.n} modelos</span></span>`
+      : `<span class="rain dry">Seco${isNum(c.prob) && c.prob >= 10 ? ` · ${fmt(c.prob)} %` : ""}</span>`;
 
     const b = document.createElement("button");
     b.type = "button";
@@ -127,9 +139,9 @@ function renderStrip() {
     b.setAttribute("aria-pressed", String(i === state.sel));
     b.innerHTML = `
       <span class="dname">${dayName(iso, i)}</span>
-      <span class="temps">${fmt(c.tmax)}°<small> / ${fmt(c.tmin)}°</small></span>
-      <span class="rain">${probTxt}${rainTxt}${whenTxt}<br>Lo dan ${c.wet} de ${c.n} modelos</span>
-      <span class="chip c-${c.level}">Fiabilidad ${c.level}</span>`;
+      <span class="day-main">${iconSvg(icon, 40)}<span class="temps">${fmt(c.tmax)}°<small> / ${fmt(c.tmin)}°</small></span></span>
+      ${rainHtml}
+      <span class="rel c-${c.level}" title="Fiabilidad ${c.level}: cuánto coinciden los modelos"><i></i>Fiabilidad ${c.level}</span>`;
     b.addEventListener("click", () => { state.sel = i; render(); });
     el.appendChild(b);
   });
@@ -141,11 +153,39 @@ function localHour() {
   return new Date(Date.now() + (state.data.offset || 0) * 1000).getUTCHours();
 }
 
-// Frase resumen del día seleccionado. Para hoy solo cuenta la lluvia que queda por venir.
+/* Bloque "Ahora": temperatura y cielo de la hora actual según el consenso, y
+ * la frase de lo que queda de hoy. Siempre muestra hoy, sea cual sea el día elegido. */
+function renderNow() {
+  const d = state.data, h = localHour();
+  const night = isNight(d, 0, h);
+  // Para el icono de "ahora" se mira la hora en curso: lluvia en la franja h y cielo en la marca h.
+  const icon = skyIcon(d, 0, { rainFrom: h, rainTo: h + 1, skyFrom: h, skyTo: h + 1, night });
+  const c = consensus(d, 0);
+  const { text, tone } = daySummary(d, 0, h);
+  $("now").innerHTML = `
+    <div class="now-main">
+      ${iconSvg(icon, 76)}
+      <div>
+        <div class="now-temp">${fmt(tempAt(d, 0, h))}°</div>
+        <div class="now-cond">${ICON_LABELS[icon]} · ahora</div>
+      </div>
+    </div>
+    <div class="now-side">
+      <p class="now-summary t-${tone}">${text}</p>
+      <p class="now-facts">
+        <span>Hoy <b>${fmt(c.tmax)}°</b> / ${fmt(c.tmin)}°</span>
+        <span>Viento hasta <b>${fmt(c.wind)}</b> km/h</span>
+        <span class="rel c-${c.level}"><i></i>Fiabilidad ${c.level}</span>
+      </p>
+    </div>`;
+}
+
+// Frase resumen del día elegido (para hoy ya está en el bloque "Ahora").
 function renderHeadline() {
-  const i = state.sel;
-  const { text, tone } = daySummary(state.data, i, i === 0 ? localHour() : 0);
-  const el = $("headline");
+  const i = state.sel, el = $("headline");
+  el.hidden = i === 0;
+  if (i === 0) return;
+  const { text, tone } = daySummary(state.data, i, 0);
   el.className = `headline t-${tone}`;
   el.innerHTML = `<b>${dayName(state.data.dates[i], i)}:</b> ${text}`;
 }
@@ -354,6 +394,7 @@ function renderRainChart() {
 }
 
 function render() {
+  renderNow();
   renderHeadline();
   renderStrip();
   renderMatrix();

@@ -251,3 +251,61 @@ export function daySummary(data, i, from = 0) {
   if (wetModels * 2 > n) return { text: `Algo de lluvia débil, sin hora clara: ${agreement[0].toLowerCase()}${agreement.slice(1)}`, tone: "doubt" };
   return { text: `Probablemente seco, aunque ${wetModels} de ${n} modelos dan algo de lluvia.`, tone: "doubt" };
 }
+
+/* ---------- Cielo e iconos ---------- */
+
+const SNOW_CODES = [71, 73, 75, 77, 85, 86];      // códigos WMO de nieve
+const FOG_CODES = [45, 48];                       // niebla
+const isStorm = (c) => c >= 95;                   // tormenta
+
+// ¿Cumplen más de la mitad de los elementos la condición?
+const majority = (items, test) => items.length > 0 && items.filter(test).length * 2 > items.length;
+
+/* Icono del tiempo para el día i, decidido con el mismo criterio de "mayoría
+ * de modelos" que el resto de la web, para que nunca contradiga a la frase:
+ *  - Lluvia: si hay alguna franja con lluvia entre rainFrom y rainTo. "rain" si
+ *    la mediana de lo que dan los modelos llega a 1 mm, si no "drizzle".
+ *    Se convierte en "storm" o "snow" si la mayoría de los modelos lo dicen.
+ *  - Sin lluvia: niebla si la mayoría la dan; si no, según la nubosidad
+ *    media entre skyFrom y skyTo (despejado < 30 %, poco nuboso < 70 %).
+ *  - night: usa la luna en vez del sol. */
+export function skyIcon(data, i, { rainFrom = 0, rainTo = 24, skyFrom = 8, skyTo = 20, night = false } = {}) {
+  const ids = MODELS.map((m) => m.id).filter((id) => data.m[id] && hasDay(data.m[id], i));
+  if (!ids.length) return "cloudy";
+  const hours = (arr, from, to) => (arr || []).slice(i * 24 + from, i * 24 + to);
+  const codes = ids.map((id) => nums(hours(data.m[id].hcode, rainFrom, rainTo)));
+
+  const rows = hourlyRain(data, i);
+  const slots = rainSlots(rows).slice(rainFrom, rainTo);
+  if (slots.some((s) => s.rainy)) {
+    if (majority(codes, (c) => c.some(isStorm))) return "storm";
+    if (majority(codes, (c) => c.some((x) => SNOW_CODES.includes(x)))) return "snow";
+    const totals = MODELS.map((m, r) => (ids.includes(m.id) ? nums(rows[r].slice(rainFrom, rainTo)).reduce((a, b) => a + b, 0) : null));
+    return median(totals) >= 1 ? "rain" : "drizzle";
+  }
+
+  const skyCodes = ids.map((id) => nums(hours(data.m[id].hcode, skyFrom, skyTo)));
+  const span = skyTo - skyFrom;
+  if (majority(skyCodes, (c) => c.filter((x) => FOG_CODES.includes(x)).length * 2 >= Math.max(1, span / 2))) return "fog";
+
+  const cloud = median(ids.map((id) => {
+    const v = nums(hours(data.m[id].hcloud, skyFrom, skyTo));
+    return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+  }));
+  if (!isNum(cloud) || cloud >= 70) return "cloudy";
+  if (cloud >= 30) return night ? "partly-night" : "partly";
+  return night ? "clear-night" : "clear";
+}
+
+// ¿Es de noche a la hora h (0–23) del día i? Usa la salida y puesta de sol de la API.
+export function isNight(data, i, h) {
+  const toHour = (iso) => (iso ? Number(iso.slice(11, 13)) + Number(iso.slice(14, 16)) / 60 : null);
+  const rise = toHour(data.sun?.rise?.[i]), set = toHour(data.sun?.set?.[i]);
+  if (rise == null || set == null) return h < 7 || h >= 20;
+  return h + 0.5 < rise || h + 0.5 > set;
+}
+
+// Temperatura del consenso (mediana de los modelos) a la hora h del día i.
+export function tempAt(data, i, h) {
+  return median(MODELS.map((m) => data.m[m.id]?.hourly?.[i * 24 + h]));
+}

@@ -8,19 +8,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
   <!-- Módulos ES. El mapa de importación añade la versión (?v=) a cada archivo
        para que, tras publicar cambios, el navegador no use copias antiguas en caché. -->
   <script type="importmap">
     {
       "imports": {
-        "./core.js": "./core.js?v=10",
-        "./map.js": "./map.js?v=10",
-        "./acierto.js": "./acierto.js?v=10"
+        "./core.js": "./core.js?v=11",
+        "./map.js": "./map.js?v=11",
+        "./acierto.js": "./acierto.js?v=11",
+        "./icons.js": "./icons.js?v=11"
       }
     }
   </script>
-  <script type="module" src="app.js?v=10"></script>
+  <script type="module" src="app.js?v=11"></script>
 </head>
 <body>
 <div class="wrap">
@@ -58,6 +59,9 @@
     </div>
 
     <main id="content" hidden>
+      <!-- Bloque "Ahora": temperatura actual, cielo y lo que queda de hoy -->
+      <section class="now" id="now" aria-label="El tiempo ahora"></section>
+
       <section>
         <div class="sec-head">
           <h2 id="strip-title">Consenso de 6 modelos</h2>
