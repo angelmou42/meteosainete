@@ -10,7 +10,7 @@
  *    app muestra la última predicción guardada con un aviso (ver app.js).
  * Al cambiar algo importante hay que subir CACHE para que se renueve la caché.
  */
-const CACHE = "meteosainete-v25";
+const CACHE = "meteosainete-v26";
 const SHELL = [
   "./",
   "./index.html",

@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="style.css?v=25">
+  <link rel="stylesheet" href="style.css?v=26">
   <!-- Tema elegido por el usuario (claro u oscuro), aplicado antes de pintar para que no haya destello -->
   <script>
     try { const t = localStorage.getItem("meteosainete:tema"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -28,16 +28,16 @@
   <script type="importmap">
     {
       "imports": {
-        "./core.js": "./core.js?v=25",
-        "./map.js": "./map.js?v=25",
-        "./acierto.js": "./acierto.js?v=25",
-        "./icons.js": "./icons.js?v=25",
-        "./places.js": "./places.js?v=25",
-        "./charts.js": "./charts.js?v=25"
+        "./core.js": "./core.js?v=26",
+        "./map.js": "./map.js?v=26",
+        "./acierto.js": "./acierto.js?v=26",
+        "./icons.js": "./icons.js?v=26",
+        "./places.js": "./places.js?v=26",
+        "./charts.js": "./charts.js?v=26"
       }
     }
   </script>
-  <script type="module" src="app.js?v=25"></script>
+  <script type="module" src="app.js?v=26"></script>
 </head>
 <body>
 <div class="wrap">
@@ -245,7 +245,7 @@
   <div class="info-pop" id="info-consenso" popover>
     <h3>Cómo se calcula el consenso</h3>
     <p>Para cada día se toma la <b>mediana</b> de los modelos que tienen datos: el valor del medio, que no se deja arrastrar por un modelo que se desvía. Comprobamos con un año de datos que da más aciertos que cualquier modelo suelto (pestaña Acierto).</p>
-    <p><b>Fiabilidad:</b> alta si las máximas difieren 2 °C o menos y todos coinciden en si llueve; media hasta 4 °C o si una minoría discrepa sobre la lluvia; baja en el resto.</p>
+    <p><b>Fiabilidad:</b> alta si las máximas difieren 2 °C o menos y todos coinciden en si llueve; media hasta 4 °C o si una minoría discrepa sobre la lluvia; baja en el resto. Con 3 o 4 modelos es como mucho media, y con 1 o 2, baja (pasa en la segunda semana, adonde llegan pocos modelos).</p>
     <p><b>"Lo dan X de N"</b> cuenta los modelos que dan 1 mm o más ese día. El <b>%</b> es la probabilidad de lluvia (mediana de los modelos que la publican).</p>
     <p>Lluvia diaria: llovizna menos de 1 mm, débil hasta 5, moderada hasta 15, fuerte hasta 30. 1 mm = 1 litro por m².</p>
     <button type="button" class="info-close" popovertarget="info-consenso" popovertargetaction="hide">Entendido</button>

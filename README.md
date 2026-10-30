@@ -8,7 +8,7 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 **Web:** <https://angelmou42.github.io/meteosainete/>
 
 <p>
-  <img src="img/capturas/escritorio.png" alt="Meteosainete en el ordenador: bloque Ahora, consenso de 7 días, tabla de modelos y gráfico" width="62%">
+  <img src="img/capturas/escritorio.png" alt="Meteosainete en el ordenador: bloque Ahora, consenso por días, tabla de modelos y gráfico" width="62%">
   <img src="img/capturas/movil.png" alt="Meteosainete en el móvil" width="30%">
 </p>
 
@@ -23,10 +23,11 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 - **Frase resumen** del día elegido, por ejemplo *"Lluvia débil de 15 a 19 h.
   5 de 6 modelos dan algo de lluvia."* Para hoy solo cuenta la lluvia que
   queda por venir.
-- **Franja de 7 días** con el consenso: icono, máxima y mínima (mediana de los
+- **Franja de 14 días** con el consenso: icono, máxima y mínima (mediana de los
   modelos) y fiabilidad. Los días de lluvia añaden probabilidad, mm, horas y
   cuántos modelos la dan; los secos solo dicen "Seco". En el móvil es una
-  lista vertical.
+  lista vertical. La segunda semana va separada y avisa de que es una
+  tendencia: a ella solo llegan ECMWF, GFS y GEM (ver abajo).
 - **Tabla modelo × día** con pestañas Temperatura / Lluvia / Viento y una fila
   final de consenso. En Temperatura, cada celda lleva el icono que da ese
   modelo, para ver de un vistazo si discrepan.
@@ -66,14 +67,17 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 
 ## Modelos
 
-| Modelo        | Origen       | Notas |
-|---------------|--------------|-------|
-| ECMWF IFS     | Europa       | |
-| GFS           | EE. UU.      | |
-| ICON          | Alemania     | |
-| Météo-France  | Francia      | Unos 4 días de alcance. No publica probabilidad de lluvia. |
-| UKMO          | Reino Unido  | |
-| GEM           | Canadá       | |
+| Modelo        | Origen       | Alcance | Notas |
+|---------------|--------------|---------|-------|
+| ECMWF IFS     | Europa       | 15 días | |
+| GFS           | EE. UU.      | 16 días | |
+| ICON          | Alemania     | 7 días  | |
+| Météo-France  | Francia      | 4 días  | No publica probabilidad de lluvia. |
+| UKMO          | Reino Unido  | 7 días  | |
+| GEM           | Canadá       | 10 días | |
+
+La web pide 14 días: así cada día tiene al menos dos modelos (el día 16 solo
+lo tendría GFS, y un único modelo no es un consenso).
 
 Comprobado con datos reales (octubre de 2026): todos publican
 `precipitation_probability_max` salvo Météo-France.
@@ -168,7 +172,9 @@ descarta al que se desvía, así que la web mantiene la mediana normal.
   no se mueve; la media sí.
 - **Fiabilidad.** *Alta* si las máximas difieren ≤ 2 °C y todos los modelos
   coinciden en si llueve (≥ 1 mm). *Media* hasta 4 °C o si una minoría
-  discrepa sobre la lluvia. *Baja* en el resto.
+  discrepa sobre la lluvia. *Baja* en el resto. Con pocos modelos el acuerdo
+  vale menos: con 3 o 4 la fiabilidad es como mucho *media*, y con 1 o 2,
+  siempre *baja*. Por eso la segunda semana sale casi toda en *baja*.
 - **Huecos honestos.** Si un modelo no llega a un día, se ve "—" y no cuenta
   para el consenso ni para el "Lo dan X de N".
 - **Probabilidad estimada.** Para Météo-France se muestra una estimación a
@@ -192,7 +198,7 @@ descarta al que se desvía, así que la web mantiene la mediana normal.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=25`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=26`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al

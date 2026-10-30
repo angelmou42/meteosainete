@@ -81,6 +81,16 @@ test("consensus: el modelo sin datos ese día no cuenta", () => {
   assert.equal(c.rain, 0);
 });
 
+test("consensus: con pocos modelos la fiabilidad baja aunque coincidan", () => {
+  const two = consensus(oneDay({ tmax: [20, 20, null, null, null, null], rain: [0, 0, 0, 0, 0, 0] }), 0);
+  assert.equal(two.n, 2);
+  assert.equal(two.level, "baja");
+  const three = consensus(oneDay({ tmax: [20, 20, null, null, null, 20], rain: [0, 0, 0, 0, 0, 0] }), 0);
+  assert.equal(three.level, "media");
+  const five = consensus(oneDay({ tmax: [20, 20, 20, null, 20, 20], rain: [0, 0, 0, 0, 0, 0] }), 0);
+  assert.equal(five.level, "alta");
+});
+
 test("consensus: la probabilidad es la mediana de las publicadas", () => {
   const c = consensus(oneDay({ tmax: [20, 20, 20, 20, 20, 20], rain: [0, 0, 0, 0, 0, 0], prob: [10, 20, 30, null, 40, 50] }), 0);
   assert.equal(c.prob, 30);

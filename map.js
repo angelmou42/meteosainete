@@ -276,8 +276,10 @@ async function showOwnMap() {
     if (request !== maps.request) return; // el usuario ya pidió otra cosa mientras tanto
     maps.grid = grid;
     // Hora inicial: la actual; o, si en la Comparativa se eligió otro día, ese día a mediodía.
+    // La Comparativa llega a 14 días y el mapa solo a 7: más allá, se abre en la hora actual.
     if (maps.t == null || maps.sel !== state.sel) {
-      maps.t = state.sel ? state.sel * 24 + 13 : currentIndex(grid); // marca 13:00 = lluvia de 12 a 13 h
+      const noon = state.sel * 24 + 13; // marca 13:00 = lluvia de 12 a 13 h
+      maps.t = state.sel && noon < grid.times.length ? noon : currentIndex(grid);
       maps.sel = state.sel;
     }
     maps.t = Math.min(maps.t, grid.times.length - 1);

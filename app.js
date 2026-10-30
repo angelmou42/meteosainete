@@ -76,12 +76,17 @@ function placeToUrl(place) {
  * Aquí lo reorganizamos por modelo para que el resto del código sea simple:
  *   { dates, offset, m: { ecmwf_ifs025: { tmax, tmin, rain, prob, wind, hourly, hrain }, ... } }
  * Los días fuera del alcance de un modelo llegan como null. */
+/* Días de predicción: dos semanas. Open-Meteo da hasta 16, pero no todos los
+ * modelos llegan tan lejos: Météo-France 4 días, ICON y UKMO 7, GEM 10, ECMWF 15
+ * y GFS 16. Con 14, todos los días tienen al menos dos modelos que comparar. */
+const FORECAST_DAYS = 14;
+
 async function fetchForecast(lat, lon) {
   const params = new URLSearchParams({
     latitude: lat,
     longitude: lon,
     timezone: "auto",
-    forecast_days: 7,
+    forecast_days: FORECAST_DAYS,
     daily: "temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,weather_code,sunrise,sunset",
     hourly: "temperature_2m,precipitation,weather_code,cloud_cover,wind_speed_10m",
     models: MODELS.map((m) => m.id).join(","),
@@ -122,6 +127,7 @@ function renderStrip() {
   const el = $("strip");
   el.innerHTML = "";
   state.data.dates.forEach((iso, i) => {
+    if (i === WEEK) el.appendChild(weekBreak());
     const c = consensus(state.data, i);
     const icon = skyIcon(state.data, i);
     // Horas de lluvia del día (por ejemplo "15–19 h"), cuando más de la mitad de los modelos la dan.
@@ -151,6 +157,21 @@ function renderStrip() {
     el.appendChild(b);
   });
   $("strip-title").textContent = `Consenso de ${MODELS.length} modelos`;
+}
+
+// A partir de este día empieza la "segunda semana" de la franja.
+const WEEK = 7;
+
+/* Separador antes de la segunda semana: avisa de que quedan menos modelos
+ * (cuántos sale de los datos, no está escrito a mano) y de que es una tendencia. */
+function weekBreak() {
+  const counts = state.data.dates.slice(WEEK).map((_, k) => consensus(state.data, WEEK + k).n);
+  const lo = Math.min(...counts), hi = Math.max(...counts);
+  const div = document.createElement("div");
+  div.className = "week-break";
+  div.innerHTML = `<b>Segunda semana</b> <span>Solo llegan ${lo === hi ? lo : `${lo}–${hi}`} de ${MODELS.length} modelos: ` +
+    `tómalo como tendencia, no como predicción al detalle.</span>`;
+  return div;
 }
 
 // Hora actual (0–23) en la zona horaria de la ciudad.
@@ -224,9 +245,10 @@ function nextHours(d, h) {
 
 /* Frase extra con lo que dice el estudio de acierto: cuando X de N modelos dan
  * lluvia, cuántas veces llovió de verdad en la zona. Hoy y mañana usan la tabla
- * de 1 día de antelación; los días siguientes, la de 3 días. */
+ * de 1 día de antelación; el resto de la primera semana, la de 3 días. Más
+ * allá no se dice nada: el estudio no midió antelaciones tan largas. */
 function chanceText(c, i) {
-  if (!c.wet || !c.n) return "";
+  if (!c.wet || !c.n || i >= WEEK) return "";
   const r = rainChanceFor(state.place, i <= 1 ? 1 : 3, c.wet, c.n);
   if (!r) return "";
   return `<span class="chance">Días como este (${c.wet} de ${c.n} modelos con 1 mm o más) acabaron con lluvia ` +

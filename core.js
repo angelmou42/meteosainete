@@ -113,7 +113,10 @@ export const publishesProb = (o) => o.prob.some(isNum);
  * - Fiabilidad:
  *     alta  → máximas a ≤ 2 °C y todos coinciden en si llueve (≥ 1 mm)
  *     media → hasta 4 °C, o la lluvia está dudosa (minoría discrepante)
- *     baja  → más de 4 °C, o los modelos están partidos (≥ 1/3 discrepa) */
+ *     baja  → más de 4 °C, o los modelos están partidos (≥ 1/3 discrepa)
+ *   Además, con pocos modelos el acuerdo vale menos (dos modelos pueden
+ *   coincidir por casualidad): con 3 o 4 como mucho es "media" y con 1 o 2,
+ *   "baja". Pasa en la segunda semana, adonde solo llegan ECMWF, GFS y GEM. */
 export function consensus(data, i) {
   const active = MODELS.map((m) => data.m[m.id]).filter((o) => o && hasDay(o, i));
   const col = (key) => active.map((o) => o[key][i]);
@@ -128,6 +131,8 @@ export function consensus(data, i) {
   let level = "alta";
   if (spread > 4 || minority >= 0.34) level = "baja";
   else if (spread > 2 || minority > 0) level = "media";
+  if (n <= 2) level = "baja";
+  else if (n <= 4 && level === "alta") level = "media";
 
   return {
     tmax: median(col("tmax")),
