@@ -79,6 +79,15 @@ indicador de **fiabilidad**: si los modelos coinciden, te puedes fiar más.
 La web pide 14 días: así cada día tiene al menos dos modelos (el día 16 solo
 lo tendría GFS, y un único modelo no es un consenso).
 
+**Ensemble de ECMWF.** Para la segunda semana, con solo dos o tres modelos, la
+probabilidad de lluvia sale del *ensemble* de ECMWF: el mismo modelo lanzado
+51 veces con condiciones de partida un poco distintas. El % es la parte de
+esos 51 escenarios que dan 1 mm o más en el día (el mismo umbral que
+"Lo dan X de N modelos"). Se pide a la
+[API de ensemble](https://open-meteo.com/en/docs/ensemble-api) en paralelo, solo
+el total diario (unos 13 kB), y si falla la web sigue sin él. En la tabla, la
+pestaña Lluvia tiene una fila con ese % para los 14 días.
+
 Comprobado con datos reales (octubre de 2026): todos publican
 `precipitation_probability_max` salvo Météo-France.
 
@@ -198,7 +207,7 @@ descarta al que se desvía, así que la web mantiene la mediana normal.
   puras (mediana, consenso, etiquetas…); `app.js`, `map.js` y `acierto.js`
   importan de él. Así no dependen del orden de carga y lo puro se puede
   probar en Node sin navegador.
-- **Versiones en CSS y JS** (`style.css?v=26`, y para los módulos un
+- **Versiones en CSS y JS** (`style.css?v=27`, y para los módulos un
   `importmap` en `index.html`). GitHub Pages deja que el
   navegador guarde los archivos 10 minutos; al cambiar el número tras cada
   cambio importante, nadie ve HTML nuevo mezclado con CSS o JS viejos. Al

@@ -6,7 +6,7 @@
  * core.js; los gráficos en charts.js; los mapas de lluvia en map.js; la
  * pestaña de acierto en acierto.js; el buscador en places.js.
  */
-import { $, MODELS, consensus, dayAlerts, daySummary, dropPastDays, localDate, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNight, isNum,
+import { $, MODELS, consensus, dayAlerts, ensembleProb, daySummary, dropPastDays, localDate, dayName, estimateProb, fetchJson, fmt, formatPeriods, hourlyRain, isNight, isNum,
   publishesProb, rainLabel, rainPeriods, rainSlots, skyIcon, state, tempAt } from "./core.js";
 import { ICON_LABELS, iconSvg } from "./icons.js";
 import { initCharts, renderChart } from "./charts.js";
@@ -31,6 +31,11 @@ function tempBg(t) {
 function rainBg(mm) {
   if (!isNum(mm) || mm < 0.1) return "transparent";
   return `hsl(208 80% 50% / ${Math.min(0.65, 0.12 + mm / 18)})`;
+}
+// Fondo según la probabilidad (0–100 %): mismo azul que la lluvia.
+function probBg(p) {
+  if (!isNum(p) || p < 5) return "transparent";
+  return `hsl(208 80% 50% / ${Math.min(0.65, p / 150)})`;
 }
 function windBg(w) {
   if (!isNum(w)) return "transparent";
@@ -81,6 +86,18 @@ function placeToUrl(place) {
  * y GFS 16. Con 14, todos los días tienen al menos dos modelos que comparar. */
 const FORECAST_DAYS = 14;
 
+/* Lluvia diaria de los 51 escenarios del ensemble de ECMWF (otra API de
+ * Open-Meteo). Pedimos el total diario y no las horas: pesa unas 20 veces menos. */
+async function fetchEnsemble(lat, lon) {
+  const params = new URLSearchParams({
+    latitude: lat, longitude: lon, timezone: "auto", forecast_days: FORECAST_DAYS,
+    daily: "precipitation_sum", models: "ecmwf_ifs025",
+  });
+  const j = await fetchJson("https://ensemble-api.open-meteo.com/v1/ensemble?" + params);
+  if (!j.daily?.time) throw new Error("Respuesta inesperada del ensemble");
+  return j.daily;
+}
+
 async function fetchForecast(lat, lon) {
   const params = new URLSearchParams({
     latitude: lat,
@@ -91,7 +108,11 @@ async function fetchForecast(lat, lon) {
     hourly: "temperature_2m,precipitation,weather_code,cloud_cover,wind_speed_10m",
     models: MODELS.map((m) => m.id).join(","),
   });
-  const j = await fetchJson("https://api.open-meteo.com/v1/forecast?" + params);
+  // El ensemble va en paralelo y es opcional: si falla, la web sigue sin él.
+  const [j, ens] = await Promise.all([
+    fetchJson("https://api.open-meteo.com/v1/forecast?" + params),
+    fetchEnsemble(lat, lon).catch((err) => { console.warn("Ensemble no disponible:", err); return null; }),
+  ]);
   if (!j.daily || !j.hourly) throw new Error("Respuesta inesperada de la API");
 
   const days = j.daily.time.length;
@@ -99,7 +120,8 @@ async function fetchForecast(lat, lon) {
   const pick = (block, name, len, id) => j[block][`${name}_${id}`] || Array(len).fill(null);
 
   // offset: desfase horario de la ciudad (segundos), para saber qué hora es allí.
-  const out = { dates: j.daily.time, offset: j.utc_offset_seconds, m: {} };
+  // ens: % de los 51 escenarios del ensemble de ECMWF con 1 mm o más, por día.
+  const out = { dates: j.daily.time, offset: j.utc_offset_seconds, m: {}, ens: ens && ensembleProb(ens, j.daily.time) };
   // Salida y puesta de sol: son iguales en todos los modelos, vale el primero que las traiga.
   const sunKey = (name) => Object.keys(j.daily).find((k) => k.startsWith(name + "_"));
   out.sun = { rise: j.daily[sunKey("sunrise")] || [], set: j.daily[sunKey("sunset")] || [] };
@@ -135,13 +157,14 @@ function renderStrip() {
     // El total diario de Open-Meteo va de 23 a 23 h y las franjas de 0 a 24 h: si la lluvia cae
     // justo al final del día, el total puede salir 0 aunque haya horas de lluvia.
     const rainy = c.rain >= 0.1 || when || c.wet > 0;
+    const pct = probText(c, i);
     // Días secos: solo "Seco". Días con lluvia: probabilidad, mm, horas y cuántos modelos la dan.
     const rainHtml = rainy
-      ? `<span class="rain">${isNum(c.prob) ? `<b class="pct">${fmt(c.prob)} %</b> · ` : ""}` +
+      ? `<span class="rain">${pct ? `${pct} · ` : ""}` +
         `${c.rain >= 0.1 ? `${fmt(c.rain, 1)} mm ${rainLabel(c.rain)}` : "algo de lluvia"}` +
         `${when ? ` · <span class="when">${when}</span>` : ""}` +
         `<br><span class="agree">Lo dan ${c.wet} de ${c.n} modelos</span></span>`
-      : `<span class="rain dry">Seco${isNum(c.prob) && c.prob >= 10 ? ` · ${fmt(c.prob)} %` : ""}</span>`;
+      : `<span class="rain dry">Seco${pct && dayProb(c, i) >= 10 ? ` · ${pct}` : ""}</span>`;
 
     const b = document.createElement("button");
     b.type = "button";
@@ -162,6 +185,24 @@ function renderStrip() {
 // A partir de este día empieza la "segunda semana" de la franja.
 const WEEK = 7;
 
+/* Probabilidad de lluvia de un día para la franja. En la primera semana, la
+ * mediana de las que publican los modelos. En la segunda solo quedan dos o tres
+ * modelos, así que manda el ensemble de ECMWF (51 escenarios), que es más fiable. */
+function dayProb(c, i) {
+  const ens = state.data.ens?.[i];
+  return i >= WEEK && isNum(ens) ? ens : c.prob;
+}
+
+function probText(c, i) {
+  const p = dayProb(c, i);
+  if (!isNum(p)) return "";
+  return p === c.prob
+    ? `<b class="pct">${fmt(p)} %</b>`
+    : `<b class="pct ens" title="${ENS_TITLE}">${fmt(p)} %</b>`;
+}
+
+const ENS_TITLE = "Escenarios del ensemble de ECMWF que dan 1 mm o más (de 51)";
+
 /* Separador antes de la segunda semana: avisa de que quedan menos modelos
  * (cuántos sale de los datos, no está escrito a mano) y de que es una tendencia. */
 function weekBreak() {
@@ -170,7 +211,8 @@ function weekBreak() {
   const div = document.createElement("div");
   div.className = "week-break";
   div.innerHTML = `<b>Segunda semana</b> <span>Solo llegan ${lo === hi ? lo : `${lo}–${hi}`} de ${MODELS.length} modelos: ` +
-    `tómalo como tendencia, no como predicción al detalle.</span>`;
+    `tómalo como tendencia, no como predicción al detalle.` +
+    (state.data.ens ? ` El % de lluvia sale de los 51 escenarios del ensemble de ECMWF.` : "") + `</span>`;
   return div;
 }
 
@@ -255,6 +297,13 @@ function chanceText(c, i) {
     `el ${fmt(r.pct)} % de las veces ${r.zone ? "en esta zona" : "en España"}.</span>`;
 }
 
+// Frase del ensemble para la segunda semana, donde ya no vale el estudio de acierto.
+function ensText(i) {
+  const p = state.data.ens?.[i];
+  if (i < WEEK || !isNum(p)) return "";
+  return `<span class="chance">El ensemble de ECMWF da 1 mm o más en el ${fmt(p)} % de sus 51 escenarios.</span>`;
+}
+
 // Frase resumen del día elegido (para hoy ya está en el bloque "Ahora").
 function renderHeadline() {
   const i = state.sel, el = $("headline");
@@ -262,7 +311,7 @@ function renderHeadline() {
   if (i === 0) return;
   const { text, tone } = daySummary(state.data, i, 0);
   el.className = `headline t-${tone}`;
-  el.innerHTML = `<b>${dayName(state.data.dates[i], i)}:</b> ${text} ${chanceText(consensus(state.data, i), i)}`;
+  el.innerHTML = `<b>${dayName(state.data.dates[i], i)}:</b> ${text} ${chanceText(consensus(state.data, i), i)}${ensText(i)}`;
 }
 
 // Texto de probabilidad para una celda de la pestaña Lluvia.
@@ -303,6 +352,14 @@ function renderMatrix() {
     if (state.view === "temp") o.icon = d.dates.map((_, i) => skyIcon({ m: { [m.id]: d.m[m.id] }, sun: d.sun }, i));
     if (o.estimable && o.rain.some(isNum)) estimated = true;
     html += `<tr><th><div class="mname"><i style="background:var(${m.c})"></i>${m.name}</div><div class="morigin">${m.origin}</div></th>${d.dates.map((_, i) => cell(o, i)).join("")}</tr>`;
+  }
+
+  // Pestaña Lluvia: fila con la probabilidad del ensemble de ECMWF (solo %, sin mm).
+  if (state.view === "rain" && d.ens?.some(isNum)) {
+    html += `<tr class="ens-row"><th><div class="mname"><i style="background:var(${MODELS[0].c})"></i>ECMWF ensemble</div>` +
+      `<div class="morigin">51 escenarios</div></th>${d.ens.map((p) => isNum(p)
+        ? `<td style="background:${probBg(p)}" title="${ENS_TITLE}"><span class="pct">${fmt(p)} %</span></td>`
+        : `<td class="na">—</td>`).join("")}</tr>`;
   }
 
   // Fila de consenso: misma forma que un modelo para reutilizar cell().

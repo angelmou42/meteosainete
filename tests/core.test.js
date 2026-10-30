@@ -2,7 +2,7 @@
 // Ejecutar con:  npm test   (o  node --test)
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { MODELS, consensus, dayAlerts, dayName, dropPastDays, estimateProb, fmt, median, publishesProb, rainLabel } from "../core.js";
+import { MODELS, consensus, dayAlerts, dayName, dropPastDays, ensembleProb, estimateProb, fmt, median, publishesProb, rainLabel } from "../core.js";
 
 test("median: impar, par, con huecos y vacía", () => {
   assert.equal(median([3, 1, 2]), 2);
@@ -123,4 +123,14 @@ test("dropPastDays: quita días pasados de los datos diarios y horarios", () => 
   assert.deepEqual(out.sun.rise, ["b", "c"]);
   assert.equal(dropPastDays(data, 0), data);
   assert.equal(data.dates.length, 3); // no modifica el original
+});
+
+test("ensembleProb: % de escenarios con 1 mm o más, alineado con las fechas", () => {
+  const daily = {
+    time: ["2026-10-30", "2026-10-31"],
+    precipitation_sum: [0, 5],
+    ...Object.fromEntries(Array.from({ length: 19 }, (_, k) => [`precipitation_sum_member${String(k + 1).padStart(2, "0")}`, [k < 5 ? 2 : 0, null]])),
+  };
+  // Día 1: 5 de 20 escenarios con ≥ 1 mm → 25 %. Día 2: solo 1 valor → null. Fecha que no viene → null.
+  assert.deepEqual(ensembleProb(daily, ["2026-10-30", "2026-10-31", "2026-11-01"]), [25, null, null]);
 });

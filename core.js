@@ -348,8 +348,31 @@ export function dropPastDays(data, k) {
     ...data,
     dates: data.dates.slice(k),
     sun: data.sun && { rise: (data.sun.rise || []).slice(k), set: (data.sun.set || []).slice(k) },
+    ens: data.ens && data.ens.slice(k),
     m,
   };
+}
+
+/* ---------- Ensemble de ECMWF ----------
+ * El ensemble es el mismo modelo ECMWF lanzado 51 veces con condiciones de
+ * partida un poco distintas (el control y 50 "miembros"). Si 20 de los 51
+ * escenarios dan lluvia, la probabilidad es del 39 %. Es la forma más
+ * honrada de dar un % a 10 o 14 días, cuando solo quedan dos modelos normales. */
+
+// Umbral para contar un día de lluvia: el mismo que "Lo dan X de N modelos".
+export const ENS_MIN_MM = 1;
+
+/* `daily` es el bloque daily de la API de ensemble: time, precipitation_sum y
+ * precipitation_sum_member01…50. Devuelve un % por cada fecha de `dates`
+ * (null si ese día no viene o tiene pocos escenarios). */
+export function ensembleProb(daily, dates) {
+  const members = Object.keys(daily).filter((k) => k.startsWith("precipitation_sum")).map((k) => daily[k]);
+  return dates.map((iso) => {
+    const i = daily.time.indexOf(iso);
+    const vals = i < 0 ? [] : nums(members.map((arr) => arr[i]));
+    if (vals.length < 10) return null;
+    return Math.round((100 * vals.filter((v) => v >= ENS_MIN_MM).length) / vals.length);
+  });
 }
 
 // Fecha de hoy ("2026-10-30") en la zona horaria de la ciudad (offset en segundos).

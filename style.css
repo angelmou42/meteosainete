@@ -134,6 +134,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
   grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
   margin-top: 8px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: .85rem; color: var(--muted);
 }
+.pct.ens { text-decoration: underline dotted; text-underline-offset: 3px; cursor: help; }
+.ens-row th, .ens-row td { border-top: 1px dashed var(--line); }
 .week-break b { font-family: var(--display); font-stretch: 112%; font-weight: 600; color: var(--ink); font-size: .95rem; }
 .day[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .day .dname { font-family: var(--display); font-stretch: 112%; font-weight: 600; font-size: .95rem; }
